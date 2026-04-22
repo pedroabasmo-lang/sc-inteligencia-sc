@@ -1,0 +1,73 @@
+name: Atualização Mensal — sc-inteligencia
+
+on:
+  schedule:
+    # Dia 5 de cada mês às 03:00 UTC (00:00 BRT)
+    - cron: '0 3 5 * *'
+  workflow_dispatch:
+    inputs:
+      uf:
+        description: 'UF alvo (SC ou BR)'
+        default: 'SC'
+        required: true
+      fase:
+        description: 'Fase (1, 2 ou 3)'
+        default: '1'
+        required: true
+
+jobs:
+  ingestao-mensal:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+      
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]"
+      
+      - name: Restore state
+        uses: actions/cache@v4
+        with:
+          path: |
+            state/
+            unified/match_log.parquet
+          key: state-${{ github.run_id }}
+          restore-keys: state-
+      
+      - name: Bootstrap (se necessário)
+        run: python -m scripts.bootstrap
+        env:
+          PORTAL_TRANSPARENCIA_API_KEY: ${{ secrets.PORTAL_TRANSPARENCIA_API_KEY }}
+      
+      - name: Run Mensal
+        run: |
+          python -m scripts.run_mensal \
+            --fase ${{ github.event.inputs.fase || '1' }} \
+            --uf ${{ github.event.inputs.uf || 'SC' }}
+        env:
+          PORTAL_TRANSPARENCIA_API_KEY: ${{ secrets.PORTAL_TRANSPARENCIA_API_KEY }}
+          TRANSFEREGOV_TOKEN: ${{ secrets.TRANSFEREGOV_TOKEN }}
+      
+      - name: Upload public-json para Vercel/R2
+        run: echo "TODO: rsync public-json/ para CDN"
+        # Implementar via: rclone sync public-json/ r2:bucket/sc-inteligencia/
+      
+      - name: Commit state atualizado
+        run: |
+          git config user.name "sc-inteligencia-bot"
+          git config user.email "bot@sc-inteligencia"
+          git add state/ unified/match_log.parquet || true
+          git diff --staged --quiet || git commit -m "chore: state sync $(date +%Y-%m)"
+          git push || true

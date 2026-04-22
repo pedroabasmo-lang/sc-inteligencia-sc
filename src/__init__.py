@@ -1,0 +1,1 @@
+"""sc-inteligencia — pacote principal."""
