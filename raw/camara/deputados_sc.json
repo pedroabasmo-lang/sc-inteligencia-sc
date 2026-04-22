@@ -1,0 +1,237 @@
+{
+  "coletado_em": "2026-04-22T13:53:03.986749+00:00",
+  "fonte": "https://dadosabertos.camara.leg.br/api/v2/deputados",
+  "dados": [
+    {
+      "id": 220556,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/220556",
+      "nome": "Ana Paula Lima",
+      "siglaPartido": "PT",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/220556.jpg",
+      "email": "dep.anapaulalima@camara.leg.br"
+    },
+    {
+      "id": 229106,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/229106",
+      "nome": "Carla Ayres",
+      "siglaPartido": "PT",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/229106.jpg",
+      "email": null
+    },
+    {
+      "id": 204361,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204361",
+      "nome": "Carlos Chiodini",
+      "siglaPartido": "MDB",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36899",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204361.jpg",
+      "email": "dep.carloschiodini@camara.leg.br"
+    },
+    {
+      "id": 164360,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/164360",
+      "nome": "Carmen Zanotto",
+      "siglaPartido": "CIDADANIA",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37905",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/164360.jpg",
+      "email": null
+    },
+    {
+      "id": 204369,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204369",
+      "nome": "Caroline de Toni",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204369.jpg",
+      "email": "dep.carolinedetoni@camara.leg.br"
+    },
+    {
+      "id": 98148,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/98148",
+      "nome": "Cobalchini",
+      "siglaPartido": "MDB",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36899",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/98148.jpg",
+      "email": "dep.cobalchini@camara.leg.br"
+    },
+    {
+      "id": 204376,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204376",
+      "nome": "Coronel Armando",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37903",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204376.jpg",
+      "email": null
+    },
+    {
+      "id": 204367,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204367",
+      "nome": "Daniel Freitas",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204367.jpg",
+      "email": "dep.danielfreitas@camara.leg.br"
+    },
+    {
+      "id": 220557,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/220557",
+      "nome": "Daniela Reinehr",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/220557.jpg",
+      "email": "dep.danielareinehr@camara.leg.br"
+    },
+    {
+      "id": 116379,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/116379",
+      "nome": "Darci de Matos",
+      "siglaPartido": "PSD",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36834",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/116379.jpg",
+      "email": null
+    },
+    {
+      "id": 204368,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204368",
+      "nome": "Fabio Schiochet",
+      "siglaPartido": "UNIÃO",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/38009",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204368.jpg",
+      "email": "dep.fabioschiochet@camara.leg.br"
+    },
+    {
+      "id": 178966,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/178966",
+      "nome": "Geovania de Sá",
+      "siglaPartido": "PSDB",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36835",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/178966.jpg",
+      "email": "dep.geovaniadesa@camara.leg.br"
+    },
+    {
+      "id": 204365,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204365",
+      "nome": "Gilson Marques",
+      "siglaPartido": "NOVO",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37901",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204365.jpg",
+      "email": "dep.gilsonmarques@camara.leg.br"
+    },
+    {
+      "id": 98615,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/98615",
+      "nome": "Ismael",
+      "siglaPartido": "PSD",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/98615.jpg",
+      "email": "dep.ismael@camara.leg.br"
+    },
+    {
+      "id": 214694,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/214694",
+      "nome": "Jorge Goetten",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37908",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/214694.jpg",
+      "email": "dep.jorgegoetten@camara.leg.br"
+    },
+    {
+      "id": 220559,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/220559",
+      "nome": "Julia Zanatta",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/220559.jpg",
+      "email": "dep.juliazanatta@camara.leg.br"
+    },
+    {
+      "id": 229432,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/229432",
+      "nome": "Luiz Fernando Vampiro",
+      "siglaPartido": "MDB",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36899",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/229432.jpg",
+      "email": null
+    },
+    {
+      "id": 160604,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/160604",
+      "nome": "Pedro Uczai",
+      "siglaPartido": "PT",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36844",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/160604.jpg",
+      "email": "dep.pedrouczai@camara.leg.br"
+    },
+    {
+      "id": 161440,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/161440",
+      "nome": "Pezenti",
+      "siglaPartido": "MDB",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/36899",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/161440.jpg",
+      "email": "dep.pezenti@camara.leg.br"
+    },
+    {
+      "id": 204362,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/204362",
+      "nome": "Ricardo Guidi",
+      "siglaPartido": "PSD",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/204362.jpg",
+      "email": "dep.ricardoguidi@camara.leg.br"
+    },
+    {
+      "id": 220558,
+      "uri": "https://dadosabertos.camara.leg.br/api/v2/deputados/220558",
+      "nome": "Zé Trovão",
+      "siglaPartido": "PL",
+      "uriPartido": "https://dadosabertos.camara.leg.br/api/v2/partidos/37906",
+      "siglaUf": "SC",
+      "idLegislatura": 57,
+      "urlFoto": "https://www.camara.leg.br/internet/deputado/bandep/220558.jpg",
+      "email": "dep.zetrovao@camara.leg.br"
+    }
+  ]
+}

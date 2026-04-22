@@ -1,0 +1,158 @@
+{
+  "coletado_em": "2026-04-22T13:56:15.280649+00:00",
+  "tarefa": "Coleta portarias DOU — emendas parlamentares Santa Catarina 2024",
+  "endpoints_testados": [
+    {
+      "id": "TAREFA_1a",
+      "url": "https://www.in.gov.br/consulta/-/buscar/dou?q=emenda+parlamentar+Santa+Catarina&s=todos&exactDate=personalizado&startDate=01-01-2024&endDate=31-12-2024",
+      "status_http": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "disponivel": false,
+      "status": "html",
+      "observacao": "Portal DOU usa Liferay; a rota /consulta/-/buscar/dou sempre retorna HTML. Não há endpoint JSON público documentado."
+    },
+    {
+      "id": "TAREFA_1a_variant",
+      "url": "https://www.in.gov.br/consulta/-/buscar/dou (com Accept: application/json)",
+      "status_http": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "disponivel": false,
+      "status": "html",
+      "observacao": "Mesmo com header Accept: application/json, retorna HTML."
+    },
+    {
+      "id": "TAREFA_1b",
+      "url": "https://www.in.gov.br/servicos/buscar?q=emenda+parlamentar+SC&data_inicio=2024-01-01&data_fim=2024-12-31&tipoPesquisa=todos",
+      "status_http": 404,
+      "content_type": "text/html;charset=UTF-8",
+      "disponivel": false,
+      "status": "html_404",
+      "observacao": "Endpoint não existe no servidor."
+    },
+    {
+      "id": "TAREFA_1b_v2",
+      "url": "https://www.in.gov.br/servicos/buscar?q=... (variantes)",
+      "status_http": 404,
+      "content_type": "text/html;charset=UTF-8",
+      "disponivel": false,
+      "status": "html_404",
+      "observacao": "Confirmado 404 para todas as variações de /servicos/buscar."
+    },
+    {
+      "id": "TAREFA_1_extra",
+      "url": "https://api.in.gov.br/v1/dou/search",
+      "status_http": 403,
+      "content_type": "text/html; charset=iso-8859-1",
+      "disponivel": false,
+      "status": "forbidden",
+      "observacao": "HTTP 403 — endpoint existe mas requer autenticação."
+    },
+    {
+      "id": "TAREFA_1_inlabs",
+      "url": "https://inlabs.in.gov.br/",
+      "status_http": 200,
+      "content_type": "text/html; charset=UTF-8",
+      "disponivel": false,
+      "status": "html_login",
+      "observacao": "Redireciona para /acessar.php (tela de login). INLABS requer cadastro e credenciais."
+    },
+    {
+      "id": "TAREFA_2",
+      "url": "https://dados.gov.br/api/3/action/package_search?q=diario+oficial+emenda+parlamentar",
+      "status_http": 401,
+      "content_type": "",
+      "disponivel": false,
+      "status": "auth_required",
+      "observacao": "HTTP 401. O novo portal dados.gov.br (2023+) não expõe a API CKAN publicamente sem autenticação.",
+      "arquivo_salvo": "dados_gov_dou.json"
+    },
+    {
+      "id": "TAREFA_2b",
+      "url": "https://dados.gov.br/api/publico/conjuntos-dados",
+      "status_http": 401,
+      "content_type": "",
+      "disponivel": false,
+      "status": "auth_required",
+      "observacao": "HTTP 401 para todas as variações do novo portal dados.gov.br."
+    },
+    {
+      "id": "TAREFA_3",
+      "url": "https://www.in.gov.br/consulta/-/buscar/dou?q=202428550022&s=todos",
+      "status_http": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "disponivel": false,
+      "status": "html",
+      "observacao": "Busca pelo número da emenda do Uczai (202428550022) retornou HTML. Não há API JSON pública para esta busca.",
+      "arquivo_salvo": "busca_emenda_uczai.json"
+    },
+    {
+      "id": "TAREFA_3_qd",
+      "url": "https://api.queridodiario.ok.org.br/gazettes?query=202428550022",
+      "status_http": 200,
+      "content_type": "application/json",
+      "disponivel": true,
+      "status": "json",
+      "total_gazettes": 0,
+      "observacao": "Querido Diário API retornou JSON mas 0 resultados para o número exato da emenda (Querido Diário cobre diários municipais, não DOU federal)."
+    },
+    {
+      "id": "TAREFA_EXTRA_QD_SC",
+      "url": "https://api.queridodiario.ok.org.br/gazettes?query=emenda+parlamentar&state=SC&published_since=2024-01-01&size=20",
+      "status_http": 200,
+      "content_type": "application/json",
+      "disponivel": true,
+      "status": "json",
+      "total_gazettes": 10000,
+      "observacao": "API funcional do Querido Diário retornou 10000 diários municipais com 'emenda parlamentar'. Atenção: state_code no filtro não restringe corretamente — retornou municípios de BA, RJ etc. Cobertura é de diários MUNICIPAIS, não DOU federal.",
+      "arquivo_salvo": "querido_diario_emenda_sc_filtrado.json"
+    },
+    {
+      "id": "TAREFA_TRANSP",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/emendas",
+      "status_http": 401,
+      "content_type": "application/json;charset=ISO-8859-1",
+      "disponivel": false,
+      "status": "auth_required",
+      "observacao": "HTTP 401 — Portal Transparência requer chave de API (token) no header chave-api-dados."
+    }
+  ],
+  "conclusao": {
+    "apis_publicas_json_funcionais": [
+      "api.queridodiario.ok.org.br (diários municipais)"
+    ],
+    "apis_que_requerem_autenticacao": [
+      "inlabs.in.gov.br (INLABS — Imprensa Nacional, requer cadastro)",
+      "api.in.gov.br/v1/dou/search (HTTP 403)",
+      "dados.gov.br (HTTP 401 — novo portal requer login)",
+      "api.portaldatransparencia.gov.br (requer token via chave-api-dados header)"
+    ],
+    "apis_inexistentes": [
+      "www.in.gov.br/servicos/buscar (HTTP 404)"
+    ],
+    "apis_retornam_html": [
+      "www.in.gov.br/consulta/-/buscar/dou (Liferay — só HTML)",
+      "queridodiario.ok.org.br/api/gazettes (URL do site, não da API)"
+    ],
+    "recomendacao": "Para coletar portarias do DOU via API JSON, é necessário: (1) Cadastro no INLABS (inlabs.in.gov.br) para acesso ao XML/JSON das edições, (2) Token do Portal Transparência para dados de emendas, ou (3) Acesso via Selenium/Playwright ao portal in.gov.br que renderiza HTML. O Querido Diário cobre apenas diários MUNICIPAIS, não o Diário Oficial da União."
+  },
+  "arquivos_gerados": [
+    "busca_emenda_parlamentar_sc_2024.json",
+    "busca_emenda_parlamentar_sc_2024_json_accept.json",
+    "busca_api_servicos_buscar.json",
+    "busca_api_servicos_buscar_v2.json",
+    "dados_gov_dou.json",
+    "dados_gov_dou_portaria.json",
+    "busca_emenda_uczai.json",
+    "dou_inlabs_portaria.json",
+    "querido_diario_emenda_sc.json",
+    "querido_diario_qd_emenda_sc.json",
+    "querido_diario_qd_uczai.json",
+    "querido_diario_qd_portaria_emenda_sc.json",
+    "querido_diario_qd_territories.json",
+    "querido_diario_emenda_sc_filtrado.json",
+    "investigacao_apis.json",
+    "investigacao_apis_2.json",
+    "investigacao_apis_3.json",
+    "resumo_endpoints.json"
+  ]
+}

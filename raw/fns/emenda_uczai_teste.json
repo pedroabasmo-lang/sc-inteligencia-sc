@@ -1,0 +1,29 @@
+{
+  "coletado_em": "2026-04-22T14:05:24.523776",
+  "tarefa": "FNS emenda 202428550022",
+  "endpoints_testados": [
+    {
+      "label": "apifns.saude.gov.br/v1/gestor/emenda",
+      "url": "https://apifns.saude.gov.br/v1/gestor/emenda",
+      "params": {
+        "numero": "202428550022"
+      },
+      "status_http": null,
+      "primeiros_500_chars": null,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "DNS não resolve: apifns.saude.gov.br (acesso restrito/VPN interna)"
+      },
+      "erro": "NameResolutionError: apifns.saude.gov.br não tem entrada DNS pública"
+    }
+  ],
+  "diagnostico": {
+    "apifns_saude_gov_br": "Não tem entrada DNS pública — acesso apenas via rede interna do Ministério da Saúde ou VPN",
+    "numero_emenda": "202428550022",
+    "alternativa": "Consultar via Portal da Transparência: https://portaldatransparencia.gov.br/emendas/consulta"
+  },
+  "dados": {
+    "status": "endpoint_nao_disponivel_publicamente",
+    "endpoint_nao_disponivel": true
+  }
+}

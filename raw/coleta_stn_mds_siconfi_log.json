@@ -1,0 +1,252 @@
+{
+  "_metadata": {
+    "coletado_em": "2026-04-22T14:40:29.994714+00:00",
+    "total_endpoints": 13,
+    "funcionais": 5,
+    "nao_funcionais": 8
+  },
+  "endpoints_funcionais": [
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM Tesouro Transparente CKAN CSV",
+      "url": "https://www.tesourotransparente.gov.br/ckan/dataset/3b5a779d.../resource/d69ff32a.../download/fpm-por-municipio.csv",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "total_fpm_sc_2024": "R$ 6.878.016.639,88",
+      "arquivo": "raw/stn/fpm_sc_2024.json"
+    },
+    {
+      "tarefa": "TAREFA 2 - CIDE SC 2024",
+      "label": "CIDE Tesouro Transparente CKAN CSV",
+      "url": "https://www.tesourotransparente.gov.br/ckan/dataset/3b5a779d.../resource/18820d64.../download/cide-por-municipio.csv",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "total_cide_sc_2024": "R$ 9.332.786,73",
+      "arquivo": "raw/stn/cide_sc_2024.json"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS SAGI Solr com q=*:* e fq=sigla_uf:SC",
+      "url": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q=*:*&q_tipoinfo=bf_munic&fq=sigla_uf:SC AND anomes:202401",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "note": "295 municípios x 12 meses 2024",
+      "total_familias_jan2024": 236933,
+      "total_repasse_jan2024": "R$ 161.990.513,00",
+      "arquivo": "raw/mds/bolsa_familia_sc.json"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2023",
+      "label": "SICONFI /tt/dca id_ente={cod_ibge} (parâmetro correto)",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2023&id_ente={cod_ibge_7dig}",
+      "status": 200,
+      "functional": true,
+      "records": 332301,
+      "note": "295 municípios SC. Parâmetro correto: id_ente (código IBGE 7 dígitos, não co_uf)",
+      "arquivo": "raw/siconfi/dca_sc_2023.json"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2022",
+      "label": "SICONFI /tt/dca id_ente={cod_ibge} ano 2022",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2022&id_ente={cod_ibge_7dig}",
+      "status": 200,
+      "functional": true,
+      "records": 319018,
+      "note": "295 municípios SC.",
+      "arquivo": "raw/siconfi/dca_sc_2022_all.json"
+    }
+  ],
+  "endpoints_nao_funcionais": [
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM API SICONFI /tt/fpm no_uf=SC",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/fpm?an_exercicio=2024&no_uf=SC",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM API SICONFI /tt/fpm co_uf=42",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/fpm?an_exercicio=2024&co_uf=42",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 2 - CIDE SC 2024",
+      "label": "CIDE API SICONFI /tt/cide co_uf=42",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/cide?an_exercicio=2024&co_uf=42",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS misocial q_tipoinfo=bf_munic co_uf=42 (sem q=*:*)",
+      "url": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q_tipoinfo=bf_munic&co_uf=42&q_periodo=202401",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 docs. Parâmetro co_uf não funciona sem q=*:*"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS api.mds.gov.br cadunico",
+      "url": "https://api.mds.gov.br/api/v1/cadunico?uf=SC&competencia=202401",
+      "status": null,
+      "functional": false,
+      "error": "DNS resolution failed - host não existe"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "Portal da Transparência BF API",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/bolsa-familia-disponivel-por-municipio",
+      "status": 401,
+      "functional": false,
+      "error": "Requer chave de API"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI RGF SC 2024",
+      "label": "SICONFI /tt/rgf co_uf=42 bimestre_1",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/rgf?an_exercicio=2024&co_uf=42&no_periodo=bimestre_1",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 items. Tabela RGF VAZIA na API (confirmado com todos os parâmetros e anos)"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2023",
+      "label": "SICONFI /tt/dca co_uf=42 (parâmetro incorreto)",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2023&co_uf=42",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 items. Parâmetro co_uf não funciona para DCA"
+    }
+  ],
+  "log_completo": [
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM API SICONFI /tt/fpm no_uf=SC",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/fpm?an_exercicio=2024&no_uf=SC",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM API SICONFI /tt/fpm co_uf=42",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/fpm?an_exercicio=2024&co_uf=42",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 1 - FPM SC 2024",
+      "label": "FPM Tesouro Transparente CKAN CSV",
+      "url": "https://www.tesourotransparente.gov.br/ckan/dataset/3b5a779d.../resource/d69ff32a.../download/fpm-por-municipio.csv",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "total_fpm_sc_2024": "R$ 6.878.016.639,88",
+      "arquivo": "raw/stn/fpm_sc_2024.json"
+    },
+    {
+      "tarefa": "TAREFA 2 - CIDE SC 2024",
+      "label": "CIDE API SICONFI /tt/cide co_uf=42",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/cide?an_exercicio=2024&co_uf=42",
+      "status": 404,
+      "functional": false,
+      "error": "HTTP 404 - Endpoint não existe"
+    },
+    {
+      "tarefa": "TAREFA 2 - CIDE SC 2024",
+      "label": "CIDE Tesouro Transparente CKAN CSV",
+      "url": "https://www.tesourotransparente.gov.br/ckan/dataset/3b5a779d.../resource/18820d64.../download/cide-por-municipio.csv",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "total_cide_sc_2024": "R$ 9.332.786,73",
+      "arquivo": "raw/stn/cide_sc_2024.json"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS misocial q_tipoinfo=bf_munic co_uf=42 (sem q=*:*)",
+      "url": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q_tipoinfo=bf_munic&co_uf=42&q_periodo=202401",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 docs. Parâmetro co_uf não funciona sem q=*:*"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS SAGI Solr com q=*:* e fq=sigla_uf:SC",
+      "url": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q=*:*&q_tipoinfo=bf_munic&fq=sigla_uf:SC AND anomes:202401",
+      "status": 200,
+      "functional": true,
+      "records": 3540,
+      "note": "295 municípios x 12 meses 2024",
+      "total_familias_jan2024": 236933,
+      "total_repasse_jan2024": "R$ 161.990.513,00",
+      "arquivo": "raw/mds/bolsa_familia_sc.json"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "MDS api.mds.gov.br cadunico",
+      "url": "https://api.mds.gov.br/api/v1/cadunico?uf=SC&competencia=202401",
+      "status": null,
+      "functional": false,
+      "error": "DNS resolution failed - host não existe"
+    },
+    {
+      "tarefa": "TAREFA 3 - Bolsa Família SC 2024",
+      "label": "Portal da Transparência BF API",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/bolsa-familia-disponivel-por-municipio",
+      "status": 401,
+      "functional": false,
+      "error": "Requer chave de API"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI RGF SC 2024",
+      "label": "SICONFI /tt/rgf co_uf=42 bimestre_1",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/rgf?an_exercicio=2024&co_uf=42&no_periodo=bimestre_1",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 items. Tabela RGF VAZIA na API (confirmado com todos os parâmetros e anos)"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2023",
+      "label": "SICONFI /tt/dca co_uf=42 (parâmetro incorreto)",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2023&co_uf=42",
+      "status": 200,
+      "functional": false,
+      "error": "Retorna 0 items. Parâmetro co_uf não funciona para DCA"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2023",
+      "label": "SICONFI /tt/dca id_ente={cod_ibge} (parâmetro correto)",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2023&id_ente={cod_ibge_7dig}",
+      "status": 200,
+      "functional": true,
+      "records": 332301,
+      "note": "295 municípios SC. Parâmetro correto: id_ente (código IBGE 7 dígitos, não co_uf)",
+      "arquivo": "raw/siconfi/dca_sc_2023.json"
+    },
+    {
+      "tarefa": "TAREFA 4 - SICONFI DCA SC 2022",
+      "label": "SICONFI /tt/dca id_ente={cod_ibge} ano 2022",
+      "url": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca?an_exercicio=2022&id_ente={cod_ibge_7dig}",
+      "status": 200,
+      "functional": true,
+      "records": 319018,
+      "note": "295 municípios SC.",
+      "arquivo": "raw/siconfi/dca_sc_2022_all.json"
+    }
+  ],
+  "notas_importantes": {
+    "FPM_CIDE": "Endpoints /tt/fpm e /tt/cide do SICONFI retornam 404. Dados obtidos via Tesouro Transparente CKAN CSV.",
+    "MDS_BF": "MDS SAGI misocial requer q=*:* + fq=sigla_uf:SC para retornar dados. Sem q=*:* retorna 0 docs.",
+    "SICONFI_DCA": "Parâmetro correto é id_ente={codigo_ibge_7dig}. co_uf retorna 0 registros.",
+    "SICONFI_RGF_RREO": "Tabelas /tt/rgf e /tt/rreo estão COMPLETAMENTE VAZIAS na instância da API (confirmado sem qualquer filtro)."
+  }
+}

@@ -1,0 +1,242 @@
+{
+  "coletado_em": "2026-04-22T13:54:42.554459+00:00",
+  "fonte": "https://legis.senado.leg.br/dadosabertos/senador/lista/atual",
+  "dados": [
+    {
+      "IdentificacaoParlamentar": {
+        "CodigoParlamentar": "22",
+        "CodigoPublicoNaLegAtual": "882",
+        "NomeParlamentar": "Esperidião Amin",
+        "NomeCompletoParlamentar": "Esperidião Amin Helou Filho",
+        "SexoParlamentar": "Masculino",
+        "FormaTratamento": "Senador ",
+        "UrlFotoParlamentar": "http://www.senado.leg.br/senadores/img/fotos-oficiais/senador22.jpg",
+        "UrlPaginaParlamentar": "http://www25.senado.leg.br/web/senadores/senador/-/perfil/22",
+        "EmailParlamentar": "sen.esperidiaoamin@senado.leg.br",
+        "Telefones": {
+          "Telefone": [
+            {
+              "NumeroTelefone": "33036446",
+              "OrdemPublicacao": "1",
+              "IndicadorFax": "Não"
+            },
+            {
+              "NumeroTelefone": "33036447",
+              "OrdemPublicacao": "2",
+              "IndicadorFax": "Não"
+            },
+            {
+              "NumeroTelefone": "33036454",
+              "OrdemPublicacao": "3",
+              "IndicadorFax": "Não"
+            }
+          ]
+        },
+        "SiglaPartidoParlamentar": "PP",
+        "UfParlamentar": "SC",
+        "Bloco": {
+          "CodigoBloco": "346",
+          "NomeBloco": "Bloco Parlamentar Aliança",
+          "NomeApelido": "BLALIANÇA",
+          "DataCriacao": "2023-03-20"
+        },
+        "MembroMesa": "Não",
+        "MembroLideranca": "Sim"
+      },
+      "Mandato": {
+        "CodigoMandato": "572",
+        "UfParlamentar": "SC",
+        "PrimeiraLegislaturaDoMandato": {
+          "NumeroLegislatura": "56",
+          "DataInicio": "2019-02-01",
+          "DataFim": "2023-01-31"
+        },
+        "SegundaLegislaturaDoMandato": {
+          "NumeroLegislatura": "57",
+          "DataInicio": "2023-02-01",
+          "DataFim": "2027-01-31"
+        },
+        "DescricaoParticipacao": "Titular",
+        "Suplentes": {
+          "Suplente": [
+            {
+              "DescricaoParticipacao": "1º Suplente",
+              "CodigoParlamentar": "196",
+              "NomeParlamentar": "Geraldo Althoff"
+            },
+            {
+              "DescricaoParticipacao": "2º Suplente",
+              "CodigoParlamentar": "6012",
+              "NomeParlamentar": "Denise dos Santos"
+            }
+          ]
+        },
+        "Exercicios": {
+          "Exercicio": [
+            {
+              "CodigoExercicio": "2901",
+              "DataInicio": "2019-02-01"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "IdentificacaoParlamentar": {
+        "CodigoParlamentar": "6010",
+        "CodigoPublicoNaLegAtual": "914",
+        "NomeParlamentar": "Ivete da Silveira",
+        "NomeCompletoParlamentar": "Ivete Marli Appel da Silveira",
+        "SexoParlamentar": "Feminino",
+        "FormaTratamento": "Senadora ",
+        "UrlFotoParlamentar": "http://www.senado.leg.br/senadores/img/fotos-oficiais/senador6010.jpg",
+        "UrlPaginaParlamentar": "http://www25.senado.leg.br/web/senadores/senador/-/perfil/6010",
+        "EmailParlamentar": "sen.ivetedasilveira@senado.leg.br",
+        "Telefones": {
+          "Telefone": [
+            {
+              "NumeroTelefone": "33032200",
+              "OrdemPublicacao": "1",
+              "IndicadorFax": "Não"
+            }
+          ]
+        },
+        "SiglaPartidoParlamentar": "MDB",
+        "UfParlamentar": "SC",
+        "Bloco": {
+          "CodigoBloco": "358",
+          "NomeBloco": "Bloco Parlamentar Democracia",
+          "NomeApelido": "BLDEM",
+          "DataCriacao": "2025-02-18"
+        },
+        "MembroMesa": "Não",
+        "MembroLideranca": "Não"
+      },
+      "Mandato": {
+        "CodigoMandato": "571",
+        "UfParlamentar": "SC",
+        "PrimeiraLegislaturaDoMandato": {
+          "NumeroLegislatura": "56",
+          "DataInicio": "2019-02-01",
+          "DataFim": "2023-01-31"
+        },
+        "SegundaLegislaturaDoMandato": {
+          "NumeroLegislatura": "57",
+          "DataInicio": "2023-02-01",
+          "DataFim": "2027-01-31"
+        },
+        "DescricaoParticipacao": "1º Suplente",
+        "Titular": {
+          "DescricaoParticipacao": "Titular",
+          "CodigoParlamentar": "5350",
+          "NomeParlamentar": "Jorginho Mello"
+        },
+        "Suplentes": {
+          "Suplente": [
+            {
+              "DescricaoParticipacao": "2º Suplente",
+              "CodigoParlamentar": "6011",
+              "NomeParlamentar": "Beto Martins"
+            }
+          ]
+        },
+        "Exercicios": {
+          "Exercicio": [
+            {
+              "CodigoExercicio": "3074",
+              "DataInicio": "2024-11-30"
+            },
+            {
+              "CodigoExercicio": "3003",
+              "DataInicio": "2022-12-30",
+              "DataFim": "2024-08-01",
+              "SiglaCausaAfastamento": "LCS",
+              "DescricaoCausaAfastamento": "Licença com convocação de suplente (sup 120 dias)"
+            },
+            {
+              "CodigoExercicio": "2989",
+              "DataInicio": "2022-08-24",
+              "DataFim": "2022-12-20",
+              "SiglaCausaAfastamento": "RET",
+              "DescricaoCausaAfastamento": "Retorno do titular"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "IdentificacaoParlamentar": {
+        "CodigoParlamentar": "6342",
+        "CodigoPublicoNaLegAtual": "897",
+        "NomeParlamentar": "Jorge Seif",
+        "NomeCompletoParlamentar": "Jorge Seif Júnior",
+        "SexoParlamentar": "Masculino",
+        "FormaTratamento": "Senador ",
+        "UrlFotoParlamentar": "http://www.senado.leg.br/senadores/img/fotos-oficiais/senador6342.jpg",
+        "UrlPaginaParlamentar": "http://www25.senado.leg.br/web/senadores/senador/-/perfil/6342",
+        "EmailParlamentar": "sen.jorgeseif@senado.leg.br",
+        "Telefones": {
+          "Telefone": [
+            {
+              "NumeroTelefone": "33033784",
+              "OrdemPublicacao": "1",
+              "IndicadorFax": "Não"
+            },
+            {
+              "NumeroTelefone": "33033756",
+              "OrdemPublicacao": "2",
+              "IndicadorFax": "Não"
+            }
+          ]
+        },
+        "SiglaPartidoParlamentar": "PL",
+        "UfParlamentar": "SC",
+        "Bloco": {
+          "CodigoBloco": "357",
+          "NomeBloco": "Bloco Parlamentar Vanguarda",
+          "NomeApelido": "BLVANG",
+          "DataCriacao": "2025-02-03"
+        },
+        "MembroMesa": "Não",
+        "MembroLideranca": "Sim"
+      },
+      "Mandato": {
+        "CodigoMandato": "613",
+        "UfParlamentar": "SC",
+        "PrimeiraLegislaturaDoMandato": {
+          "NumeroLegislatura": "57",
+          "DataInicio": "2023-02-01",
+          "DataFim": "2027-01-31"
+        },
+        "SegundaLegislaturaDoMandato": {
+          "NumeroLegislatura": "58",
+          "DataInicio": "2027-02-01",
+          "DataFim": "2031-01-31"
+        },
+        "DescricaoParticipacao": "Titular",
+        "Suplentes": {
+          "Suplente": [
+            {
+              "DescricaoParticipacao": "1º Suplente",
+              "CodigoParlamentar": "6381",
+              "NomeParlamentar": "Hermes Klann"
+            },
+            {
+              "DescricaoParticipacao": "2º Suplente",
+              "CodigoParlamentar": "6382",
+              "NomeParlamentar": "Adrian da Blukit"
+            }
+          ]
+        },
+        "Exercicios": {
+          "Exercicio": [
+            {
+              "CodigoExercicio": "3024",
+              "DataInicio": "2023-02-01"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

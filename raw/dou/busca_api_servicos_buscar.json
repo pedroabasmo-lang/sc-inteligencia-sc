@@ -1,0 +1,10 @@
+{
+  "coletado_em": "2026-04-22T13:52:45.751359Z",
+  "fonte": "https://www.in.gov.br/servicos/buscar?q=emenda parlamentar SC&data_inicio=2024-01-01&data_fim=2024-12-31&tipoPesquisa=todos",
+  "status_http": 404,
+  "content_type": "text/html;charset=UTF-8",
+  "disponivel": false,
+  "status": "html",
+  "endpoint": "https://www.in.gov.br/servicos/buscar?q=emenda parlamentar SC&data_inicio=2024-01-01&data_fim=2024-12-31&tipoPesquisa=todos",
+  "dados_preview": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t<!DOCTYPE html>\r\n\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n<html \r\n\tclass=\"ltr\" \r\n\tdir=\"ltr\" \r\n\tlang=\"pt-BR\"\r\n>\r\n\t<head>\r\n\t\t<title>Estado - Imprensa Nacional</title>\r\n\r\n\t\t<meta content=\"initial-scale=1.0, width=device-width\" name=\"viewport\" />\r\n\t\t<meta property=\"creator.productor\" content=\"http://estruturaorganizacional.dados.gov.br/id/unidade-organizacional/332\">\r\n\r\n\t\t<!-- FAVICON -->\r\n\t\t<link rel=\"apple-touch-icon\" sizes=\"57x57\" href=\"http"
+}

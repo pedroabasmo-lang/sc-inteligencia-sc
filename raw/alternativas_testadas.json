@@ -1,0 +1,184 @@
+{
+  "coletado_em": "2026-04-22T13:52:53.741290",
+  "testes": [
+    {
+      "label": "FNS sem www",
+      "url": "https://fns.saude.gov.br/visao/consultarTransferenciaFundo.action",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "primeiros_500_chars": "\n<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n\t<meta charset=\"UTF-8\" />\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t<link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" />\n\t<link rel=\"pingback\" href=\"https://portalfns.saude.gov.br/xmlrpc.php\" />\n\t<meta name='robots' content='noindex, follow' />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->\n\t<title>Página não encontrada - FNS</title>\n\t<meta property=\"og:locale\"",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null,
+      "verify_ssl": false
+    },
+    {
+      "label": "Portal Transparência FNS",
+      "url": "https://portaldatransparencia.gov.br/transferencias/consulta",
+      "params": {
+        "uf": "SC",
+        "orgao": "36201"
+      },
+      "status_http": 200,
+      "content_type": "text/html;charset=UTF-8",
+      "primeiros_500_chars": "\n\n\n\n    <!DOCTYPE HTML>\n    <html lang=\"pt-br\">\n    <head>\n        <script>\n            window.dataLayer = window.dataLayer || [];\n            function gtag() {dataLayer.push(arguments);}\n\n            function getCookie() {\n                let cookies = document.cookie.split(\"; \");\n                for(let i = 0; i < cookies.length; i++) {\n                    let cookie = cookies[i].split(\"=\");\n                    if(cookie[0] === \"lgpd-cookie\") {\n                        return cookie[1];\n       ",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null,
+      "verify_ssl": true
+    },
+    {
+      "label": "Dados abertos saúde",
+      "url": "https://dados.saude.gov.br/api/3/action/package_search",
+      "params": {
+        "q": "FNS repasse SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='dados.saude.gov.br', port=443): Read timed out. (read timeout=20)"
+      },
+      "erro": "HTTPSConnectionPool(host='dados.saude.gov.br', port=443): Read timed out. (read timeout=20)",
+      "verify_ssl": true
+    },
+    {
+      "label": "apidadosnet saúde",
+      "url": "https://apidadosnet.saude.gov.br/v1/repasses",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='apidadosnet.saude.gov.br', port=443): Max retries exceeded with url: /v1/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='apidadosnet.saude.gov.br', port=443): Failed to resolve 'apidadosnet.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='apidadosnet.saude.gov.br', port=443): Max retries exceeded with url: /v1/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='apidadosnet.saude.gov.br', port=443): Failed to resolve 'apidadosnet.saude.gov.br' ([Errno -2] Name or service not known)\"))",
+      "verify_ssl": true
+    },
+    {
+      "label": "FNS HTTP (sem SSL)",
+      "url": "http://www.fns.saude.gov.br/visao/consultarTransferenciaFundo.action",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='www.fns.saude.gov.br', port=443): Max retries exceeded with url: /visao/consultarTransferenciaFundo.action?uf=SC (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.fns.saude.gov.br'. (_ssl.c:1000)\")))"
+      },
+      "erro": "HTTPSConnectionPool(host='www.fns.saude.gov.br', port=443): Max retries exceeded with url: /visao/consultarTransferenciaFundo.action?uf=SC (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.fns.saude.gov.br'. (_ssl.c:1000)\")))",
+      "verify_ssl": true
+    },
+    {
+      "label": "Portal Transparência transferências SC 2024",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/transferencias-financeiras",
+      "params": {
+        "codigoUF": "42",
+        "ano": "2024",
+        "pagina": "1"
+      },
+      "status_http": 401,
+      "content_type": "application/json;charset=ISO-8859-1",
+      "primeiros_500_chars": "{\"Erro na API\":\"Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email\"}",
+      "json_disponivel": true,
+      "dados": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      },
+      "erro": null,
+      "verify_ssl": true
+    },
+    {
+      "label": "Portal Transparência fundo-a-fundo SC 2024",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/transferencias-fundo-a-fundo",
+      "params": {
+        "codigoUF": "42",
+        "ano": "2024",
+        "pagina": "1"
+      },
+      "status_http": 401,
+      "content_type": "application/json;charset=ISO-8859-1",
+      "primeiros_500_chars": "{\"Erro na API\":\"Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email\"}",
+      "json_disponivel": true,
+      "dados": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      },
+      "erro": null,
+      "verify_ssl": true
+    },
+    {
+      "label": "FNDE SIOPE repasse SC 2024",
+      "url": "https://www.fnde.gov.br/siope/consultaRepasseResumido.do",
+      "params": {
+        "uf": "SC",
+        "exercicio": "2024"
+      },
+      "status_http": 200,
+      "content_type": "",
+      "primeiros_500_chars": "",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null,
+      "verify_ssl": true
+    },
+    {
+      "label": "FNDE SIMAD PNAE SC 2024",
+      "url": "https://www.fnde.gov.br/pls/simad/internet_fnde.liberacao_download_pkg.liberacaodownload",
+      "params": {
+        "p_programa": "PNAE",
+        "p_uf": "SC",
+        "p_ano": "2024"
+      },
+      "status_http": 404,
+      "content_type": "text/html; charset=iso-8859-1",
+      "primeiros_500_chars": "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML 2.0//EN\">\n<HTML><HEAD>\n<TITLE>404 Not Found</TITLE>\n</HEAD><BODY>\n<H1>Not Found</H1>\nThe requested URL /pls/simad/internet_fnde.liberacao_download_pkg.liberacaodownload was not found on this server.<P>\n<HR>\n<ADDRESS>Oracle-Application-Server-10g/10.1.2.0.2 Oracle-HTTP-Server Server at araguari001.fnde.gov.br Port 7777</ADDRESS>\n</BODY></HTML>\n",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null,
+      "verify_ssl": true
+    },
+    {
+      "label": "FNDE SIGEF liberações PNAE SC",
+      "url": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes",
+      "params": {
+        "uf": "SC",
+        "programa": "PNAE",
+        "ano": "2024",
+        "format": "json"
+      },
+      "status_http": 200,
+      "content_type": "text/html; charset=ISO-8859-1",
+      "primeiros_500_chars": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\r\n    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"pt-BR\" lang=\"pt-BR\">\r\n    <head>\r\n                \r\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta http-equiv=\"Expires\" content=\"-1\" />\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=iso-8859-1\" />\n<meta http-equiv=\"Content-Language\" content=\"pt-BR\" /",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null,
+      "verify_ssl": true
+    }
+  ]
+}

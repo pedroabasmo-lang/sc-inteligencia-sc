@@ -1,0 +1,245 @@
+{
+  "coletado_em": "2026-04-22T13:54:03.409867",
+  "testes": [
+    {
+      "label": "FNS web SSL bypass",
+      "url": "https://www.fns.saude.gov.br/visao/consultarTransferenciaFundo.action",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "primeiros_500_chars": "\n<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n\t<meta charset=\"UTF-8\" />\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t<link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" />\n\t<link rel=\"pingback\" href=\"https://portalfns.saude.gov.br/xmlrpc.php\" />\n\t<meta name='robots' content='noindex, follow' />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->\n\t<title>Página não encontrada - FNS</title>\n\t<meta property=\"og:locale\"",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null
+    },
+    {
+      "label": "FNS sem www SSL bypass",
+      "url": "https://fns.saude.gov.br/visao/consultarTransferenciaFundo.action",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": 404,
+      "content_type": "text/html; charset=UTF-8",
+      "primeiros_500_chars": "\n<!DOCTYPE html>\n<html lang=\"pt-BR\">\n<head>\n\t<meta charset=\"UTF-8\" />\n\t<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n\t<link rel=\"profile\" href=\"http://gmpg.org/xfn/11\" />\n\t<link rel=\"pingback\" href=\"https://portalfns.saude.gov.br/xmlrpc.php\" />\n\t<meta name='robots' content='noindex, follow' />\n\n\t<!-- This site is optimized with the Yoast SEO plugin v21.6 - https://yoast.com/wordpress/plugins/seo/ -->\n\t<title>Página não encontrada - FNS</title>\n\t<meta property=\"og:locale\"",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null
+    },
+    {
+      "label": "apiFNS SSL bypass",
+      "url": "https://apifns.saude.gov.br/v1/gestor/repasses",
+      "params": {
+        "uf": "SC",
+        "competencia": "202401"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='apifns.saude.gov.br', port=443): Max retries exceeded with url: /v1/gestor/repasses?uf=SC&competencia=202401 (Caused by NameResolutionError(\"HTTPSConnection(host='apifns.saude.gov.br', port=443): Failed to resolve 'apifns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='apifns.saude.gov.br', port=443): Max retries exceeded with url: /v1/gestor/repasses?uf=SC&competencia=202401 (Caused by NameResolutionError(\"HTTPSConnection(host='apifns.saude.gov.br', port=443): Failed to resolve 'apifns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+    },
+    {
+      "label": "apiFNS v2 SSL bypass",
+      "url": "https://apifns.saude.gov.br/v2/repasses",
+      "params": {
+        "uf": "SC",
+        "competencia": "202401"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='apifns.saude.gov.br', port=443): Max retries exceeded with url: /v2/repasses?uf=SC&competencia=202401 (Caused by NameResolutionError(\"HTTPSConnection(host='apifns.saude.gov.br', port=443): Failed to resolve 'apifns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='apifns.saude.gov.br', port=443): Max retries exceeded with url: /v2/repasses?uf=SC&competencia=202401 (Caused by NameResolutionError(\"HTTPSConnection(host='apifns.saude.gov.br', port=443): Failed to resolve 'apifns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+    },
+    {
+      "label": "api.fns.saude repasses",
+      "url": "https://api.fns.saude.gov.br/repasses",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='api.fns.saude.gov.br', port=443): Max retries exceeded with url: /repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='api.fns.saude.gov.br', port=443): Failed to resolve 'api.fns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='api.fns.saude.gov.br', port=443): Max retries exceeded with url: /repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='api.fns.saude.gov.br', port=443): Failed to resolve 'api.fns.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+    },
+    {
+      "label": "api.saude.gov.br/fns",
+      "url": "https://api.saude.gov.br/fns/repasses",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='api.saude.gov.br', port=443): Max retries exceeded with url: /fns/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='api.saude.gov.br', port=443): Failed to resolve 'api.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='api.saude.gov.br', port=443): Max retries exceeded with url: /fns/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='api.saude.gov.br', port=443): Failed to resolve 'api.saude.gov.br' ([Errno -2] Name or service not known)\"))"
+    },
+    {
+      "label": "dados.saude package_search",
+      "url": "https://dados.saude.gov.br/api/3/action/package_search",
+      "params": {
+        "q": "repasse FNS"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='dados.saude.gov.br', port=443): Read timed out. (read timeout=15)"
+      },
+      "erro": "HTTPSConnectionPool(host='dados.saude.gov.br', port=443): Read timed out. (read timeout=15)"
+    },
+    {
+      "label": "esus.ufsc.br FNS",
+      "url": "https://integracao.esus.ufsc.br/api/fns/repasses",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPSConnectionPool(host='integracao.esus.ufsc.br', port=443): Max retries exceeded with url: /api/fns/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='integracao.esus.ufsc.br', port=443): Failed to resolve 'integracao.esus.ufsc.br' ([Errno -2] Name or service not known)\"))"
+      },
+      "erro": "HTTPSConnectionPool(host='integracao.esus.ufsc.br', port=443): Max retries exceeded with url: /api/fns/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='integracao.esus.ufsc.br', port=443): Failed to resolve 'integracao.esus.ufsc.br' ([Errno -2] Name or service not known)\"))"
+    },
+    {
+      "label": "Entes federados municípios SC",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/entes-federados-municipios-transferencias",
+      "params": {
+        "codigoUF": "42",
+        "ano": "2024",
+        "pagina": "1"
+      },
+      "status_http": 401,
+      "content_type": "application/json;charset=ISO-8859-1",
+      "primeiros_500_chars": "{\"Erro na API\":\"Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email\"}",
+      "json_disponivel": true,
+      "dados": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      },
+      "erro": null
+    },
+    {
+      "label": "Programas sociais SC",
+      "url": "https://api.portaldatransparencia.gov.br/api-de-dados/programas-sociais-beneficiarios",
+      "params": {
+        "codigoUF": "42"
+      },
+      "status_http": 401,
+      "content_type": "application/json;charset=ISO-8859-1",
+      "primeiros_500_chars": "{\"Erro na API\":\"Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email\"}",
+      "json_disponivel": true,
+      "dados": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      },
+      "erro": null
+    },
+    {
+      "label": "FNDE PNAE gestores",
+      "url": "https://www.fnde.gov.br/index.php/programas/alimentacao-escolar/area-para-gestores/dados-da-alimentacao-escolar",
+      "params": {},
+      "status_http": 401,
+      "content_type": "application/json",
+      "primeiros_500_chars": "{\n  \"message\": \"Missing 'plone.restapi: Use REST API' permission\", \n  \"type\": \"Unauthorized\"\n}",
+      "json_disponivel": true,
+      "dados": {
+        "message": "Missing 'plone.restapi: Use REST API' permission",
+        "type": "Unauthorized"
+      },
+      "erro": null
+    },
+    {
+      "label": "SIGEF liberação JSON SC",
+      "url": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes/consultarLiberacao",
+      "params": {
+        "uf": "SC",
+        "programa": "PNAE",
+        "ano": "2024",
+        "format": "json"
+      },
+      "status_http": 404,
+      "content_type": "text/html; charset=ISO-8859-1",
+      "primeiros_500_chars": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\"\r\n    \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"pt-BR\" lang=\"pt-BR\">\r\n    <head>\r\n                \r\n        <meta http-equiv=\"X-UA-Compatible\" content=\"IE=8\" />\n<meta http-equiv=\"Pragma\" content=\"no-cache\" />\n<meta http-equiv=\"Expires\" content=\"-1\" />\n<meta http-equiv=\"Content-Type\" content=\"text/html;charset=iso-8859-1\" />\n<meta http-equiv=\"Content-Language\" content=\"pt-BR\" /",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null
+    },
+    {
+      "label": "FNDE PNAE portal",
+      "url": "https://www.fnde.gov.br/pnae/pnae-area-gestores/",
+      "params": {},
+      "status_http": 401,
+      "content_type": "application/json",
+      "primeiros_500_chars": "{\n  \"message\": \"Missing 'plone.restapi: Use REST API' permission\", \n  \"type\": \"Unauthorized\"\n}",
+      "json_disponivel": true,
+      "dados": {
+        "message": "Missing 'plone.restapi: Use REST API' permission",
+        "type": "Unauthorized"
+      },
+      "erro": null
+    },
+    {
+      "label": "FNDE SIOPE consolidado SC",
+      "url": "https://www.fnde.gov.br/siope/relatorioConsolidadoEstadualMunicipal.do",
+      "params": {
+        "uf": "SC",
+        "exercicio": "2024"
+      },
+      "status_http": 200,
+      "content_type": "",
+      "primeiros_500_chars": "",
+      "json_disponivel": false,
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true
+      },
+      "erro": null
+    },
+    {
+      "label": "FNDE dadosabertos HTTP",
+      "url": "http://dadosabertos.fnde.gov.br/api/3/action/package_list",
+      "params": {},
+      "status_http": null,
+      "content_type": null,
+      "primeiros_500_chars": null,
+      "json_disponivel": false,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "HTTPConnectionPool(host='dadosabertos.fnde.gov.br', port=80): Max retries exceeded with url: /api/3/action/package_list (Caused by NameResolutionError(\"HTTPConnection(host='dadosabertos.fnde.gov.br', port=80): Failed to resolve 'dadosabertos.fnde.gov.br' ([Errno -5] No address associated with hostname)\"))"
+      },
+      "erro": "HTTPConnectionPool(host='dadosabertos.fnde.gov.br', port=80): Max retries exceeded with url: /api/3/action/package_list (Caused by NameResolutionError(\"HTTPConnection(host='dadosabertos.fnde.gov.br', port=80): Failed to resolve 'dadosabertos.fnde.gov.br' ([Errno -5] No address associated with hostname)\"))"
+    }
+  ]
+}

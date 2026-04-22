@@ -1,0 +1,1381 @@
+{
+  "coletado_em": "2026-04-22T14:05:21.957878",
+  "fonte": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes",
+  "tarefa": "FNDE PDDE SC",
+  "status": "dados_referencia_coletados",
+  "nota": "dadosabertos.fnde.gov.br DNS não resolveu. O SIGEF retorna lista de programas disponíveis (PDDE ID=02, PDDE EQUIDADE ID=0A, PDDE QUALIDADE ID=0B) via AJAX mas os dados financeiros requerem reCAPTCHA. Sistemas PDDE INFO e PDDEWeb estão disponíveis mas requerem navegação web interativa.",
+  "endpoints_testados": [
+    {
+      "status_http": 200,
+      "content_type": "application/json",
+      "primeiros_500_chars": "[{\"ID\":\"todos\",\"NOME\":\"Todos os programas\"},{\"ID\":\"ZN\",\"NOME\":\"AAE (PROGRAMA AUX\\u00cdLIO AVALIA\\u00c7\\u00c3O EDUCACIONAL)\",\"DS_PROGRAMA_FNDE\":\"AAE\"},{\"ID\":\"C7\",\"NOME\":\"ALIMENTA\\u00c7\\u00c3O ESCOLAR (PROG.NACIONAL DE ALIMENTA\\u00c7\\u00c3O ESCOLAR)\",\"DS_PROGRAMA_FNDE\":\"ALIMENTA\\u00c7\\u00c3O ESCOLAR\"},{\"ID\":\"EV\",\"NOME\":\"BOLSA PERMAN\\u00caNCIA (PROGRAMA BOLSA PERMAN\\u00caNCIA )\",\"DS_PROGRAMA_FNDE\":\"BOLSA PERMAN\\u00caNCIA\"},{\"ID\":\"91\",\"NOME\":\"BOLSAS (BOLSAS)\",\"DS_PROGRAMA_FNDE\":\"BOLSAS\"},{\"ID\":\"PS\",",
+      "json_disponivel": true,
+      "dados": [
+        {
+          "ID": "todos",
+          "NOME": "Todos os programas"
+        },
+        {
+          "ID": "ZN",
+          "NOME": "AAE (PROGRAMA AUXÍLIO AVALIAÇÃO EDUCACIONAL)",
+          "DS_PROGRAMA_FNDE": "AAE"
+        },
+        {
+          "ID": "C7",
+          "NOME": "ALIMENTAÇÃO ESCOLAR (PROG.NACIONAL DE ALIMENTAÇÃO ESCOLAR)",
+          "DS_PROGRAMA_FNDE": "ALIMENTAÇÃO ESCOLAR"
+        },
+        {
+          "ID": "EV",
+          "NOME": "BOLSA PERMANÊNCIA (PROGRAMA BOLSA PERMANÊNCIA )",
+          "DS_PROGRAMA_FNDE": "BOLSA PERMANÊNCIA"
+        },
+        {
+          "ID": "91",
+          "NOME": "BOLSAS (BOLSAS)",
+          "DS_PROGRAMA_FNDE": "BOLSAS"
+        },
+        {
+          "ID": "PS",
+          "NOME": "BOLSAS PET (BOLSAS PROGRAMA  DE EDUCAÇÃO TUTORIAL)",
+          "DS_PROGRAMA_FNDE": "BOLSAS PET"
+        },
+        {
+          "ID": "88",
+          "NOME": "BRALFBOLSAS (BRASIL ALFABETIZADO - BOLSAS)",
+          "DS_PROGRAMA_FNDE": "BRALFBOLSAS"
+        },
+        {
+          "ID": "NM",
+          "NOME": "CONSULTORES PROJETO APOIO NOVO ENSINO MEDIO (CONSULTORES PROJETO APOIO NOVO ENSINO MEDIO DECORRENTE DO ACORDO DE EMPRÉSTIMO FIRMADO COM O BIRD)",
+          "DS_PROGRAMA_FNDE": "CONSULTORES PROJETO APOIO NOVO ENSINO MEDIO"
+        },
+        {
+          "ID": "CV",
+          "NOME": "EDUCAÇÃO INFANTIL - NOVAS TURMAS (EI - NOVAS TURMAS - MANUTENÇÃO DA EDUCAÇÃO INFANTIL TD)",
+          "DS_PROGRAMA_FNDE": "EDUCAÇÃO INFANTIL - NOVAS TURMAS"
+        },
+        {
+          "ID": "CT",
+          "NOME": "EDUCAÇÃO INFANTIL - NOVOS ESTABELECIMENTOS (EI - NOVOS ESTABELECIMENTOS - MANUTENÇÃO DA EDUCAÇÃO INFANTIL TD)",
+          "DS_PROGRAMA_FNDE": "EDUCAÇÃO INFANTIL - NOVOS ESTABELECIMENTOS"
+        },
+        {
+          "ID": "0H",
+          "NOME": "ESCOLA EM TEMPO INTEGRAL (ETI, LEI Nº 14.640/2023, FOMENTO DE MATR. EM REDES E SISTEMAS DE ENSINO, PARA EDUCAÇÃO INTEGRAL.)",
+          "DS_PROGRAMA_FNDE": "ESCOLA EM TEMPO INTEGRAL"
+        },
+        {
+          "ID": "TI",
+          "NOME": "FOMENTO A ESCOLAS EM TEMPO INTEGRAL (TRANSF DIRETA - APOIAR A AMPLIAÇÃO DA OFERTA DE EDUCAÇÃO EM TEMPO INTEGRAL NO ENSINO MÉDIO EST/DF)",
+          "DS_PROGRAMA_FNDE": "FOMENTO A ESCOLAS EM TEMPO INTEGRAL"
+        },
+        {
+          "ID": "86",
+          "NOME": "FUNDEB ( FUNDEB)",
+          "DS_PROGRAMA_FNDE": "FUNDEB"
+        },
+        {
+          "ID": "AK",
+          "NOME": "PAPES (PROGRAM DE APOIO A PESQUISA - PAPES)",
+          "DS_PROGRAMA_FNDE": "PAPES"
+        },
+        {
+          "ID": "CM",
+          "NOME": "PAR - TD (PLANO DE AÇÃO ARTICULADA  - TRANSFERÊNCIA DIRETA)",
+          "DS_PROGRAMA_FNDE": "PAR - TD"
+        },
+        {
+          "ID": "02",
+          "NOME": "PDDE (PROGRAMA DINHEIRO DIRETO NA ESCOLA )",
+          "DS_PROGRAMA_FNDE": "PDDE"
+        },
+        {
+          "ID": "0A",
+          "NOME": "PDDE EQUIDADE (ÁGUA E ESGOTAMENTO SANITÁRIO, ESCOLA DO CAMPO, ESCOLA ACESSÍVEL E PDE ESCOLA - ANTIGO PDDE ESTRUTURA)",
+          "DS_PROGRAMA_FNDE": "PDDE EQUIDADE"
+        },
+        {
+          "ID": "0B",
+          "NOME": "PDDE QUALIDADE ( ENSINO MÉDIO INOVADOR, MAIS CULTURA, ESC.DE FRONTEIRA, ATLETA NA ESCOLA, ESC.SUSTENTÁVEL)",
+          "DS_PROGRAMA_FNDE": "PDDE QUALIDADE"
+        },
+        {
+          "ID": "A3",
+          "NOME": "PDDE-EDUCAÇÃO ESPECIAL (PROGRAMA DINHEIRO DIRETO NA ESCOLA-EDUCAÇÃO ESPECIAL)",
+          "DS_PROGRAMA_FNDE": "PDDE-EDUCAÇÃO ESPECIAL"
+        },
+        {
+          "ID": "D8",
+          "NOME": "PNATE (PROGRAMA NACIONAL DE APOIO AO TRANSP DO ESCOLAR)",
+          "DS_PROGRAMA_FNDE": "PNATE"
+        },
+        {
+          "ID": "01",
+          "NOME": "PNLD  (PROGRAMA NACIONAL DO LIVRO DIDÁTICO  )",
+          "DS_PROGRAMA_FNDE": "PNLD "
+        },
+        {
+          "ID": "BW",
+          "NOME": "PROINFÂNCIA - CRECHES (PROGRAMA PROINFÂNCIA - CONSTRUÇÃO DE CRECHES )",
+          "DS_PROGRAMA_FNDE": "PROINFÂNCIA - CRECHES"
+        },
+        {
+          "ID": "0E",
+          "NOME": "PRONATEC - QUALIFICA MAIS (PRONATEC - QUALIFICA MAIS)",
+          "DS_PROGRAMA_FNDE": "PRONATEC - QUALIFICA MAIS"
+        },
+        {
+          "ID": "EF",
+          "NOME": "PRONATEC - TD (PRONATEC - TD)",
+          "DS_PROGRAMA_FNDE": "PRONATEC - TD"
+        },
+        {
+          "ID": "0I",
+          "NOME": "PRONATEC MULHERES MIL TRANSF. ESTADO/MUNICÍP. (OFERTA DE VAGAS - REDE ESTADUAL/MUNICIPAL, POR PACTUAÇÃO, NO ÂMBITO DA BOLSA-FORMAÇÃO - MULHERES MIL)",
+          "DS_PROGRAMA_FNDE": "PRONATEC MULHERES MIL TRANSF. ESTADO/MUNICÍP."
+        },
+        {
+          "ID": "CN",
+          "NOME": "QUADRAS (PROGRAMA DE CONSTRUÇÃO DE QUADRAS POLIESPORTIVAS)",
+          "DS_PROGRAMA_FNDE": "QUADRAS"
+        },
+        {
+          "ID": "51",
+          "NOME": "QUOTA (QUOTA ESTADUAL / MUNICIPAL)",
+          "DS_PROGRAMA_FNDE": "QUOTA"
+        }
+      ],
+      "erro": null,
+      "url": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes/ajax/ano/2024",
+      "label": "SIGEF AJAX programas 2024 (inclui PDDE ID=02)"
+    },
+    {
+      "status_http": 200,
+      "content_type": "text/html;charset=utf-8",
+      "primeiros_500_chars": "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"pt-br\" xml:lang=\"pt-br\">\n\n<head>\n    <meta charset=\"utf-8\" />\n  <!-- Google Tag Manager -->\n  <script type=\"text\">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n  })(window,document,'script'",
+      "json_disponivel": false,
+      "dados": null,
+      "erro": null,
+      "url": "https://www.gov.br/fnde/pt-br/assuntos/sistemas/pddeinfo",
+      "label": "PDDE INFO sistema"
+    },
+    {
+      "status_http": 200,
+      "content_type": "text/html;charset=utf-8",
+      "primeiros_500_chars": "<!DOCTYPE html>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"pt-br\" xml:lang=\"pt-br\">\n\n<head>\n    <meta charset=\"utf-8\" />\n  <!-- Google Tag Manager -->\n  <script type=\"text\">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\n  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\n  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=\n  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);\n  })(window,document,'script'",
+      "json_disponivel": false,
+      "dados": null,
+      "erro": null,
+      "url": "https://www.gov.br/fnde/pt-br/assuntos/sistemas/pddeweb",
+      "label": "PDDE WEB sistema"
+    }
+  ],
+  "dados_referencia": {
+    "programas_pdde": [
+      {
+        "id": "02",
+        "nome": "PDDE (PROGRAMA DINHEIRO DIRETO NA ESCOLA)",
+        "ds": "PDDE"
+      },
+      {
+        "id": "0A",
+        "nome": "PDDE EQUIDADE (ÁGUA E ESGOTAMENTO SANITÁRIO, ESCOLA DO CAMPO, ESCOLA ACESSÍVEL E PDE ESCOLA)",
+        "ds": "PDDE EQUIDADE"
+      },
+      {
+        "id": "0B",
+        "nome": "PDDE QUALIDADE (ENSINO MÉDIO INOVADOR, MAIS CULTURA, ESC.DE FRONTEIRA, ATLETA NA ESCOLA, ESC.SUSTENTÁVEL)",
+        "ds": "PDDE QUALIDADE"
+      },
+      {
+        "id": "A3",
+        "nome": "PDDE-EDUCAÇÃO ESPECIAL (PROGRAMA DINHEIRO DIRETO NA ESCOLA-EDUCAÇÃO ESPECIAL)",
+        "ds": "PDDE-EDUCAÇÃO ESPECIAL"
+      }
+    ],
+    "municipios_sc": [
+      {
+        "ID": "420005",
+        "NOME": "ABDON BATISTA"
+      },
+      {
+        "ID": "420010",
+        "NOME": "ABELARDO LUZ"
+      },
+      {
+        "ID": "420020",
+        "NOME": "AGROLANDIA"
+      },
+      {
+        "ID": "420030",
+        "NOME": "AGRONOMICA"
+      },
+      {
+        "ID": "420040",
+        "NOME": "AGUA DOCE"
+      },
+      {
+        "ID": "420050",
+        "NOME": "AGUAS DE CHAPECO"
+      },
+      {
+        "ID": "422150",
+        "NOME": "AGUAS FRIAS"
+      },
+      {
+        "ID": "420060",
+        "NOME": "AGUAS MORNAS"
+      },
+      {
+        "ID": "420070",
+        "NOME": "ALFREDO WAGNER"
+      },
+      {
+        "ID": "422560",
+        "NOME": "ALTO BELA VISTA"
+      },
+      {
+        "ID": "420080",
+        "NOME": "ANCHIETA"
+      },
+      {
+        "ID": "420090",
+        "NOME": "ANGELINA"
+      },
+      {
+        "ID": "420100",
+        "NOME": "ANITA GARIBALDI"
+      },
+      {
+        "ID": "420110",
+        "NOME": "ANITAPOLIS"
+      },
+      {
+        "ID": "420120",
+        "NOME": "ANTONIO CARLOS"
+      },
+      {
+        "ID": "420125",
+        "NOME": "APIUNA"
+      },
+      {
+        "ID": "422030",
+        "NOME": "ARABUTA"
+      },
+      {
+        "ID": "420130",
+        "NOME": "ARAQUARI"
+      },
+      {
+        "ID": "420140",
+        "NOME": "ARARANGUA"
+      },
+      {
+        "ID": "420150",
+        "NOME": "ARMAZEM"
+      },
+      {
+        "ID": "420160",
+        "NOME": "ARROIO TRINTA"
+      },
+      {
+        "ID": "421980",
+        "NOME": "ARVOREDO"
+      },
+      {
+        "ID": "420170",
+        "NOME": "ASCURRA"
+      },
+      {
+        "ID": "420180",
+        "NOME": "ATALANTA"
+      },
+      {
+        "ID": "420190",
+        "NOME": "AURORA"
+      },
+      {
+        "ID": "422480",
+        "NOME": "BALNEARIO ARROIO DO SILVA"
+      },
+      {
+        "ID": "422370",
+        "NOME": "BALNEARIO BARRA DO SUL"
+      },
+      {
+        "ID": "420200",
+        "NOME": "BALNEARIO CAMBORIU"
+      },
+      {
+        "ID": "422670",
+        "NOME": "BALNEARIO GAIVOTA"
+      },
+      {
+        "ID": "421280",
+        "NOME": "BALNEARIO PICARRAS"
+      },
+      {
+        "ID": "422001",
+        "NOME": "BALNEARIO RINCAO"
+      },
+      {
+        "ID": "422540",
+        "NOME": "BANDEIRANTE"
+      },
+      {
+        "ID": "420209",
+        "NOME": "BARRA BONITA"
+      },
+      {
+        "ID": "420210",
+        "NOME": "BARRA VELHA"
+      },
+      {
+        "ID": "422510",
+        "NOME": "BELA VISTA DO TOLDO"
+      },
+      {
+        "ID": "422060",
+        "NOME": "BELMONTE"
+      },
+      {
+        "ID": "420220",
+        "NOME": "BENEDITO NOVO"
+      },
+      {
+        "ID": "420230",
+        "NOME": "BIGUACU"
+      },
+      {
+        "ID": "420240",
+        "NOME": "BLUMENAU"
+      },
+      {
+        "ID": "422460",
+        "NOME": "BOCAINA DO SUL"
+      },
+      {
+        "ID": "420250",
+        "NOME": "BOM JARDIM DA SERRA"
+      },
+      {
+        "ID": "422440",
+        "NOME": "BOM JESUS"
+      },
+      {
+        "ID": "422550",
+        "NOME": "BOM JESUS DO OESTE"
+      },
+      {
+        "ID": "420260",
+        "NOME": "BOM RETIRO"
+      },
+      {
+        "ID": "422380",
+        "NOME": "BOMBINHAS"
+      },
+      {
+        "ID": "420270",
+        "NOME": "BOTUVERA"
+      },
+      {
+        "ID": "420280",
+        "NOME": "BRACO DO NORTE"
+      },
+      {
+        "ID": "422230",
+        "NOME": "BRACO DO TROMBUDO"
+      },
+      {
+        "ID": "422500",
+        "NOME": "BRUNOPOLIS"
+      },
+      {
+        "ID": "420290",
+        "NOME": "BRUSQUE"
+      },
+      {
+        "ID": "420300",
+        "NOME": "CACADOR"
+      },
+      {
+        "ID": "420310",
+        "NOME": "CAIBI"
+      },
+      {
+        "ID": "422390",
+        "NOME": "CALMON"
+      },
+      {
+        "ID": "420320",
+        "NOME": "CAMBORIU"
+      },
+      {
+        "ID": "420330",
+        "NOME": "CAMPO ALEGRE"
+      },
+      {
+        "ID": "420340",
+        "NOME": "CAMPO BELO DO SUL"
+      },
+      {
+        "ID": "420350",
+        "NOME": "CAMPO ERE"
+      },
+      {
+        "ID": "420360",
+        "NOME": "CAMPOS NOVOS"
+      },
+      {
+        "ID": "420370",
+        "NOME": "CANELINHA"
+      },
+      {
+        "ID": "420380",
+        "NOME": "CANOINHAS"
+      },
+      {
+        "ID": "422520",
+        "NOME": "CAPAO ALTO"
+      },
+      {
+        "ID": "420390",
+        "NOME": "CAPINZAL"
+      },
+      {
+        "ID": "422220",
+        "NOME": "CAPIVARI DE BAIXO"
+      },
+      {
+        "ID": "420400",
+        "NOME": "CATANDUVAS"
+      },
+      {
+        "ID": "420410",
+        "NOME": "CAXAMBU DO SUL"
+      },
+      {
+        "ID": "420415",
+        "NOME": "CELSO RAMOS"
+      },
+      {
+        "ID": "422400",
+        "NOME": "CERRO NEGRO"
+      },
+      {
+        "ID": "420419",
+        "NOME": "CHAPADAO DO LAGEADO"
+      },
+      {
+        "ID": "420420",
+        "NOME": "CHAPECO"
+      },
+      {
+        "ID": "422240",
+        "NOME": "COCAL DO SUL"
+      },
+      {
+        "ID": "420430",
+        "NOME": "CONCORDIA"
+      },
+      {
+        "ID": "422140",
+        "NOME": "CORDILHEIRA ALTA"
+      },
+      {
+        "ID": "420440",
+        "NOME": "CORONEL FREITAS"
+      },
+      {
+        "ID": "422270",
+        "NOME": "CORONEL MARTINS"
+      },
+      {
+        "ID": "420455",
+        "NOME": "CORREIA PINTO"
+      },
+      {
+        "ID": "420450",
+        "NOME": "CORUPA"
+      },
+      {
+        "ID": "420460",
+        "NOME": "CRICIUMA"
+      },
+      {
+        "ID": "420470",
+        "NOME": "CUNHA PORA"
+      },
+      {
+        "ID": "420475",
+        "NOME": "CUNHATAI"
+      },
+      {
+        "ID": "420480",
+        "NOME": "CURITIBANOS"
+      },
+      {
+        "ID": "420490",
+        "NOME": "DESCANSO"
+      },
+      {
+        "ID": "420500",
+        "NOME": "DIONISIO CERQUEIRA"
+      },
+      {
+        "ID": "420510",
+        "NOME": "DONA EMMA"
+      },
+      {
+        "ID": "420515",
+        "NOME": "DOUTOR PEDRINHO"
+      },
+      {
+        "ID": "422630",
+        "NOME": "ENTRE RIOS"
+      },
+      {
+        "ID": "420519",
+        "NOME": "ERMO"
+      },
+      {
+        "ID": "420520",
+        "NOME": "ERVAL VELHO"
+      },
+      {
+        "ID": "420530",
+        "NOME": "FAXINAL DOS GUEDES"
+      },
+      {
+        "ID": "422470",
+        "NOME": "FLOR DO SERTAO"
+      },
+      {
+        "ID": "420540",
+        "NOME": "FLORIANOPOLIS"
+      },
+      {
+        "ID": "422210",
+        "NOME": "FORMOSA DO SUL"
+      },
+      {
+        "ID": "420545",
+        "NOME": "FORQUILHINHA"
+      },
+      {
+        "ID": "420550",
+        "NOME": "FRAIBURGO"
+      },
+      {
+        "ID": "422640",
+        "NOME": "FREI ROGERIO"
+      },
+      {
+        "ID": "420560",
+        "NOME": "GALVAO"
+      },
+      {
+        "ID": "420570",
+        "NOME": "GAROPABA"
+      },
+      {
+        "ID": "420580",
+        "NOME": "GARUVA"
+      },
+      {
+        "ID": "420590",
+        "NOME": "GASPAR"
+      },
+      {
+        "ID": "420600",
+        "NOME": "GOVERNADOR CELSO RAMOS"
+      },
+      {
+        "ID": "420610",
+        "NOME": "GRAO PARA"
+      },
+      {
+        "ID": "420620",
+        "NOME": "GRAVATAL"
+      },
+      {
+        "ID": "420630",
+        "NOME": "GUABIRUBA"
+      },
+      {
+        "ID": "420640",
+        "NOME": "GUARACIABA"
+      },
+      {
+        "ID": "420650",
+        "NOME": "GUARAMIRIM"
+      },
+      {
+        "ID": "420660",
+        "NOME": "GUARUJA DO SUL"
+      },
+      {
+        "ID": "422050",
+        "NOME": "GUATAMBU"
+      },
+      {
+        "ID": "420670",
+        "NOME": "HERVAL DOESTE"
+      },
+      {
+        "ID": "420675",
+        "NOME": "IBIAM"
+      },
+      {
+        "ID": "420680",
+        "NOME": "IBICARE"
+      },
+      {
+        "ID": "420690",
+        "NOME": "IBIRAMA"
+      },
+      {
+        "ID": "420700",
+        "NOME": "ICARA"
+      },
+      {
+        "ID": "420710",
+        "NOME": "ILHOTA"
+      },
+      {
+        "ID": "420720",
+        "NOME": "IMARUI"
+      },
+      {
+        "ID": "420730",
+        "NOME": "IMBITUBA"
+      },
+      {
+        "ID": "420740",
+        "NOME": "IMBUIA"
+      },
+      {
+        "ID": "420750",
+        "NOME": "INDAIAL"
+      },
+      {
+        "ID": "420757",
+        "NOME": "IOMERE"
+      },
+      {
+        "ID": "420760",
+        "NOME": "IPIRA"
+      },
+      {
+        "ID": "420765",
+        "NOME": "IPORA DO OESTE"
+      },
+      {
+        "ID": "422170",
+        "NOME": "IPUACU"
+      },
+      {
+        "ID": "420770",
+        "NOME": "IPUMIRIM"
+      },
+      {
+        "ID": "420775",
+        "NOME": "IRACEMINHA"
+      },
+      {
+        "ID": "420780",
+        "NOME": "IRANI"
+      },
+      {
+        "ID": "422080",
+        "NOME": "IRATI"
+      },
+      {
+        "ID": "420790",
+        "NOME": "IRINEOPOLIS"
+      },
+      {
+        "ID": "420800",
+        "NOME": "ITA"
+      },
+      {
+        "ID": "420810",
+        "NOME": "ITAIOPOLIS"
+      },
+      {
+        "ID": "420820",
+        "NOME": "ITAJAI"
+      },
+      {
+        "ID": "420830",
+        "NOME": "ITAPEMA"
+      },
+      {
+        "ID": "420840",
+        "NOME": "ITAPIRANGA"
+      },
+      {
+        "ID": "420845",
+        "NOME": "ITAPOA"
+      },
+      {
+        "ID": "420850",
+        "NOME": "ITUPORANGA"
+      },
+      {
+        "ID": "420860",
+        "NOME": "JABORA"
+      },
+      {
+        "ID": "420870",
+        "NOME": "JACINTO MACHADO"
+      },
+      {
+        "ID": "420880",
+        "NOME": "JAGUARUNA"
+      },
+      {
+        "ID": "420890",
+        "NOME": "JARAGUA DO SUL"
+      },
+      {
+        "ID": "422280",
+        "NOME": "JARDINOPOLIS"
+      },
+      {
+        "ID": "420900",
+        "NOME": "JOACABA"
+      },
+      {
+        "ID": "420910",
+        "NOME": "JOINVILLE"
+      },
+      {
+        "ID": "420915",
+        "NOME": "JOSE BOITEUX"
+      },
+      {
+        "ID": "422430",
+        "NOME": "JUPIA"
+      },
+      {
+        "ID": "420920",
+        "NOME": "LACERDOPOLIS"
+      },
+      {
+        "ID": "420930",
+        "NOME": "LAGES"
+      },
+      {
+        "ID": "420940",
+        "NOME": "LAGUNA"
+      },
+      {
+        "ID": "422320",
+        "NOME": "LAJEADO GRANDE"
+      },
+      {
+        "ID": "420950",
+        "NOME": "LAURENTINO"
+      },
+      {
+        "ID": "420960",
+        "NOME": "LAURO MULLER"
+      },
+      {
+        "ID": "420970",
+        "NOME": "LEBON REGIS"
+      },
+      {
+        "ID": "420980",
+        "NOME": "LEOBERTO LEAL"
+      },
+      {
+        "ID": "420985",
+        "NOME": "LINDOIA DO SUL"
+      },
+      {
+        "ID": "420990",
+        "NOME": "LONTRAS"
+      },
+      {
+        "ID": "421000",
+        "NOME": "LUIZ ALVES"
+      },
+      {
+        "ID": "422620",
+        "NOME": "LUZERNA"
+      },
+      {
+        "ID": "422360",
+        "NOME": "MACIEIRA"
+      },
+      {
+        "ID": "421010",
+        "NOME": "MAFRA"
+      },
+      {
+        "ID": "421020",
+        "NOME": "MAJOR GERCINO"
+      },
+      {
+        "ID": "421030",
+        "NOME": "MAJOR VIEIRA"
+      },
+      {
+        "ID": "421040",
+        "NOME": "MARACAJA"
+      },
+      {
+        "ID": "421050",
+        "NOME": "MARAVILHA"
+      },
+      {
+        "ID": "421055",
+        "NOME": "MAREMA"
+      },
+      {
+        "ID": "421060",
+        "NOME": "MASSARANDUBA"
+      },
+      {
+        "ID": "421070",
+        "NOME": "MATOS COSTA"
+      },
+      {
+        "ID": "421080",
+        "NOME": "MELEIRO"
+      },
+      {
+        "ID": "422010",
+        "NOME": "MIRIM DOCE"
+      },
+      {
+        "ID": "421090",
+        "NOME": "MODELO"
+      },
+      {
+        "ID": "421100",
+        "NOME": "MONDAI"
+      },
+      {
+        "ID": "422330",
+        "NOME": "MONTE CARLO"
+      },
+      {
+        "ID": "421110",
+        "NOME": "MONTE CASTELO"
+      },
+      {
+        "ID": "421120",
+        "NOME": "MORRO DA FUMACA"
+      },
+      {
+        "ID": "422040",
+        "NOME": "MORRO GRANDE"
+      },
+      {
+        "ID": "421130",
+        "NOME": "NAVEGANTES"
+      },
+      {
+        "ID": "421140",
+        "NOME": "NOVA ERECHIM"
+      },
+      {
+        "ID": "422020",
+        "NOME": "NOVA ITABERABA"
+      },
+      {
+        "ID": "421150",
+        "NOME": "NOVA TRENTO"
+      },
+      {
+        "ID": "421160",
+        "NOME": "NOVA VENEZA"
+      },
+      {
+        "ID": "422350",
+        "NOME": "NOVO HORIZONTE"
+      },
+      {
+        "ID": "421170",
+        "NOME": "ORLEANS"
+      },
+      {
+        "ID": "421175",
+        "NOME": "OTACILIO COSTA"
+      },
+      {
+        "ID": "421180",
+        "NOME": "OURO"
+      },
+      {
+        "ID": "422250",
+        "NOME": "OURO VERDE"
+      },
+      {
+        "ID": "422450",
+        "NOME": "PAIAL"
+      },
+      {
+        "ID": "422610",
+        "NOME": "PAINEL"
+      },
+      {
+        "ID": "421190",
+        "NOME": "PALHOCA"
+      },
+      {
+        "ID": "421200",
+        "NOME": "PALMA SOLA"
+      },
+      {
+        "ID": "421205",
+        "NOME": "PALMEIRA"
+      },
+      {
+        "ID": "421210",
+        "NOME": "PALMITOS"
+      },
+      {
+        "ID": "421220",
+        "NOME": "PAPANDUVA"
+      },
+      {
+        "ID": "422090",
+        "NOME": "PARAISO"
+      },
+      {
+        "ID": "422300",
+        "NOME": "PASSO DE TORRES"
+      },
+      {
+        "ID": "422180",
+        "NOME": "PASSOS MAIA"
+      },
+      {
+        "ID": "421230",
+        "NOME": "PAULO LOPES"
+      },
+      {
+        "ID": "421240",
+        "NOME": "PEDRAS GRANDES"
+      },
+      {
+        "ID": "421250",
+        "NOME": "PENHA"
+      },
+      {
+        "ID": "421260",
+        "NOME": "PERITIBA"
+      },
+      {
+        "ID": "421265",
+        "NOME": "PESCARIA BRAVA"
+      },
+      {
+        "ID": "421270",
+        "NOME": "PETROLANDIA"
+      },
+      {
+        "ID": "421290",
+        "NOME": "PINHALZINHO"
+      },
+      {
+        "ID": "421300",
+        "NOME": "PINHEIRO PRETO"
+      },
+      {
+        "ID": "421310",
+        "NOME": "PIRATUBA"
+      },
+      {
+        "ID": "422100",
+        "NOME": "PLANALTO ALEGRE"
+      },
+      {
+        "ID": "421320",
+        "NOME": "POMERODE"
+      },
+      {
+        "ID": "421330",
+        "NOME": "PONTE ALTA"
+      },
+      {
+        "ID": "422070",
+        "NOME": "PONTE ALTA DO NORTE"
+      },
+      {
+        "ID": "421340",
+        "NOME": "PONTE SERRADA"
+      },
+      {
+        "ID": "421350",
+        "NOME": "PORTO BELO"
+      },
+      {
+        "ID": "421360",
+        "NOME": "PORTO UNIAO"
+      },
+      {
+        "ID": "421370",
+        "NOME": "POUSO REDONDO"
+      },
+      {
+        "ID": "421380",
+        "NOME": "PRAIA GRANDE"
+      },
+      {
+        "ID": "421390",
+        "NOME": "PRESIDENTE CASTELLO BRANCO"
+      },
+      {
+        "ID": "421400",
+        "NOME": "PRESIDENTE GETULIO"
+      },
+      {
+        "ID": "421410",
+        "NOME": "PRESIDENTE NEREU"
+      },
+      {
+        "ID": "422580",
+        "NOME": "PRINCESA"
+      },
+      {
+        "ID": "421420",
+        "NOME": "QUILOMBO"
+      },
+      {
+        "ID": "421430",
+        "NOME": "RANCHO QUEIMADO"
+      },
+      {
+        "ID": "421440",
+        "NOME": "RIO DAS ANTAS"
+      },
+      {
+        "ID": "421450",
+        "NOME": "RIO DO CAMPO"
+      },
+      {
+        "ID": "421460",
+        "NOME": "RIO DO OESTE"
+      },
+      {
+        "ID": "421480",
+        "NOME": "RIO DO SUL"
+      },
+      {
+        "ID": "421470",
+        "NOME": "RIO DOS CEDROS"
+      },
+      {
+        "ID": "421490",
+        "NOME": "RIO FORTUNA"
+      },
+      {
+        "ID": "421500",
+        "NOME": "RIO NEGRINHO"
+      },
+      {
+        "ID": "422160",
+        "NOME": "RIO RUFINO"
+      },
+      {
+        "ID": "422190",
+        "NOME": "RIQUEZA"
+      },
+      {
+        "ID": "421510",
+        "NOME": "RODEIO"
+      },
+      {
+        "ID": "421520",
+        "NOME": "ROMELANDIA"
+      },
+      {
+        "ID": "421530",
+        "NOME": "SALETE"
+      },
+      {
+        "ID": "422600",
+        "NOME": "SALTINHO"
+      },
+      {
+        "ID": "421540",
+        "NOME": "SALTO VELOSO"
+      },
+      {
+        "ID": "422120",
+        "NOME": "SANGAO"
+      },
+      {
+        "ID": "421550",
+        "NOME": "SANTA CECILIA"
+      },
+      {
+        "ID": "422130",
+        "NOME": "SANTA HELENA"
+      },
+      {
+        "ID": "421560",
+        "NOME": "SANTA ROSA DE LIMA"
+      },
+      {
+        "ID": "421565",
+        "NOME": "SANTA ROSA DO SUL"
+      },
+      {
+        "ID": "422200",
+        "NOME": "SANTA TEREZINHA"
+      },
+      {
+        "ID": "422570",
+        "NOME": "SANTA TEREZINHA DO PROGRESSO"
+      },
+      {
+        "ID": "422420",
+        "NOME": "SANTIAGO DO SUL"
+      },
+      {
+        "ID": "421570",
+        "NOME": "SANTO AMARO DA IMPERATRIZ"
+      },
+      {
+        "ID": "421580",
+        "NOME": "SAO BENTO DO SUL"
+      },
+      {
+        "ID": "422590",
+        "NOME": "SAO BERNARDINO"
+      },
+      {
+        "ID": "421590",
+        "NOME": "SAO BONIFACIO"
+      },
+      {
+        "ID": "421600",
+        "NOME": "SAO CARLOS"
+      },
+      {
+        "ID": "422110",
+        "NOME": "SAO CRISTOVAO DO SUL"
+      },
+      {
+        "ID": "421610",
+        "NOME": "SAO DOMINGOS"
+      },
+      {
+        "ID": "421620",
+        "NOME": "SAO FRANCISCO DO SUL"
+      },
+      {
+        "ID": "421630",
+        "NOME": "SAO JOAO BATISTA"
+      },
+      {
+        "ID": "421990",
+        "NOME": "SAO JOAO DO ITAPERIU"
+      },
+      {
+        "ID": "422260",
+        "NOME": "SAO JOAO DO OESTE"
+      },
+      {
+        "ID": "421640",
+        "NOME": "SAO JOAO DO SUL"
+      },
+      {
+        "ID": "421650",
+        "NOME": "SAO JOAQUIM"
+      },
+      {
+        "ID": "421660",
+        "NOME": "SAO JOSE"
+      },
+      {
+        "ID": "421670",
+        "NOME": "SAO JOSE DO CEDRO"
+      },
+      {
+        "ID": "421680",
+        "NOME": "SAO JOSE DO CERRITO"
+      },
+      {
+        "ID": "421690",
+        "NOME": "SAO LOURENCO DO OESTE"
+      },
+      {
+        "ID": "421700",
+        "NOME": "SAO LUDGERO"
+      },
+      {
+        "ID": "421710",
+        "NOME": "SAO MARTINHO"
+      },
+      {
+        "ID": "422340",
+        "NOME": "SAO MIGUEL DA BOA VISTA"
+      },
+      {
+        "ID": "421720",
+        "NOME": "SAO MIGUEL DO OESTE"
+      },
+      {
+        "ID": "422650",
+        "NOME": "SAO PEDRO DE ALCANTARA"
+      },
+      {
+        "ID": "421730",
+        "NOME": "SAUDADES"
+      },
+      {
+        "ID": "421740",
+        "NOME": "SCHROEDER"
+      },
+      {
+        "ID": "421750",
+        "NOME": "SEARA"
+      },
+      {
+        "ID": "421755",
+        "NOME": "SERRA ALTA"
+      },
+      {
+        "ID": "421760",
+        "NOME": "SIDEROPOLIS"
+      },
+      {
+        "ID": "421770",
+        "NOME": "SOMBRIO"
+      },
+      {
+        "ID": "422000",
+        "NOME": "SUL BRASIL"
+      },
+      {
+        "ID": "421780",
+        "NOME": "TAIO"
+      },
+      {
+        "ID": "421790",
+        "NOME": "TANGARA"
+      },
+      {
+        "ID": "422490",
+        "NOME": "TIGRINHOS"
+      },
+      {
+        "ID": "421800",
+        "NOME": "TIJUCAS"
+      },
+      {
+        "ID": "421810",
+        "NOME": "TIMBE DO SUL"
+      },
+      {
+        "ID": "421820",
+        "NOME": "TIMBO"
+      },
+      {
+        "ID": "421825",
+        "NOME": "TIMBO GRANDE"
+      },
+      {
+        "ID": "421830",
+        "NOME": "TRES BARRAS"
+      },
+      {
+        "ID": "421835",
+        "NOME": "TREVISO"
+      },
+      {
+        "ID": "421840",
+        "NOME": "TREZE DE MAIO"
+      },
+      {
+        "ID": "421850",
+        "NOME": "TREZE TILIAS"
+      },
+      {
+        "ID": "421860",
+        "NOME": "TROMBUDO CENTRAL"
+      },
+      {
+        "ID": "421870",
+        "NOME": "TUBARAO"
+      },
+      {
+        "ID": "421875",
+        "NOME": "TUNAPOLIS"
+      },
+      {
+        "ID": "421880",
+        "NOME": "TURVO"
+      },
+      {
+        "ID": "421885",
+        "NOME": "UNIAO DO OESTE"
+      },
+      {
+        "ID": "421890",
+        "NOME": "URUBICI"
+      },
+      {
+        "ID": "421895",
+        "NOME": "URUPEMA"
+      },
+      {
+        "ID": "421900",
+        "NOME": "URUSSANGA"
+      },
+      {
+        "ID": "421910",
+        "NOME": "VARGEAO"
+      },
+      {
+        "ID": "422290",
+        "NOME": "VARGEM"
+      },
+      {
+        "ID": "422310",
+        "NOME": "VARGEM BONITA"
+      },
+      {
+        "ID": "421920",
+        "NOME": "VIDAL RAMOS"
+      },
+      {
+        "ID": "421930",
+        "NOME": "VIDEIRA"
+      },
+      {
+        "ID": "421935",
+        "NOME": "VITOR MEIRELES"
+      },
+      {
+        "ID": "421940",
+        "NOME": "WITMARSUM"
+      },
+      {
+        "ID": "421950",
+        "NOME": "XANXERE"
+      },
+      {
+        "ID": "421960",
+        "NOME": "XAVANTINA"
+      },
+      {
+        "ID": "421970",
+        "NOME": "XAXIM"
+      },
+      {
+        "ID": "422660",
+        "NOME": "ZORTEA"
+      }
+    ],
+    "fonte_referencia": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes/ajax/ano/2024"
+  }
+}

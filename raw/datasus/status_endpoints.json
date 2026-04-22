@@ -1,0 +1,64 @@
+[
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/financiamento/repasses?uf=SC&ano=2024",
+    "description": "DATASUS repasses SC 2024 (v1)",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n",
+    "response_length": 207
+  },
+  {
+    "url": "https://apidatasus.datasus.gov.br/api/v1/repasses?uf=SC",
+    "description": "DATASUS repasses SC (alt)",
+    "status_code": null,
+    "error": "HTTPSConnectionPool(host='apidatasus.datasus.gov.br', port=443): Max retries exceeded with url: /api/v1/repasses?uf=SC (Caused by NameResolutionError(\"HTTPSConnection(host='apidatasus.datasus.gov.br', port=443): Failed to resolve 'apidatasus.datasus.gov.br' ([Errno -2] Name or service not known)\"))"
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/",
+    "description": "DATASUS API raiz",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!-- HTML for static distribution bundle build -->\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DEMAS - API de Dados Abertos</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"/v1/index.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"/v1/swagger-ui.css\">\n  <link rel=\"icon\" type=\"image/png\" href=\"/v1/favicon-32x32.png\" sizes=\"32x32\" />\n  <link rel=\"icon\" type=\"image/png\" href=\"/v1/favicon-16x16.png\" sizes=\"16x16\" />\n</head>\n\n<body>\n  <div id=\"swagger-ui\"></d",
+    "response_length": 1317
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/financiamento/repasses",
+    "description": "Repasses saúde (sem params)",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n",
+    "response_length": 207
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/financiamento/",
+    "description": "Financiamento raiz",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n",
+    "response_length": 207
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/cnes/estabelecimentos?co_uf=42&limit=5",
+    "description": "CNES estabelecimentos SC",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n",
+    "response_length": 207
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/sinan/dengue?co_uf=42&ano=2024",
+    "description": "SINAN dengue SC 2024",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!doctype html>\n<html lang=en>\n<title>404 Not Found</title>\n<h1>Not Found</h1>\n<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>\n",
+    "response_length": 207
+  },
+  {
+    "url": "https://apidadosabertos.saude.gov.br/v1/",
+    "description": "Raiz API DATASUS",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!-- HTML for static distribution bundle build -->\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n  <meta charset=\"UTF-8\">\n  <title>DEMAS - API de Dados Abertos</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"/v1/index.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"/v1/swagger-ui.css\">\n  <link rel=\"icon\" type=\"image/png\" href=\"/v1/favicon-32x32.png\" sizes=\"32x32\" />\n  <link rel=\"icon\" type=\"image/png\" href=\"/v1/favicon-16x16.png\" sizes=\"16x16\" />\n</head>\n\n<body>\n  <div id=\"swagger-ui\"></d",
+    "response_length": 1317
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "coletado_em": "2026-04-22T13:52:42.841225Z",
+  "fonte": "https://www.in.gov.br/consulta/-/buscar/dou?q=emenda+parlamentar+Santa+Catarina&s=todos&exactDate=personalizado&startDate=01-01-2024&endDate=31-12-2024",
+  "status_http": 200,
+  "content_type": "text/html;charset=UTF-8",
+  "disponivel": false,
+  "status": "html",
+  "endpoint": "https://www.in.gov.br/consulta/-/buscar/dou?q=emenda+parlamentar+Santa+Catarina&s=todos&exactDate=personalizado&startDate=01-01-2024&endDate=31-12-2024",
+  "dados_preview": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\t\t<!DOCTYPE html>\r\n\r\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\r\n<html \r\n\tclass=\"ltr\" \r\n\tdir=\"ltr\" \r\n\tlang=\"pt-BR\"\r\n>\r\n\t<head>\r\n\t\t<title>Diário Oficial da União - Imprensa Nacional</title>\r\n\r\n\t\t<meta content=\"initial-scale=1.0, width=device-width\" name=\"viewport\" />\r\n\t\t<meta property=\"creator.productor\" content=\"http://estruturaorganizacional.dados.gov.br/id/unidade-organizacional/332\">\r\n\r\n\t\t<!-- FAVICON -->\r\n\t\t<link rel=\"apple-touch-icon\" sizes=\""
+}

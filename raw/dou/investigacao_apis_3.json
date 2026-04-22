@@ -1,0 +1,89 @@
+{
+  "coletado_em": "2026-04-22T13:54:49.413491+00:00",
+  "resultados": {
+    "dados.gov.br v2 search": {
+      "status": 401,
+      "kind": "html",
+      "preview": ""
+    },
+    "dados.gov.br v2 search2": {
+      "status": 401,
+      "kind": "html",
+      "preview": ""
+    },
+    "dados.gov.br v3": {
+      "status": 401,
+      "kind": "html",
+      "preview": ""
+    },
+    "QD API v1": {
+      "status": 200,
+      "kind": "html",
+      "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <!-- HTML Meta Tags -->\n    <meta charset=\"utf-8\"/>\n    <title>Querido Diario</title>\n    <meta name=\"description\" content=\"Explore atos oficiais municipais e fique de olho nas ações das prefeituras!\"/>\n    <meta name=\"viewport\" content=\"width=device-wid"
+    },
+    "QD API (docs OK)": {
+      "status": 200,
+      "kind": "json",
+      "sample": {
+        "total_gazettes": 10000,
+        "gazettes": [
+          {
+            "territory_id": "2920601",
+            "date": "2024-01-09",
+            "scraped_at": "2024-03-22T15:08:44.247884",
+            "url": "https://data.queridodiario.ok.org.br/2920601/2024-01-09/5305b87cbc8738faf8588dd4204d99d1578ee937.pdf",
+            "territory_name": "Maragogipe",
+            "state_code": "BA",
+            "excerpts": [],
+            "edition": "4638",
+            "is_extra_edition": false,
+            "txt_url": "https://data.queridodiario.ok.org.br/2920601/2024-01-09/5305b87cbc8738faf8588dd4204d99d1578ee937.txt"
+          },
+          {
+            "territory_id": "2931905",
+            "date": "2024-05-13",
+            "scraped_at": "2024-05-13T23:36:34.438332",
+            "url": "https://data.queridodiario.ok.org.br/2931905/2024-05-13/1f44b7d2cb8276e80bf89d2b11f86b27ecf6e099.pdf",
+            "territory_name": "Tucano",
+            "state_code": "BA",
+            "excerpts": [],
+            "edition": "2.787",
+            "is_extra_edition": false,
+            "txt_url": "https://data.queridodiario.ok.org.br/2931905/2024-05-13/1f44b7d2cb8276e80bf89d2b11f86b27ecf6e099.txt"
+          },
+          {
+            "territory_id": "3304557",
+            "date": "2024-05-15",
+            "scraped_at": "2024-05-16T02:13:34.922237",
+            "url": "https://data.queridodiario.ok.org.br/3304557/2024-05-15/5a8faef585dc19f540bbfbac0d52f5a3fb90ad30.pdf",
+            "territory_name": "Rio de Janeiro",
+            "state_code": "RJ",
+            "excerpts": [],
+            "edition": "39",
+            "is_extra_edition": true,
+            "txt_url": "https://data.queridodiario.ok.org.br/3304557/2024-05-15/5a8faef585dc19f540bbfbac0d52f5a3fb90ad30.txt"
+          }
+        ]
+      }
+    },
+    "QD API portal": {
+      "status": 200,
+      "kind": "html",
+      "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <!-- HTML Meta Tags -->\n    <meta charset=\"utf-8\"/>\n    <title>Querido Diario</title>\n    <meta name=\"description\" content=\"Explore atos oficiais municipais e fique de olho nas ações das prefeituras!\"/>\n    <meta name=\"viewport\" content=\"width=device-wid"
+    },
+    "Portal Transparência emendas": {
+      "status": 401,
+      "kind": "json",
+      "sample": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      }
+    },
+    "Portal Transparência emendas SC": {
+      "status": 401,
+      "kind": "json",
+      "sample": {
+        "Erro na API": "Chave de API não informada! Para obter a chave acesse http://www.portaldatransparencia.gov.br/api-de-dados/cadastrar-email"
+      }
+    }
+  }
+}

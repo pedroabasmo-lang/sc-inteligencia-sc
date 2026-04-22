@@ -1,0 +1,47 @@
+{
+  "coletado_em": "2026-04-22T13:54:25.673354+00:00",
+  "resultados": {
+    "inlabs_home": {
+      "status": 200,
+      "url": "https://inlabs.in.gov.br/acessar.php",
+      "preview": "<!DOCTYPE html>\r\n<html>\r\n<head>\r\n<title>Imprensa Nacional - INLABS</title>\r\n\r\n\t<link rel=\"stylesheet\" href=\"css/bootstrap.min.css\">\r\n\t<script src=\"js/bootstrap.min.js\"></script>\r\n\t<link rel=\"icon\" href=\"img/favicon.ico\" type=\"image/x-icon\" />\r\n\t<link rel=\"shortcut icon\" href=\"img/favicon.ico\" type=\"image/x-icon\" />\r\n\t<meta charset=\"utf-8\">\r\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\r\n\t<link rel=\"stylesheet\" href=\"css/font-awesome.min.css\"> \r\n\t<link"
+    },
+    "querido_diario_gazettes": {
+      "status": 200,
+      "kind": "html",
+      "preview": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <!-- HTML Meta Tags -->\n    <meta charset=\"utf-8\"/>\n    <title>Querido Diario</title>\n    <meta name=\"description\" content=\"Explore atos oficiais municipais e fique de olho nas ações das prefeituras!\"/>\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n\n    <!-- Google / Search Engine Tags -->\n    <meta itemprop=\"name\" content=\"Querido Diário\"/>\n    <meta itemprop=\"description\" content=\"Explore atos oficiais municipais e fique"
+    },
+    "dou_portlet_liferay": {
+      "status": 200,
+      "kind": "html"
+    },
+    "api_try_https://www.in.gov.br/consulta/api/search": {
+      "status": 404,
+      "kind": "html_or_error"
+    },
+    "api_try_https://www.in.gov.br/api/search": {
+      "status": 404,
+      "kind": "html_or_error"
+    },
+    "api_try_https://www.in.gov.br/consulta/api/v1/search": {
+      "status": 404,
+      "kind": "html_or_error"
+    },
+    "api_try_https://api.in.gov.br/v1/dou/search": {
+      "status": 403,
+      "kind": "html_or_error"
+    },
+    "dados_try_https://dados.gov.br/api/publico/conjuntos-dados": {
+      "status": 401,
+      "kind": "html_or_error"
+    },
+    "dados_try_https://dados.gov.br/api/datasets": {
+      "status": 401,
+      "kind": "html_or_error"
+    },
+    "dados_try_https://dados.gov.br/dados/api": {
+      "status": 401,
+      "kind": "html_or_error"
+    }
+  }
+}

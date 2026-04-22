@@ -1,0 +1,26 @@
+[
+  {
+    "url": "https://www.transparencia.sc.gov.br/api/emendas?uf=SC&ano=2024",
+    "description": "Emendas SC 2024 (v1)",
+    "status_code": 404,
+    "content_type": "text/html",
+    "response_preview": "<!DOCTYPE html>\n<html lang=\"pt-br\" data-critters-container>\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Portal da TransparÃªncia do Poder Executivo de Santa Catarina</title>\n        <base href=\"/\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n        <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n        <link rel=\"icon\" sizes=\"16x16 32x32 64x64\" href=\"assets/favicon/favicon.ico\">\n        <link rel=\"icon\" type=\"image/png\" sizes=\"196x196\" hre",
+    "response_length": 26660
+  },
+  {
+    "url": "https://transparencia.sc.gov.br/api/v1/emendas?ano=2024",
+    "description": "Emendas SC 2024 (v1 alt)",
+    "status_code": 404,
+    "content_type": "text/html",
+    "response_preview": "<!DOCTYPE html>\n<html lang=\"pt-br\" data-critters-container>\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Portal da TransparÃªncia do Poder Executivo de Santa Catarina</title>\n        <base href=\"/\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n        <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n        <link rel=\"icon\" sizes=\"16x16 32x32 64x64\" href=\"assets/favicon/favicon.ico\">\n        <link rel=\"icon\" type=\"image/png\" sizes=\"196x196\" hre",
+    "response_length": 26660
+  },
+  {
+    "url": "https://www.transparencia.sc.gov.br/",
+    "description": "Portal principal Transparência SC",
+    "status_code": 200,
+    "content_type": "text/html",
+    "response_preview": "<!DOCTYPE html>\n<html lang=\"pt-br\" data-critters-container>\n    <head>\n        <meta charset=\"utf-8\">\n        <title>Portal da TransparÃªncia do Poder Executivo de Santa Catarina</title>\n        <base href=\"/\">\n        <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n        <link rel=\"icon\" type=\"image/x-icon\" href=\"favicon.ico\">\n        <link rel=\"icon\" sizes=\"16x16 32x32 64x64\" href=\"assets/favicon/favicon.ico\">\n        <link rel=\"icon\" type=\"image/png\" sizes=\"196x196\" hre",
+    "response_length": 26660
+  }
+]

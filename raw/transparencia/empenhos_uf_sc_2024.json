@@ -1,0 +1,113 @@
+{
+  "coletado_em": "2026-04-22T14:43:35.429459+00:00",
+  "fonte": "Agregação local a partir de emendas_sc_2024.json (endpoint /emendas/por-uf retornou 403)",
+  "total_registros": 1,
+  "dados": {
+    "uf": "SC",
+    "ano": 2024,
+    "fonte_dados": "emendas_sc_2024.json",
+    "nota": "Endpoint /emendas/por-uf retornou 403. Agregação gerada a partir dos dados coletados via /emendas",
+    "total_emendas": 125,
+    "valor_empenhado_total_R": 716076891.1,
+    "valor_liquidado_total_R": 306774363.92,
+    "valor_pago_total_R": 305039017.63,
+    "por_tipo_emenda": {
+      "Emenda Individual - Transferências com Finalidade Definida": {
+        "count": 90,
+        "valorEmpenhado": 257888554.61
+      },
+      "Emenda de Bancada": {
+        "count": 12,
+        "valorEmpenhado": 243035623.49
+      },
+      "Emenda Individual - Transferências Especiais": {
+        "count": 23,
+        "valorEmpenhado": 215152713.0
+      }
+    },
+    "por_funcao": {
+      "Saúde": {
+        "count": 47,
+        "valorEmpenhado": 374838666.0
+      },
+      "Encargos especiais": {
+        "count": 24,
+        "valorEmpenhado": 215153713.0
+      },
+      "Gestão ambiental": {
+        "count": 5,
+        "valorEmpenhado": 48694105.0
+      },
+      "Agricultura": {
+        "count": 2,
+        "valorEmpenhado": 40299371.98
+      },
+      "Assistência social": {
+        "count": 12,
+        "valorEmpenhado": 18192105.0
+      },
+      "Segurança pública": {
+        "count": 6,
+        "valorEmpenhado": 9969806.52
+      },
+      "Transporte": {
+        "count": 5,
+        "valorEmpenhado": 3876643.0
+      },
+      "Urbanismo": {
+        "count": 2,
+        "valorEmpenhado": 2279525.0
+      },
+      "Cultura": {
+        "count": 4,
+        "valorEmpenhado": 1167629.98
+      },
+      "Ciência e Tecnologia": {
+        "count": 4,
+        "valorEmpenhado": 400180.0
+      }
+    },
+    "por_autor": {
+      "BANCADA DE SANTA CATARINA": {
+        "count": 12,
+        "valorEmpenhado": 243035623.49
+      },
+      "IVETE DA SILVEIRA": {
+        "count": 9,
+        "valorEmpenhado": 60417955.0
+      },
+      "JORGE GOETTEN": {
+        "count": 2,
+        "valorEmpenhado": 37261585.0
+      },
+      "FABIO SCHIOCHET": {
+        "count": 5,
+        "valorEmpenhado": 35346944.0
+      },
+      "CARLOS CHIODINI": {
+        "count": 7,
+        "valorEmpenhado": 35041093.0
+      },
+      "ESPERIDIAO AMIN": {
+        "count": 11,
+        "valorEmpenhado": 32526521.990000002
+      },
+      "CAROLINE DE TONI": {
+        "count": 3,
+        "valorEmpenhado": 31682169.0
+      },
+      "DANIEL FREITAS": {
+        "count": 4,
+        "valorEmpenhado": 30727185.0
+      },
+      "PEZENTI": {
+        "count": 4,
+        "valorEmpenhado": 30341994.0
+      },
+      "ISMAEL": {
+        "count": 11,
+        "valorEmpenhado": 29370177.0
+      }
+    }
+  }
+}

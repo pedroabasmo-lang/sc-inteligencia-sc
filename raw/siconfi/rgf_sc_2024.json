@@ -1,0 +1,36 @@
+{
+  "_metadata": {
+    "coletado_em": "2026-04-22T14:40:29.994282+00:00",
+    "endpoint_tentado": "https://apidatalake.tesouro.gov.br/ords/siconfi/tt/rgf?an_exercicio=2024&co_uf=42&no_periodo=bimestre_1",
+    "status": "VAZIO - Endpoint existe (HTTP 200) mas retorna 0 registros para TODOS os parâmetros testados",
+    "investigacao": {
+      "parametros_testados": [
+        "co_uf=42",
+        "id_ente=4205407 (Florianópolis)",
+        "id_ente=42 (UF)",
+        "id_ente=420000000",
+        "sem parâmetros"
+      ],
+      "periodos_testados": [
+        "bimestre_1 a 6",
+        "semestre_1 e 2",
+        "quadrimestre_1 a 3"
+      ],
+      "anos_testados": [
+        2019,
+        2020,
+        2021,
+        2022,
+        2023,
+        2024
+      ],
+      "conclusao": "Tabela RGF não está populada nesta instância da API SICONFI. Endpoint RREO também vazio. Apenas DCA possui dados."
+    },
+    "alternativa": "Dados RGF disponíveis no Portal SICONFI: https://siconfi.tesouro.gov.br ou via download do FINBRA",
+    "an_exercicio": 2024,
+    "co_uf": 42,
+    "uf": "SC",
+    "total_records": 0
+  },
+  "data": []
+}

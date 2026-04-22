@@ -1,0 +1,10 @@
+{
+  "coletado_em": "2026-04-22T13:55:14.905684+00:00",
+  "fonte": "https://api.queridodiario.ok.org.br/territories",
+  "status_http": 404,
+  "status": "json",
+  "disponivel": true,
+  "dados": {
+    "detail": "Not Found"
+  }
+}

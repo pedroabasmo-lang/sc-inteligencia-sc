@@ -1,0 +1,22 @@
+{
+  "_metadata": {
+    "endpoint": "https://aplicacoes.mds.gov.br/sagi/servicos/misocial?q_tipoinfo=bf_munic&co_uf=42&q_periodo=202401",
+    "status": 200
+  },
+  "data": {
+    "responseHeader": {
+      "status": 0,
+      "QTime": 0,
+      "params": {
+        "co_uf": "42",
+        "q_tipoinfo": "bf_munic",
+        "q_periodo": "202401"
+      }
+    },
+    "response": {
+      "numFound": 0,
+      "start": 0,
+      "docs": []
+    }
+  }
+}

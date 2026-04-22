@@ -1,0 +1,72 @@
+{
+  "coletado_em": "2026-04-22T14:05:24.524038",
+  "executor": "coleta_fns_fnde.py + compilar_resultados.py",
+  "resumo_endpoints": {
+    "fns": {
+      "apifns.saude.gov.br": {
+        "dns_resolve": false,
+        "status": "acesso_apenas_rede_interna",
+        "endpoints_testados": [
+          "https://apifns.saude.gov.br/v1/gestor/repasses",
+          "https://apifns.saude.gov.br/v1/repasses",
+          "https://apifns.saude.gov.br/v1/gestor/emenda"
+        ]
+      },
+      "portalfns.saude.gov.br": {
+        "dns_resolve": true,
+        "ip": "189.9.35.156",
+        "status": "site_wordpress_institucional",
+        "nota": "Sem endpoint de dados financeiros"
+      },
+      "fns.saude.gov.br": {
+        "dns_resolve": true,
+        "status": "redireciona_para_portalfns",
+        "url_consultarTransferenciaFundo": "404 - URL não existe mais"
+      }
+    },
+    "fnde": {
+      "dadosabertos.fnde.gov.br": {
+        "dns_resolve": false,
+        "status": "DNS_NXDOMAIN",
+        "nota": "Domínio sem entrada DNS pública"
+      },
+      "www.fnde.gov.br": {
+        "dns_resolve": true,
+        "status": "disponivel",
+        "sigpcadm_api": "bloqueado_waf_http_200_html_error",
+        "sigefweb_ajax": "funcionando",
+        "sigefweb_liberacoes": "requer_recaptcha_para_dados_financeiros"
+      },
+      "olinda.fnde.gov.br": {
+        "dns_resolve": false,
+        "status": "DNS_sem_resposta"
+      }
+    },
+    "alternativas": {
+      "portal_transparencia": {
+        "url": "https://api.portaldatransparencia.gov.br/api-de-dados/",
+        "status": "requer_chave_api",
+        "cadastro": "https://portaldatransparencia.gov.br/api-de-dados/cadastrar-email",
+        "endpoints_relevantes": [
+          "transferencias-fundo-a-fundo",
+          "transferencias-financeiras",
+          "emendas-individuais"
+        ]
+      },
+      "sigef_ajax_dados_referencia": {
+        "url": "https://www.fnde.gov.br/sigefweb/index.php/liberacoes/ajax",
+        "status": "funcionando",
+        "dados_disponiveis": [
+          "lista_municipios_sc (295 municípios com IDs)",
+          "lista_programas (PNAE=C7, PDDE=02, PDDE EQUIDADE=0A, etc.)"
+        ]
+      }
+    }
+  },
+  "arquivos_salvos": [
+    "/home/user/workspace/sc-inteligencia/raw/fns/repasses_sc.json",
+    "/home/user/workspace/sc-inteligencia/raw/fns/emenda_uczai_teste.json",
+    "/home/user/workspace/sc-inteligencia/raw/fnde/pnae_sc.json",
+    "/home/user/workspace/sc-inteligencia/raw/fnde/pdde_sc.json"
+  ]
+}

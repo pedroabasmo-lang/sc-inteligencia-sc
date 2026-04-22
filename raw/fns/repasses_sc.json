@@ -1,0 +1,82 @@
+{
+  "coletado_em": "2026-04-22T14:05:24.522995",
+  "tarefa": "FNS repasses SC 2023-2024",
+  "endpoints_testados": [
+    {
+      "label": "Opção A - apifns.saude.gov.br/v1/gestor/repasses",
+      "url": "https://apifns.saude.gov.br/v1/gestor/repasses",
+      "params": {
+        "uf": "SC",
+        "competencia": "202401"
+      },
+      "status_http": null,
+      "primeiros_500_chars": null,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "DNS não resolve: apifns.saude.gov.br (acesso restrito/VPN interna)"
+      },
+      "erro": "NameResolutionError: apifns.saude.gov.br não tem entrada DNS pública"
+    },
+    {
+      "label": "Opção B - apifns.saude.gov.br/v1/repasses",
+      "url": "https://apifns.saude.gov.br/v1/repasses",
+      "params": {
+        "uf": "SC",
+        "ano": "2024"
+      },
+      "status_http": null,
+      "primeiros_500_chars": null,
+      "dados": {
+        "status": "erro_conexao",
+        "detalhe": "DNS não resolve: mesmo host que Opção A"
+      },
+      "erro": "NameResolutionError: mesmo domínio que Opção A"
+    },
+    {
+      "label": "Opção C - fns.saude.gov.br portal web",
+      "url": "https://www.fns.saude.gov.br/visao/consultarTransferenciaFundo.action",
+      "params": {
+        "uf": "SC"
+      },
+      "status_http": 404,
+      "primeiros_500_chars": "Redirected to portalfns.saude.gov.br - URL /visao/consultarTransferenciaFundo.action não existe mais",
+      "dados": {
+        "status": "html_retornado",
+        "endpoint_nao_disponivel": true,
+        "nota": "Portal migrado para portalfns.saude.gov.br (WordPress)"
+      },
+      "erro": null
+    }
+  ],
+  "diagnostico": {
+    "apifns_saude_gov_br": "Não tem entrada DNS pública — provavelmente acessível apenas via rede interna do MS ou VPN",
+    "fns_saude_gov_br": "Redirecionado para portalfns.saude.gov.br (site WordPress institucional, sem dados abertos em API)",
+    "portal_fns": "portalfns.saude.gov.br está ativo mas é site institucional (posts/pages, sem endpoint de dados financeiros)",
+    "alternativa_sugerida": "Portal da Transparência Federal via https://portaldatransparencia.gov.br (requer chave API cadastrada em portaldatransparencia.gov.br/api-de-dados/cadastrar-email)"
+  },
+  "dados": {
+    "status": "endpoint_nao_disponivel_publicamente",
+    "endpoint_nao_disponivel": true
+  },
+  "competencias_solicitadas": {
+    "2023": [
+      "202301",
+      "202302",
+      "202303",
+      "202304",
+      "202305",
+      "202306",
+      "202307",
+      "202308",
+      "202309",
+      "202310",
+      "202311",
+      "202312"
+    ],
+    "2024": [
+      "202401",
+      "202402",
+      "202403"
+    ]
+  }
+}

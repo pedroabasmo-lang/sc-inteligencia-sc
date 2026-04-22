@@ -1,0 +1,55 @@
+[
+  {
+    "url": "https://www.sef.sc.gov.br/dados-abertos/api/v1/receitas?ano=2024",
+    "description": "SEF-SC receitas 2024",
+    "status_code": 404,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!DOCTYPE html><html lang=\"pt-br\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width\"/><meta name=\"next-head-count\" content=\"2\"/><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"/><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"/><link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.png\"/><style id=\"stitches\">--sxs{--sxs:0 t-bVcDeC}@media{:root,.t-bVcDeC{--fonts-principal:Montserrat,\"sans serif\";--colors-branco:#ffffff;--colors-pr",
+    "response_length": 42938
+  },
+  {
+    "url": "https://dados.sc.gov.br/api/3/action/package_list",
+    "description": "CKAN dados.sc.gov.br package list",
+    "status_code": null,
+    "error": "HTTPSConnectionPool(host='dados.sc.gov.br', port=443): Max retries exceeded with url: /api/3/action/package_list (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)')))"
+  },
+  {
+    "url": "https://www.sef.sc.gov.br/",
+    "description": "Portal SEF-SC",
+    "status_code": 200,
+    "content_type": "text/html; charset=utf-8",
+    "response_preview": "<!DOCTYPE html><html lang=\"pt-br\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width\"/><title>Início | Secretaria de Estado da Fazenda de Santa Catarina</title><meta name=\"next-head-count\" content=\"3\"/><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"/><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin=\"anonymous\"/><link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.png\"/><style id=\"stitches\">--sxs{--sxs:0 t-bVcDeC}@media{:root,.t-bVcDeC{--fo",
+    "response_length": 645556
+  },
+  {
+    "url": "https://dados.sc.gov.br/",
+    "description": "Portal dados.sc.gov.br",
+    "status_code": null,
+    "error": "HTTPSConnectionPool(host='dados.sc.gov.br', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1000)')))"
+  },
+  {
+    "url": "https://dados.sc.gov.br/api/3/action/package_list",
+    "description": "CKAN dados.sc.gov.br package_list (SSL verify=False)",
+    "status_code": 200,
+    "content_type": "application/json;charset=utf-8",
+    "response_preview": "{\"help\": \"https://dados.sc.gov.br/api/3/action/help_show?name=package_list\", \"success\": true, \"result\": [\"acesso-a-informacao-banco-de-decisoes-cge-oge\", \"acesso-a-informacao-decisoes-cmai\", \"acesso-a-informacao-decisoes-recursais-cge-sc\", \"arrecadacao-municipios\", \"arrecadacao-setor-economico\", \"avaliacao-educacional\", \"balanco-geral-do-estado\", \"bensimoveis\", \"bensmoveis\", \"boletins-informativos-dgpa-getra-2019\", \"bolsas-universitarias\", \"busca-de-escolas\", \"comprovante-de-rendimentos-pessoas-",
+    "response_length": 3613,
+    "note": "SSL cert issue workaround; 111 datasets found"
+  },
+  {
+    "url": "https://dados.sc.gov.br/dataset/0eaade9e-98b9-4887-865d-096ccf142f1b/resource/eec848ff-67db-4a8d-9bc6-101e8573c1e2/download/icms_ipva.csv",
+    "description": "Arrecadação ICMS/IPVA por Município SC 2022 (dados.sc.gov.br)",
+    "status_code": 200,
+    "content_type": "text/csv",
+    "response_preview": "\"VL_PGTO\",\"MUNICIPIO\",\"CD_GR_CLASSE_CONTABIL\",\"NM_GR_CLASSE_CONTABIL\",\"ANO\",\"DS_MES\",\"NU_MES\",\"SK_LOCALIDAD\"\n36568.77,Abdon Batista,43,ICMS,2022,JANEIRO,1,3883\n56437.41,Abdon Batista,51,IPVA,2022,JANEIRO,1,3883\n753.4,Abdon Batista,27,ITCMD,2022,JANEIRO,1,3883\n360.11,Abdon Batista,78,OUTRAS RECEITAS,2022,JANEIRO,1,3883\n1163.82,Abdon Batista,94,OUTRAS RECEITAS,2022,JANEIRO,1,3883\n222611.63,Abdon Batista,43,ICMS,2022,FEVEREIRO,2,3883\n34012.99,Abdon Batista,51,IPVA,2022,FEVEREIRO,2,3883\n2142.65,Abdo",
+    "response_length": 706841
+  },
+  {
+    "url": "https://dados.sc.gov.br/dataset/c4eec6b6-c07f-4c67-b21d-3827ed0da90f/resource/bc4a904c-05ad-440c-b4b8-0f081b22d296/download/setor_economico.csv",
+    "description": "Arrecadação por Setor Econômico SC 2022 (dados.sc.gov.br)",
+    "status_code": 200,
+    "content_type": "text/csv",
+    "response_preview": "\"VL_PGTO\",\"DE_CLASSE\",\"DE_DIVISAO_SETOR\",\"DE_DIVISAO\",\"DE_GRUPO\",\"DE_SETOR_ECONOMICO\",\"DE_SECAO\",\"DE_SUBCLASSE\",\"NU_ANO\",\"DE_MES_COMP\",\"NU_MES\",\"CD_CLASSE\",\"CD_DIVISAO\",\"CD_GRUPO\",\"CD_SECAO\",\"CD_SUBCLASSE\"\n18908.11,-1,SECUNDÃRIO,\"MANUTENÃÃO, REPARAÃÃO E INSTALAÃÃO DE MÃQUINAS E EQUIPAMENTOS\",ManutenÃ§Ã£o e reparaÃ§Ã£o de mÃ¡quinas e equipamentos,INDUSTRIA,INDÃSTRIAS DE TRANSFORMAÃÃO,ManutenÃ§Ã£o e reparaÃ§Ã£o de embarcaÃ§Ãµes e estruturas flutuantes,2022,JANEIRO,1,\"33171\",\"33\",\"331\",C",
+    "response_length": 2763846
+  }
+]

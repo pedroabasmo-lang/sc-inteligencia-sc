@@ -1,0 +1,3878 @@
+{
+  "coletado_em": "2026-04-22T14:01:09.078174+00:00",
+  "fonte": "https://servicodados.ibge.gov.br/api/v3/agregados/9514/periodos/2022/variaveis/93?localidades=N6[in N3[42]]",
+  "tabela": "9514",
+  "variavel": "93 (População residente - Censo 2022)",
+  "municipios_retornados": 295,
+  "dados": [
+    {
+      "id": "93",
+      "variavel": "População residente",
+      "unidade": "Pessoas",
+      "resultados": [
+        {
+          "classificacoes": [
+            {
+              "id": "2",
+              "nome": "Sexo",
+              "categoria": {
+                "6794": "Total"
+              }
+            },
+            {
+              "id": "286",
+              "nome": "Forma de declaração da idade",
+              "categoria": {
+                "113635": "Total"
+              }
+            },
+            {
+              "id": "287",
+              "nome": "Idade",
+              "categoria": {
+                "100362": "Total"
+              }
+            }
+          ],
+          "series": [
+            {
+              "localidade": {
+                "id": "4200051",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Abdon Batista - SC"
+              },
+              "serie": {
+                "2022": "2598"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200101",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Abelardo Luz - SC"
+              },
+              "serie": {
+                "2022": "17392"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200200",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Agrolândia - SC"
+              },
+              "serie": {
+                "2022": "10990"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200309",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Agronômica - SC"
+              },
+              "serie": {
+                "2022": "6055"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200408",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Água Doce - SC"
+              },
+              "serie": {
+                "2022": "6508"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200507",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Águas de Chapecó - SC"
+              },
+              "serie": {
+                "2022": "6036"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200556",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Águas Frias - SC"
+              },
+              "serie": {
+                "2022": "2839"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200606",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Águas Mornas - SC"
+              },
+              "serie": {
+                "2022": "6743"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200705",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Alfredo Wagner - SC"
+              },
+              "serie": {
+                "2022": "10481"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200754",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Alto Bela Vista - SC"
+              },
+              "serie": {
+                "2022": "1856"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200804",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Anchieta - SC"
+              },
+              "serie": {
+                "2022": "5943"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4200903",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Angelina - SC"
+              },
+              "serie": {
+                "2022": "5358"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201000",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Anita Garibaldi - SC"
+              },
+              "serie": {
+                "2022": "8285"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201109",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Anitápolis - SC"
+              },
+              "serie": {
+                "2022": "3593"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201208",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Antônio Carlos - SC"
+              },
+              "serie": {
+                "2022": "11224"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201257",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Apiúna - SC"
+              },
+              "serie": {
+                "2022": "9811"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201273",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Arabutã - SC"
+              },
+              "serie": {
+                "2022": "4378"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201307",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Araquari - SC"
+              },
+              "serie": {
+                "2022": "45283"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201406",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Araranguá - SC"
+              },
+              "serie": {
+                "2022": "71922"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201505",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Armazém - SC"
+              },
+              "serie": {
+                "2022": "8834"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201604",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Arroio Trinta - SC"
+              },
+              "serie": {
+                "2022": "3556"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201653",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Arvoredo - SC"
+              },
+              "serie": {
+                "2022": "2510"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201703",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ascurra - SC"
+              },
+              "serie": {
+                "2022": "8319"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201802",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Atalanta - SC"
+              },
+              "serie": {
+                "2022": "3227"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201901",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Aurora - SC"
+              },
+              "serie": {
+                "2022": "6780"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4201950",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Arroio do Silva - SC"
+              },
+              "serie": {
+                "2022": "15820"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202008",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Camboriú - SC"
+              },
+              "serie": {
+                "2022": "139155"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202057",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Barra do Sul - SC"
+              },
+              "serie": {
+                "2022": "14912"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202073",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Gaivota - SC"
+              },
+              "serie": {
+                "2022": "15669"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202081",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bandeirante - SC"
+              },
+              "serie": {
+                "2022": "3144"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202099",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Barra Bonita - SC"
+              },
+              "serie": {
+                "2022": "1668"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202107",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Barra Velha - SC"
+              },
+              "serie": {
+                "2022": "45369"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202131",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bela Vista do Toldo - SC"
+              },
+              "serie": {
+                "2022": "5872"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202156",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Belmonte - SC"
+              },
+              "serie": {
+                "2022": "2658"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202206",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Benedito Novo - SC"
+              },
+              "serie": {
+                "2022": "10520"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202305",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Biguaçu - SC"
+              },
+              "serie": {
+                "2022": "76773"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202404",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Blumenau - SC"
+              },
+              "serie": {
+                "2022": "361261"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202438",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bocaina do Sul - SC"
+              },
+              "serie": {
+                "2022": "3515"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202453",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bombinhas - SC"
+              },
+              "serie": {
+                "2022": "25058"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202503",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bom Jardim da Serra - SC"
+              },
+              "serie": {
+                "2022": "4026"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202537",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bom Jesus - SC"
+              },
+              "serie": {
+                "2022": "2777"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202578",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bom Jesus do Oeste - SC"
+              },
+              "serie": {
+                "2022": "2187"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202602",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Bom Retiro - SC"
+              },
+              "serie": {
+                "2022": "8418"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202701",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Botuverá - SC"
+              },
+              "serie": {
+                "2022": "5363"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202800",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Braço do Norte - SC"
+              },
+              "serie": {
+                "2022": "33773"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202859",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Braço do Trombudo - SC"
+              },
+              "serie": {
+                "2022": "4026"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202875",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Brunópolis - SC"
+              },
+              "serie": {
+                "2022": "2489"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4202909",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Brusque - SC"
+              },
+              "serie": {
+                "2022": "141385"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203006",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Caçador - SC"
+              },
+              "serie": {
+                "2022": "73720"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203105",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Caibi - SC"
+              },
+              "serie": {
+                "2022": "6304"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203154",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Calmon - SC"
+              },
+              "serie": {
+                "2022": "3443"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203204",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Camboriú - SC"
+              },
+              "serie": {
+                "2022": "103074"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203253",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Capão Alto - SC"
+              },
+              "serie": {
+                "2022": "2625"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203303",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Campo Alegre - SC"
+              },
+              "serie": {
+                "2022": "12501"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203402",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Campo Belo do Sul - SC"
+              },
+              "serie": {
+                "2022": "7257"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203501",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Campo Erê - SC"
+              },
+              "serie": {
+                "2022": "9623"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203600",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Campos Novos - SC"
+              },
+              "serie": {
+                "2022": "36932"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203709",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Canelinha - SC"
+              },
+              "serie": {
+                "2022": "12821"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203808",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Canoinhas - SC"
+              },
+              "serie": {
+                "2022": "55016"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203907",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Capinzal - SC"
+              },
+              "serie": {
+                "2022": "23314"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4203956",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Capivari de Baixo - SC"
+              },
+              "serie": {
+                "2022": "23975"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204004",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Catanduvas - SC"
+              },
+              "serie": {
+                "2022": "10566"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204103",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Caxambu do Sul - SC"
+              },
+              "serie": {
+                "2022": "4614"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204152",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Celso Ramos - SC"
+              },
+              "serie": {
+                "2022": "2805"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204178",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Cerro Negro - SC"
+              },
+              "serie": {
+                "2022": "3317"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204194",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Chapadão do Lageado - SC"
+              },
+              "serie": {
+                "2022": "2950"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204202",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Chapecó - SC"
+              },
+              "serie": {
+                "2022": "254785"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204251",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Cocal do Sul - SC"
+              },
+              "serie": {
+                "2022": "17240"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204301",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Concórdia - SC"
+              },
+              "serie": {
+                "2022": "81646"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204350",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Cordilheira Alta - SC"
+              },
+              "serie": {
+                "2022": "4781"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204400",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Coronel Freitas - SC"
+              },
+              "serie": {
+                "2022": "10388"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204459",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Coronel Martins - SC"
+              },
+              "serie": {
+                "2022": "2065"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204509",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Corupá - SC"
+              },
+              "serie": {
+                "2022": "15267"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204558",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Correia Pinto - SC"
+              },
+              "serie": {
+                "2022": "15727"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204608",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Criciúma - SC"
+              },
+              "serie": {
+                "2022": "214493"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204707",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Cunha Porã - SC"
+              },
+              "serie": {
+                "2022": "10953"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204756",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Cunhataí - SC"
+              },
+              "serie": {
+                "2022": "1968"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204806",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Curitibanos - SC"
+              },
+              "serie": {
+                "2022": "40045"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4204905",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Descanso - SC"
+              },
+              "serie": {
+                "2022": "8530"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205001",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Dionísio Cerqueira - SC"
+              },
+              "serie": {
+                "2022": "15008"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205100",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Dona Emma - SC"
+              },
+              "serie": {
+                "2022": "4221"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205159",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Doutor Pedrinho - SC"
+              },
+              "serie": {
+                "2022": "3637"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205175",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Entre Rios - SC"
+              },
+              "serie": {
+                "2022": "3402"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205191",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ermo - SC"
+              },
+              "serie": {
+                "2022": "2269"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205209",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Erval Velho - SC"
+              },
+              "serie": {
+                "2022": "4885"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205308",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Faxinal dos Guedes - SC"
+              },
+              "serie": {
+                "2022": "11192"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205357",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Flor do Sertão - SC"
+              },
+              "serie": {
+                "2022": "1783"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205407",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Florianópolis - SC"
+              },
+              "serie": {
+                "2022": "537211"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205431",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Formosa do Sul - SC"
+              },
+              "serie": {
+                "2022": "2682"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205456",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Forquilhinha - SC"
+              },
+              "serie": {
+                "2022": "31431"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205506",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Fraiburgo - SC"
+              },
+              "serie": {
+                "2022": "33481"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205555",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Frei Rogério - SC"
+              },
+              "serie": {
+                "2022": "2411"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205605",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Galvão - SC"
+              },
+              "serie": {
+                "2022": "3210"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205704",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Garopaba - SC"
+              },
+              "serie": {
+                "2022": "29959"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205803",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Garuva - SC"
+              },
+              "serie": {
+                "2022": "18545"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4205902",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Gaspar - SC"
+              },
+              "serie": {
+                "2022": "72570"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206009",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Governador Celso Ramos - SC"
+              },
+              "serie": {
+                "2022": "16915"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206108",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Grão-Pará - SC"
+              },
+              "serie": {
+                "2022": "6277"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206207",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Gravatal - SC"
+              },
+              "serie": {
+                "2022": "12435"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206306",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Guabiruba - SC"
+              },
+              "serie": {
+                "2022": "24543"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206405",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Guaraciaba - SC"
+              },
+              "serie": {
+                "2022": "10796"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206504",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Guaramirim - SC"
+              },
+              "serie": {
+                "2022": "46711"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206603",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Guarujá do Sul - SC"
+              },
+              "serie": {
+                "2022": "4829"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206652",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Guatambú - SC"
+              },
+              "serie": {
+                "2022": "8425"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206702",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Herval d'Oeste - SC"
+              },
+              "serie": {
+                "2022": "21724"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206751",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ibiam - SC"
+              },
+              "serie": {
+                "2022": "2008"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206801",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ibicaré - SC"
+              },
+              "serie": {
+                "2022": "3269"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4206900",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ibirama - SC"
+              },
+              "serie": {
+                "2022": "19862"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207007",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Içara - SC"
+              },
+              "serie": {
+                "2022": "59035"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207106",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ilhota - SC"
+              },
+              "serie": {
+                "2022": "17046"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207205",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Imaruí - SC"
+              },
+              "serie": {
+                "2022": "11881"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207304",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Imbituba - SC"
+              },
+              "serie": {
+                "2022": "52579"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207403",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Imbuia - SC"
+              },
+              "serie": {
+                "2022": "5982"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207502",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Indaial - SC"
+              },
+              "serie": {
+                "2022": "71549"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207577",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Iomerê - SC"
+              },
+              "serie": {
+                "2022": "2877"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207601",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ipira - SC"
+              },
+              "serie": {
+                "2022": "4578"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207650",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Iporã do Oeste - SC"
+              },
+              "serie": {
+                "2022": "9335"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207684",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ipuaçu - SC"
+              },
+              "serie": {
+                "2022": "7730"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207700",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ipumirim - SC"
+              },
+              "serie": {
+                "2022": "7816"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207759",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Iraceminha - SC"
+              },
+              "serie": {
+                "2022": "3986"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207809",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Irani - SC"
+              },
+              "serie": {
+                "2022": "10195"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207858",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Irati - SC"
+              },
+              "serie": {
+                "2022": "2069"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4207908",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Irineópolis - SC"
+              },
+              "serie": {
+                "2022": "10285"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208005",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itá - SC"
+              },
+              "serie": {
+                "2022": "7067"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208104",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itaiópolis - SC"
+              },
+              "serie": {
+                "2022": "22051"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208203",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itajaí - SC"
+              },
+              "serie": {
+                "2022": "264054"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208302",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itapema - SC"
+              },
+              "serie": {
+                "2022": "75940"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208401",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itapiranga - SC"
+              },
+              "serie": {
+                "2022": "16638"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208450",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Itapoá - SC"
+              },
+              "serie": {
+                "2022": "30750"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208500",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ituporanga - SC"
+              },
+              "serie": {
+                "2022": "26525"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208609",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jaborá - SC"
+              },
+              "serie": {
+                "2022": "4310"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208708",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jacinto Machado - SC"
+              },
+              "serie": {
+                "2022": "10624"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208807",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jaguaruna - SC"
+              },
+              "serie": {
+                "2022": "20375"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208906",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jaraguá do Sul - SC"
+              },
+              "serie": {
+                "2022": "182660"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4208955",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jardinópolis - SC"
+              },
+              "serie": {
+                "2022": "1776"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209003",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Joaçaba - SC"
+              },
+              "serie": {
+                "2022": "30146"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209102",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Joinville - SC"
+              },
+              "serie": {
+                "2022": "616317"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209151",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "José Boiteux - SC"
+              },
+              "serie": {
+                "2022": "5985"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209177",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Jupiá - SC"
+              },
+              "serie": {
+                "2022": "2555"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209201",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lacerdópolis - SC"
+              },
+              "serie": {
+                "2022": "2248"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209300",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lages - SC"
+              },
+              "serie": {
+                "2022": "164981"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209409",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Laguna - SC"
+              },
+              "serie": {
+                "2022": "42785"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209458",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lajeado Grande - SC"
+              },
+              "serie": {
+                "2022": "1702"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209508",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Laurentino - SC"
+              },
+              "serie": {
+                "2022": "7932"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209607",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lauro Müller - SC"
+              },
+              "serie": {
+                "2022": "14381"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209706",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lebon Régis - SC"
+              },
+              "serie": {
+                "2022": "11472"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209805",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Leoberto Leal - SC"
+              },
+              "serie": {
+                "2022": "3330"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209854",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lindóia do Sul - SC"
+              },
+              "serie": {
+                "2022": "4549"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4209904",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Lontras - SC"
+              },
+              "serie": {
+                "2022": "12873"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210001",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Luiz Alves - SC"
+              },
+              "serie": {
+                "2022": "11684"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210035",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Luzerna - SC"
+              },
+              "serie": {
+                "2022": "5794"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210050",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Macieira - SC"
+              },
+              "serie": {
+                "2022": "1778"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210100",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Mafra - SC"
+              },
+              "serie": {
+                "2022": "55286"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210209",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Major Gercino - SC"
+              },
+              "serie": {
+                "2022": "3214"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210308",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Major Vieira - SC"
+              },
+              "serie": {
+                "2022": "7425"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210407",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Maracajá - SC"
+              },
+              "serie": {
+                "2022": "7815"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210506",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Maravilha - SC"
+              },
+              "serie": {
+                "2022": "28251"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210555",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Marema - SC"
+              },
+              "serie": {
+                "2022": "2184"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210605",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Massaranduba - SC"
+              },
+              "serie": {
+                "2022": "17162"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210704",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Matos Costa - SC"
+              },
+              "serie": {
+                "2022": "2761"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210803",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Meleiro - SC"
+              },
+              "serie": {
+                "2022": "7006"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210852",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Mirim Doce - SC"
+              },
+              "serie": {
+                "2022": "2511"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4210902",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Modelo - SC"
+              },
+              "serie": {
+                "2022": "4080"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211009",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Mondaí - SC"
+              },
+              "serie": {
+                "2022": "10066"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211058",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Monte Carlo - SC"
+              },
+              "serie": {
+                "2022": "9117"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211108",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Monte Castelo - SC"
+              },
+              "serie": {
+                "2022": "7736"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211207",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Morro da Fumaça - SC"
+              },
+              "serie": {
+                "2022": "18537"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211256",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Morro Grande - SC"
+              },
+              "serie": {
+                "2022": "3010"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211306",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Navegantes - SC"
+              },
+              "serie": {
+                "2022": "86401"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211405",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Nova Erechim - SC"
+              },
+              "serie": {
+                "2022": "5155"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211454",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Nova Itaberaba - SC"
+              },
+              "serie": {
+                "2022": "4536"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211504",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Nova Trento - SC"
+              },
+              "serie": {
+                "2022": "13727"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211603",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Nova Veneza - SC"
+              },
+              "serie": {
+                "2022": "13664"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211652",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Novo Horizonte - SC"
+              },
+              "serie": {
+                "2022": "2643"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211702",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Orleans - SC"
+              },
+              "serie": {
+                "2022": "23661"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211751",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Otacílio Costa - SC"
+              },
+              "serie": {
+                "2022": "17312"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211801",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ouro - SC"
+              },
+              "serie": {
+                "2022": "7032"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211850",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ouro Verde - SC"
+              },
+              "serie": {
+                "2022": "2181"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211876",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Paial - SC"
+              },
+              "serie": {
+                "2022": "1927"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211892",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Painel - SC"
+              },
+              "serie": {
+                "2022": "2215"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4211900",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Palhoça - SC"
+              },
+              "serie": {
+                "2022": "222598"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212007",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Palma Sola - SC"
+              },
+              "serie": {
+                "2022": "7605"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212056",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Palmeira - SC"
+              },
+              "serie": {
+                "2022": "2561"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212106",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Palmitos - SC"
+              },
+              "serie": {
+                "2022": "15626"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212205",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Papanduva - SC"
+              },
+              "serie": {
+                "2022": "19150"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212239",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Paraíso - SC"
+              },
+              "serie": {
+                "2022": "4267"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212254",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Passo de Torres - SC"
+              },
+              "serie": {
+                "2022": "12897"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212270",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Passos Maia - SC"
+              },
+              "serie": {
+                "2022": "4034"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212304",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Paulo Lopes - SC"
+              },
+              "serie": {
+                "2022": "9063"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212403",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pedras Grandes - SC"
+              },
+              "serie": {
+                "2022": "4245"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212502",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Penha - SC"
+              },
+              "serie": {
+                "2022": "33663"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212601",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Peritiba - SC"
+              },
+              "serie": {
+                "2022": "2992"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212650",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pescaria Brava - SC"
+              },
+              "serie": {
+                "2022": "10190"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212700",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Petrolândia - SC"
+              },
+              "serie": {
+                "2022": "6716"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212809",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Piçarras - SC"
+              },
+              "serie": {
+                "2022": "27127"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4212908",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pinhalzinho - SC"
+              },
+              "serie": {
+                "2022": "21972"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213005",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pinheiro Preto - SC"
+              },
+              "serie": {
+                "2022": "3473"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213104",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Piratuba - SC"
+              },
+              "serie": {
+                "2022": "5769"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213153",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Planalto Alegre - SC"
+              },
+              "serie": {
+                "2022": "2946"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213203",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pomerode - SC"
+              },
+              "serie": {
+                "2022": "34289"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213302",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ponte Alta - SC"
+              },
+              "serie": {
+                "2022": "4437"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213351",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ponte Alta do Norte - SC"
+              },
+              "serie": {
+                "2022": "3210"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213401",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Ponte Serrada - SC"
+              },
+              "serie": {
+                "2022": "10649"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213500",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Porto Belo - SC"
+              },
+              "serie": {
+                "2022": "27688"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213609",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Porto União - SC"
+              },
+              "serie": {
+                "2022": "32970"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213708",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Pouso Redondo - SC"
+              },
+              "serie": {
+                "2022": "17123"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213807",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Praia Grande - SC"
+              },
+              "serie": {
+                "2022": "8270"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4213906",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Presidente Castello Branco - SC"
+              },
+              "serie": {
+                "2022": "1689"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214003",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Presidente Getúlio - SC"
+              },
+              "serie": {
+                "2022": "20010"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214102",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Presidente Nereu - SC"
+              },
+              "serie": {
+                "2022": "2301"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214151",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Princesa - SC"
+              },
+              "serie": {
+                "2022": "2964"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214201",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Quilombo - SC"
+              },
+              "serie": {
+                "2022": "11022"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214300",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rancho Queimado - SC"
+              },
+              "serie": {
+                "2022": "3279"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214409",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio das Antas - SC"
+              },
+              "serie": {
+                "2022": "6253"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214508",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio do Campo - SC"
+              },
+              "serie": {
+                "2022": "6452"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214607",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio do Oeste - SC"
+              },
+              "serie": {
+                "2022": "7747"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214706",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio dos Cedros - SC"
+              },
+              "serie": {
+                "2022": "10865"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214805",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio do Sul - SC"
+              },
+              "serie": {
+                "2022": "72587"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4214904",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio Fortuna - SC"
+              },
+              "serie": {
+                "2022": "4847"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215000",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio Negrinho - SC"
+              },
+              "serie": {
+                "2022": "39261"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215059",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rio Rufino - SC"
+              },
+              "serie": {
+                "2022": "2397"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215075",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Riqueza - SC"
+              },
+              "serie": {
+                "2022": "4768"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215109",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Rodeio - SC"
+              },
+              "serie": {
+                "2022": "12757"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215208",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Romelândia - SC"
+              },
+              "serie": {
+                "2022": "4823"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215307",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Salete - SC"
+              },
+              "serie": {
+                "2022": "7489"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215356",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Saltinho - SC"
+              },
+              "serie": {
+                "2022": "3632"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215406",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Salto Veloso - SC"
+              },
+              "serie": {
+                "2022": "4390"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215455",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Sangão - SC"
+              },
+              "serie": {
+                "2022": "12882"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215505",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Cecília - SC"
+              },
+              "serie": {
+                "2022": "15546"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215554",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Helena - SC"
+              },
+              "serie": {
+                "2022": "2425"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215604",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Rosa de Lima - SC"
+              },
+              "serie": {
+                "2022": "2088"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215653",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Rosa do Sul - SC"
+              },
+              "serie": {
+                "2022": "9792"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215679",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Terezinha - SC"
+              },
+              "serie": {
+                "2022": "8066"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215687",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santa Terezinha do Progresso - SC"
+              },
+              "serie": {
+                "2022": "2576"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215695",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santiago do Sul - SC"
+              },
+              "serie": {
+                "2022": "1651"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215703",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Santo Amaro da Imperatriz - SC"
+              },
+              "serie": {
+                "2022": "27272"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215752",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Bernardino - SC"
+              },
+              "serie": {
+                "2022": "2684"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215802",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Bento do Sul - SC"
+              },
+              "serie": {
+                "2022": "83277"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4215901",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Bonifácio - SC"
+              },
+              "serie": {
+                "2022": "2946"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216008",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Carlos - SC"
+              },
+              "serie": {
+                "2022": "10282"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216057",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Cristóvão do Sul - SC"
+              },
+              "serie": {
+                "2022": "6084"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216107",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Domingos - SC"
+              },
+              "serie": {
+                "2022": "9226"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216206",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Francisco do Sul - SC"
+              },
+              "serie": {
+                "2022": "52674"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216255",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São João do Oeste - SC"
+              },
+              "serie": {
+                "2022": "6295"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216305",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São João Batista - SC"
+              },
+              "serie": {
+                "2022": "32687"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216354",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São João do Itaperiú - SC"
+              },
+              "serie": {
+                "2022": "4463"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216404",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São João do Sul - SC"
+              },
+              "serie": {
+                "2022": "8668"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216503",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Joaquim - SC"
+              },
+              "serie": {
+                "2022": "25939"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216602",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São José - SC"
+              },
+              "serie": {
+                "2022": "270299"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216701",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São José do Cedro - SC"
+              },
+              "serie": {
+                "2022": "14167"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216800",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São José do Cerrito - SC"
+              },
+              "serie": {
+                "2022": "8708"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4216909",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Lourenço do Oeste - SC"
+              },
+              "serie": {
+                "2022": "24791"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217006",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Ludgero - SC"
+              },
+              "serie": {
+                "2022": "13509"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217105",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Martinho - SC"
+              },
+              "serie": {
+                "2022": "3405"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217154",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Miguel da Boa Vista - SC"
+              },
+              "serie": {
+                "2022": "1781"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217204",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Miguel do Oeste - SC"
+              },
+              "serie": {
+                "2022": "44330"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217253",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "São Pedro de Alcântara - SC"
+              },
+              "serie": {
+                "2022": "5776"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217303",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Saudades - SC"
+              },
+              "serie": {
+                "2022": "10265"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217402",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Schroeder - SC"
+              },
+              "serie": {
+                "2022": "20061"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217501",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Seara - SC"
+              },
+              "serie": {
+                "2022": "18620"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217550",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Serra Alta - SC"
+              },
+              "serie": {
+                "2022": "3303"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217600",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Siderópolis - SC"
+              },
+              "serie": {
+                "2022": "13714"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217709",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Sombrio - SC"
+              },
+              "serie": {
+                "2022": "29991"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217758",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Sul Brasil - SC"
+              },
+              "serie": {
+                "2022": "2832"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217808",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Taió - SC"
+              },
+              "serie": {
+                "2022": "18310"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217907",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Tangará - SC"
+              },
+              "serie": {
+                "2022": "8143"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4217956",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Tigrinhos - SC"
+              },
+              "serie": {
+                "2022": "2329"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218004",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Tijucas - SC"
+              },
+              "serie": {
+                "2022": "51592"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218103",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Timbé do Sul - SC"
+              },
+              "serie": {
+                "2022": "5386"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218202",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Timbó - SC"
+              },
+              "serie": {
+                "2022": "46099"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218251",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Timbó Grande - SC"
+              },
+              "serie": {
+                "2022": "7342"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218301",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Três Barras - SC"
+              },
+              "serie": {
+                "2022": "19746"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218350",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Treviso - SC"
+              },
+              "serie": {
+                "2022": "3782"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218400",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Treze de Maio - SC"
+              },
+              "serie": {
+                "2022": "7362"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218509",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Treze Tílias - SC"
+              },
+              "serie": {
+                "2022": "8787"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218608",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Trombudo Central - SC"
+              },
+              "serie": {
+                "2022": "7274"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218707",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Tubarão - SC"
+              },
+              "serie": {
+                "2022": "110088"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218756",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Tunápolis - SC"
+              },
+              "serie": {
+                "2022": "4916"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218806",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Turvo - SC"
+              },
+              "serie": {
+                "2022": "13043"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218855",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "União do Oeste - SC"
+              },
+              "serie": {
+                "2022": "2774"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218905",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Urubici - SC"
+              },
+              "serie": {
+                "2022": "10834"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4218954",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Urupema - SC"
+              },
+              "serie": {
+                "2022": "2656"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219002",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Urussanga - SC"
+              },
+              "serie": {
+                "2022": "20919"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219101",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Vargeão - SC"
+              },
+              "serie": {
+                "2022": "3634"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219150",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Vargem - SC"
+              },
+              "serie": {
+                "2022": "2627"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219176",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Vargem Bonita - SC"
+              },
+              "serie": {
+                "2022": "4576"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219200",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Vidal Ramos - SC"
+              },
+              "serie": {
+                "2022": "6189"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219309",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Videira - SC"
+              },
+              "serie": {
+                "2022": "55466"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219358",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Vitor Meireles - SC"
+              },
+              "serie": {
+                "2022": "5370"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219408",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Witmarsum - SC"
+              },
+              "serie": {
+                "2022": "4255"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219507",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Xanxerê - SC"
+              },
+              "serie": {
+                "2022": "51607"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219606",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Xavantina - SC"
+              },
+              "serie": {
+                "2022": "3653"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219705",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Xaxim - SC"
+              },
+              "serie": {
+                "2022": "31918"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4219853",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Zortéa - SC"
+              },
+              "serie": {
+                "2022": "3930"
+              }
+            },
+            {
+              "localidade": {
+                "id": "4220000",
+                "nivel": {
+                  "id": "N6",
+                  "nome": "Município"
+                },
+                "nome": "Balneário Rincão - SC"
+              },
+              "serie": {
+                "2022": "15981"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
