@@ -148,7 +148,7 @@ class TransparenciaCollector:
 
         self.client = APIClient(
             base_url=settings.TRANSPARENCIA_API,
-            headers={"chave-api": settings.PORTAL_TRANSPARENCIA_API_KEY or ""},
+            headers={"chave-api-dados": settings.PORTAL_TRANSPARENCIA_API_KEY or ""},
             rate_limit=3,  # conservador: 50 req/min ÷ 20s buffer = ~3 req/s
         )
 
@@ -188,9 +188,8 @@ class TransparenciaCollector:
             "/emendas",
             params=params,
             page_param="pagina",
-            items_key="",   # resposta é lista direta (sem envelope)
+            items_key="",
             page_size=100,
-            page_size_param="tamanhoPagina",  # parâmetro ignorado pela API, mas mantido por clareza
         ):
             for raw in page:
                 norm = self._normalizar_emenda(raw)

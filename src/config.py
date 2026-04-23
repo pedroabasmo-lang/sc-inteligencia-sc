@@ -84,6 +84,8 @@ try:
         DATA_DIR: Path = Path("data")
         LOOKUPS_DIR: Path = Path("lookups")
         STATE_FILE: Path = Path("data/state.json")
+        MATCH_LOG_PATH: Path = Path("unified/match_log.parquet")
+        PUBLIC_JSON_DIR: Path = Path("public-json")
 
         class Config:
             env_file = ".env"
@@ -114,6 +116,8 @@ except ImportError:
         DATA_DIR: Path = Path(os.getenv("DATA_DIR", "data"))
         LOOKUPS_DIR: Path = Path(os.getenv("LOOKUPS_DIR", "lookups"))
         STATE_FILE: Path = Path(os.getenv("STATE_FILE", "data/state.json"))
+        MATCH_LOG_PATH: Path = Path(os.getenv("MATCH_LOG_PATH", "unified/match_log.parquet"))
+        PUBLIC_JSON_DIR: Path = Path(os.getenv("PUBLIC_JSON_DIR", "public-json"))
 
         def __init__(self):
             # Re-lê do ambiente em runtime para suportar testes que setam vars
