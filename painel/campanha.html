@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Campanha (nuvem) — Henrichs</title>
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--card2:#1c2330;--border:#2d333b;--tx:#e6edf3;--tx2:#8b949e;--ac:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:#0d1117;color:#e6edf3;font:14px/1.5 -apple-system,'Segoe UI',Roboto,sans-serif}
+  header{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #2d333b;background:#161b22}
+  header .logo{width:32px;height:32px;border-radius:8px;background:#3fb950;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+  header b{font-size:14px} header small{color:#8b949e;display:block}
+  main{padding:20px;max-width:1200px;margin:0 auto}
+  .card{background:#161b22;border:1px solid #2d333b;border-radius:10px;padding:18px;margin-bottom:14px}
+  label{font-size:12px;color:#8b949e;display:block;margin:6px 0 3px}
+  input,select,textarea{width:100%;background:#1c2330;border:1px solid #2d333b;color:#e6edf3;padding:10px 12px;border-radius:8px;font-size:14px;outline:none}
+  button{background:#2f81f7;border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px}
+  button.sec{background:#1c2330;border:1px solid #2d333b;color:#e6edf3}
+  button.del{background:none;border:1px solid #f85149;color:#f85149;padding:4px 10px;font-size:12px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  @media(max-width:700px){.grid3{grid-template-columns:1fr}}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th{text-align:left;color:#8b949e;padding:8px;border-bottom:1px solid #2d333b}
+  td{padding:8px;border-bottom:1px solid #2d333b}
+  .tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;background:#1c2330;border:1px solid #2d333b}
+  .pos{color:#3fb950}.neg{color:#f85149}.mut{color:#8b949e}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .pill{padding:2px 10px;border-radius:20px;font-size:11.5px;font-weight:600}
+  .pill.on{background:#12331f;color:#3fb950;border:1px solid #3fb950}
+  .pill.off{background:#3a1a1a;color:#f85149;border:1px solid #f85149}
+  .sub{color:#8b949e;font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin:14px 0 6px}
+  #box-login{max-width:380px;margin:8vh auto}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">H</div>
+  <div style="flex:1"><b>Gestão de Campanha</b><small id="quem">na nuvem · seguro · LGPD · v4</small></div>
+  <select id="camp-sel" onchange="selecionarCampanha(this.value)" style="width:auto;display:none"></select>
+  <button class="sec" id="btn-sair" onclick="sair()" style="display:none">Sair</button>
+</header>
+
+<!-- LOGIN estático (sempre renderiza, não depende de JS) -->
+<main id="tela-login">
+  <div class="card" id="box-login">
+    <h3 style="margin-bottom:4px">Acessar</h3>
+    <p class="mut" style="font-size:12.5px;margin-bottom:10px">Primeiro acesso: preencha e clique em <b>Criar conta</b>. Depois use <b>Entrar</b>.</p>
+    <label>E-mail</label>
+    <input id="lg-email" type="email" autocomplete="email" placeholder="voce@email.com">
+    <label>Senha (mínimo 6 caracteres)</label>
+    <input id="lg-pass" type="password" autocomplete="current-password" placeholder="••••••">
+    <div class="row" style="margin-top:12px">
+      <button onclick="entrar()">Entrar</button>
+      <button class="sec" onclick="criarConta()">Criar conta</button>
+    </div>
+    <div id="lg-msg" style="font-size:13.5px;margin-top:12px;line-height:1.4;min-height:18px"></div>
+  </div>
+</main>
+
+<!-- APP (aparece após login) -->
+<main id="tela-app" style="display:none"></main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Configuração ──
+const SUPABASE_URL  = "https://ohtrkaetibjjymvjgdku.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9odHJrYWV0aWJqanltdmpnZGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1MjQzOTYsImV4cCI6MjEwMDEwMDM5Nn0.D2-1h0YThQ4ucuXuUl4KwSXQfEyKk47GlYYBhnnOY8U";
+
+const byId=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const NIVEIS={5:'⭐ Multiplicador',4:'Mobilizador',3:'Voluntário',2:'Simpatizante',1:'Contato'};
+const CONSENT_PROVA='CONSENTIMENTO_APOIADOR_V1 — Autorizo o tratamento dos meus dados para cadastro, organização de apoiadores e comunicações relacionadas à campanha selecionada. Estou ciente de que posso revogar este consentimento.';
+function msg(t,cor){const e=byId('lg-msg');if(!e)return;e.textContent=t||'';e.style.color=cor==='ok'?'#3fb950':cor==='bad'?'#f85149':'#8b949e';}
+
+let sb=null,user=null,org=null,campanhas=[],campAtual=null,papelCampanhaAtual=null;
+let orgsAdmin=new Set();          // is_org_owner (só p/ rótulo)
+let orgsProprietarias=new Set();  // organizations.dono_id = user (gate administrativo, espelha p_camp_upd/del)
+// Papel efetivo vem da função SQL existente campaign_role (membro OU 'admin' se dono da org).
+const ROLE_LABEL={admin:'Administração',candidato:'Candidato',coord_geral:'Coordenação Geral',
+  coord_regional:'Coordenação Regional',coord_municipal:'Coordenação Municipal',mobilizacao:'Mobilização',
+  financeiro:'Financeiro',contabilidade:'Contabilidade',juridico:'Jurídico',comunicacao:'Comunicação',
+  fiscalizacao:'Fiscalização',consulta:'Consulta'};
+const READ_ROLES=['admin','candidato','coord_geral','coord_regional','coord_municipal','mobilizacao','consulta'];
+const WRITE_ROLES=['admin','coord_geral','coord_municipal','mobilizacao'];
+function podeVerApoiadores(){return READ_ROLES.includes(papelCampanhaAtual);}
+function podeEditarApoiadores(){return WRITE_ROLES.includes(papelCampanhaAtual);}
+// Gate administrativo = proprietário real da org (organizations.dono_id), espelhando p_camp_upd/del.
+function ehProprietarioDaCampanha(c){return !!(c&&orgsProprietarias.has(c.org_id));}
+function podeAdministrarCampanha(){return ehProprietarioDaCampanha(campAtual);}
+
+// checa se a biblioteca carregou
+if(typeof supabase==='undefined'){
+  msg('Erro: a biblioteca do Supabase não carregou (sem internet?). Recarregue a página.','bad');
+}else{
+  sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+  sb.auth.getSession().then(({data})=>{user=data.session?.user||null;if(user)aposLogin();});
+  sb.auth.onAuthStateChange((_e,sess)=>{const novo=sess?.user||null;if(novo&&novo.id!==user?.id){user=novo;aposLogin();}});
+}
+
+// ── Auth ──
+function credenciais(){
+  const email=(byId('lg-email').value||'').trim();
+  const pass=(byId('lg-pass').value||'').trim();
+  if(!email||!pass){msg('Preencha e-mail e senha.','bad');return null;}
+  if(pass.length<6){msg('A senha precisa ter ao menos 6 caracteres.','bad');return null;}
+  return {email,password:pass};
+}
+async function criarConta(){
+  const c=credenciais();if(!c)return;
+  msg('Criando conta…');
+  const {data,error}=await sb.auth.signUp(c);
+  if(error){msg('Erro: '+error.message,'bad');return;}
+  if(data.session){msg('✓ Conta criada, entrando…','ok');user=data.session.user;aposLogin();}
+  else msg('✓ Conta criada! Agora clique em ENTRAR com o mesmo e-mail e senha.','ok');
+}
+async function entrar(){
+  const c=credenciais();if(!c)return;
+  msg('Entrando…');
+  const {data,error}=await sb.auth.signInWithPassword(c);
+  if(error){msg('Erro: '+error.message,'bad');return;}
+  user=data.user;aposLogin();
+}
+async function sair(){await sb.auth.signOut();location.reload();}
+
+function mostrarApp(){byId('tela-login').style.display='none';byId('tela-app').style.display='';byId('btn-sair').style.display='';}
+async function aposLogin(){
+  mostrarApp();byId('quem').textContent=user.email;
+  let {data:orgs,error}=await sb.from('organizations').select('*').eq('dono_id',user.id);
+  if(error){byId('tela-app').innerHTML=`<div class="card neg">Erro ao ler dados: ${esc(error.message)}</div>`;return;}
+  if(!orgs||!orgs.length)return telaCriarOrg();
+  org=orgs[0];carregarCampanhas();
+}
+
+// ── Organização ──
+function telaCriarOrg(){
+  byId('tela-app').innerHTML=`<div class="card" style="max-width:460px;margin:6vh auto">
+    <h3>Sua consultoria</h3>
+    <p class="mut" style="margin:6px 0 12px">Primeiro acesso: crie a organização que abriga suas campanhas.</p>
+    <label>Nome</label><input id="or-nome" value="Henrichs Consultoria">
+    <div style="margin-top:10px"><button onclick="criarOrg()">Criar</button></div>
+    <div id="or-msg" class="neg" style="margin-top:8px;font-size:12.5px"></div>
+  </div>`;
+}
+async function criarOrg(){
+  const nome=byId('or-nome').value.trim();if(!nome)return;
+  const {data,error}=await sb.from('organizations').insert({nome,dono_id:user.id}).select().single();
+  if(error){byId('or-msg').textContent=error.message;return;}
+  org=data;carregarCampanhas();
+}
+
+// ── Campanhas ──
+let mostrarArquivadas=false;
+async function carregarCampanhas(){
+  const {data,error}=await sb.from('campaigns').select('*').order('criada_em');
+  if(error){byId('tela-app').innerHTML=`<div class="card neg">Erro ao carregar campanhas: ${esc(error.message)}</div>`;return;}
+  campanhas=data||[];
+  // Propriedade real (gate administrativo): organizations.dono_id = user
+  const {data:orgsDoUsuario,error:errOrg}=await sb.from('organizations').select('id').eq('dono_id',user.id);
+  if(errOrg)console.error('Erro ao verificar propriedade das organizações:',errOrg);
+  orgsProprietarias=new Set((orgsDoUsuario||[]).map(o=>o.id));
+  // Vínculo organizacional (só p/ rótulo "Administrador da organização"): is_org_owner por org
+  orgsAdmin=new Set();
+  for(const oid of [...new Set(campanhas.map(c=>c.org_id))]){
+    const {data:adm}=await sb.rpc('is_org_owner',{p_org:oid});
+    if(adm===true)orgsAdmin.add(oid);
+  }
+  const ativasSel=campanhas.filter(c=>!c.archived_at);
+  const sel=byId('camp-sel');
+  sel.style.display=ativasSel.length?'':'none';
+  sel.innerHTML=ativasSel.map(c=>`<option value="${c.id}">${esc(c.candidato_nome)}</option>`).join('');
+  if(ativasSel.length){campAtual=ativasSel[0];sel.value=campAtual.id;telaCampanha();}
+  else telaGerir();
+}
+function selecionarCampanha(id){campAtual=campanhas.find(c=>c.id===id);telaCampanha();}
+function linhaCampanha(c){
+  return `<tr ${c.archived_at?'style="opacity:.6"':''}><td><b>${esc(c.candidato_nome)}</b>${c.archived_at?' <span class="tag" style="border-color:var(--warn);color:var(--warn)">arquivada</span>':''}</td>
+    <td class="mut">${esc(c.cargo||'')} ${esc(c.uf||'')}</td>
+    <td>${c.tipo_comercial==='doada'?'<span class="tag">doada</span>':'<span class="tag">'+esc(c.valor_texto||'vendida')+'</span>'}</td>
+    <td><span class="pill ${c.situacao==='ativa'?'on':'off'}">${c.situacao}</span></td>
+    <td>${c.archived_at
+      ? (ehProprietarioDaCampanha(c)
+          ? `<button class="sec" style="padding:4px 10px;font-size:12px" onclick="restaurar('${c.id}')">Restaurar</button>
+             <button class="del" onclick="excluirDef('${c.id}')">Excluir definitivamente</button>`
+          : '<span class="mut" style="font-size:12px">arquivada</span>')
+      : `<button class="sec" style="padding:4px 10px;font-size:12px" onclick="abrir('${c.id}')">abrir</button>
+         ${ehProprietarioDaCampanha(c)
+           ? `<button class="sec" style="padding:4px 10px;font-size:12px" onclick="editar('${c.id}')">editar</button>
+              <button class="sec" style="padding:4px 10px;font-size:12px" onclick="arquivar('${c.id}')">arquivar</button>`
+           : ''}`}</td></tr>`;
+}
+function telaGerir(){
+  const ativas=campanhas.filter(c=>!c.archived_at);
+  const arquivadas=campanhas.filter(c=>c.archived_at);
+  byId('tela-app').innerHTML=`<div class="card"><h3>Minhas campanhas</h3>
+    <p class="mut" style="margin:6px 0 10px">Cada candidato é uma campanha. Você define doada/vendida e o valor; a cobrança é por fora, aqui só libera/corta o acesso.</p>
+    ${ativas.length?`<table><thead><tr><th>Candidato</th><th>Cargo/UF</th><th>Comercial</th><th>Situação</th><th></th></tr></thead><tbody>
+    ${ativas.map(linhaCampanha).join('')}</tbody></table>`:'<p class="mut">Nenhuma campanha ativa.</p>'}
+    <div style="margin-top:12px"><button onclick="editar()">+ Nova campanha</button>
+    ${arquivadas.length?`<button class="sec" onclick="mostrarArquivadas=!mostrarArquivadas;telaGerir()">${mostrarArquivadas?'Ocultar':'Mostrar'} arquivadas (${arquivadas.length})</button>`:''}</div>
+    ${mostrarArquivadas&&arquivadas.length?`<div class="sub">Arquivadas</div>
+    <table><thead><tr><th>Candidato</th><th>Cargo/UF</th><th>Comercial</th><th>Situação</th><th></th></tr></thead><tbody>
+    ${arquivadas.map(linhaCampanha).join('')}</tbody></table>
+    <p class="mut" style="font-size:12px;margin-top:6px">Excluir definitivamente só é permitido para campanha sem apoiadores; o banco recusa se houver qualquer apoiador.</p>`:''}
+    </div>`;
+}
+async function arquivar(id){
+  const c=campanhas.find(x=>x.id===id); if(!c)return;
+  if(!confirm(`Arquivar a campanha de ${c.candidato_nome}? Ela sai da lista ativa, mas pode ser restaurada.`))return;
+  const {error}=await sb.from('campaigns').update({archived_at:new Date().toISOString()}).eq('id',id);
+  if(error)return alert(error.message);
+  await carregarCampanhas();telaGerir();
+}
+async function restaurar(id){
+  const {error}=await sb.from('campaigns').update({archived_at:null}).eq('id',id);
+  if(error)return alert(error.message);
+  await carregarCampanhas();mostrarArquivadas=true;telaGerir();
+}
+async function excluirDef(id){
+  const c=campanhas.find(x=>x.id===id); if(!c)return;
+  const dig=prompt(`EXCLUSÃO DEFINITIVA e irreversível.\nSó é possível se a campanha não tiver apoiadores.\nPara confirmar, digite exatamente o nome do candidato:\n\n${c.candidato_nome}`);
+  if(dig===null)return;
+  if(dig.trim()!==c.candidato_nome){alert('Nome não confere. Exclusão cancelada.');return;}
+  const {error}=await sb.from('campaigns').delete().eq('id',id);
+  if(error){
+    if(error.code==='23503'||/foreign key|violates/i.test(error.message||''))
+      alert('Não é possível excluir: esta campanha possui apoiadores. Descadastre-os antes ou mantenha a campanha arquivada.');
+    else alert('Erro ao excluir: '+error.message);
+    return;
+  }
+  await carregarCampanhas();telaGerir();
+}
+function abrir(id){campAtual=campanhas.find(c=>c.id===id);byId('camp-sel').value=id;telaCampanha();}
+function editar(id){
+  const c=campanhas.find(x=>x.id===id)||{};
+  byId('tela-app').innerHTML=`<div class="card" style="max-width:640px"><h3>${id?'Editar':'Nova'} campanha</h3>
+    <div class="grid3">
+      <div><label>Candidato *</label><input id="c-nome" value="${esc(c.candidato_nome||'')}"></div>
+      <div><label>Nome de urna</label><input id="c-urna" value="${esc(c.nome_urna||'')}"></div>
+      <div><label>Cargo</label><input id="c-cargo" value="${esc(c.cargo||'')}"></div>
+      <div><label>UF</label><input id="c-uf" value="${esc(c.uf||'')}"></div>
+      <div><label>Número</label><input id="c-num" value="${esc(c.numero||'')}"></div>
+      <div><label>Partido</label><input id="c-part" value="${esc(c.partido||'')}"></div>
+    </div>
+    <div class="sub">Comercial</div>
+    <div class="grid3">
+      <div><label>Tipo</label><select id="c-tipo"><option value="doada" ${c.tipo_comercial==='doada'?'selected':''}>Doada</option><option value="vendida" ${c.tipo_comercial==='vendida'?'selected':''}>Vendida</option></select></div>
+      <div><label>Valor (livre)</label><input id="c-valor" value="${esc(c.valor_texto||'')}" placeholder="R$ 3.000 / R$ 500 mês"></div>
+      <div><label>Situação</label><select id="c-sit"><option value="ativa" ${c.situacao!=='suspensa'&&c.situacao!=='expirada'?'selected':''}>Ativa</option><option value="suspensa" ${c.situacao==='suspensa'?'selected':''}>Suspensa</option></select></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button onclick="salvarCampanha('${id||''}')">Salvar</button>
+    <button class="sec" onclick="telaGerir()">Voltar</button></div>
+    <div id="c-msg" class="neg" style="margin-top:8px;font-size:12.5px"></div></div>`;
+}
+async function salvarCampanha(id){
+  const v=k=>byId('c-'+k).value.trim();
+  if(!v('nome')){byId('c-msg').textContent='Informe o candidato.';return;}
+  const reg={org_id:org.id,candidato_nome:v('nome'),nome_urna:v('urna'),cargo:v('cargo'),uf:v('uf').toUpperCase(),
+    numero:v('num'),partido:v('part'),tipo_comercial:byId('c-tipo').value,valor_texto:v('valor'),situacao:byId('c-sit').value};
+  let err;
+  if(id){
+    ({error:err}=await sb.from('campaigns').update(reg).eq('id',id));
+  }else{
+    reg.criada_por=user.id;
+    // ID gerado no cliente + INSERT sem RETURNING (evita SELECT pós-insert)
+    const novoCampaignId=crypto.randomUUID();
+    reg.id=novoCampaignId;
+    const rc=await sb.from('campaigns').insert(reg);
+    if(rc.error){byId('c-msg').textContent=rc.error.message;return;}
+    const rm=await sb.from('campaign_members').insert({campaign_id:novoCampaignId,user_id:user.id,papel:'admin'});
+    if(rm.error){
+      await sb.from('campaigns').delete().eq('id',novoCampaignId);   // desfaz p/ não deixar campanha sem membro
+      byId('c-msg').textContent='Falha ao vincular criador: '+rm.error.message;
+      return;
+    }
+  }
+  if(err){byId('c-msg').textContent=err.message;return;}
+  await carregarCampanhas();telaGerir();
+}
+
+// ── Apoiadores ──
+async function telaCampanha(){
+  const {data:papel}=await sb.rpc('campaign_role',{p_campaign:campAtual.id});  // função SQL existente
+  papelCampanhaAtual=papel||null;
+  let perfil;
+  if(orgsProprietarias.has(campAtual.org_id)) perfil='Proprietário';        // organizations.dono_id = user
+  else if(orgsAdmin.has(campAtual.org_id)) perfil='Administrador da organização'; // is_org_owner (rótulo apenas)
+  else if(papelCampanhaAtual==='admin') perfil='Administrador da campanha';  // admin só em campaign_members
+  else perfil=ROLE_LABEL[papelCampanhaAtual]||'Sem permissão';
+  byId('tela-app').innerHTML=`<div class="card"><div class="row" style="justify-content:space-between">
+    <div><b style="font-size:16px">${esc(campAtual.candidato_nome)}</b> <span class="tag">${esc(campAtual.cargo||'')} ${esc(campAtual.uf||'')}</span>
+    <span class="pill ${campAtual.situacao==='ativa'?'on':'off'}">${campAtual.situacao}</span>
+    <span class="tag" style="border-color:var(--ac);color:var(--ac)">Perfil na campanha: ${perfil}</span></div>
+    <div class="row">${podeAdministrarCampanha()?'<button class="sec" onclick="telaEquipe()">Gerenciar equipe</button>':''}
+    <button class="sec" onclick="telaGerir()">Gerir campanhas</button></div></div></div>
+    ${campAtual.situacao!=='ativa'?'<div class="card neg">Campanha suspensa — reative em "Gerir campanhas".</div>':`
+    <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px">
+      <b>Apoiadores</b>
+      <div class="row"><input id="q-ap" placeholder="Buscar…" style="width:200px" oninput="listar()">
+      ${podeEditarApoiadores()?'<button onclick="formAp()">+ Novo</button>':''}</div>
+    </div>
+    ${podeVerApoiadores()
+      ? '<div class="mut" style="font-size:12px;margin-bottom:8px">Dado sensível: só cadastre com consentimento. Toda alteração é auditada.</div><div id="tb-ap">carregando…</div>'
+      : '<div class="mut">Seu perfil na campanha não tem acesso à lista de apoiadores.</div>'}
+    </div>`}`;
+  if(campAtual.situacao==='ativa' && podeVerApoiadores())listar();
+}
+async function listar(){
+  const q=(byId('q-ap')?.value||'').toLowerCase();
+  const {data,error}=await sb.from('supporters').select('*').eq('campaign_id',campAtual.id).is('deleted_at',null).order('nivel',{ascending:false});
+  if(error){byId('tb-ap').innerHTML=`<div class="neg">${esc(error.message)}</div>`;return;}
+  const rows=(data||[]).filter(a=>!q||`${a.nome} ${a.cidade} ${a.telefone}`.toLowerCase().includes(q));
+  byId('tb-ap').innerHTML=`<table><thead><tr><th>Nome</th><th>Nível</th><th>Cidade</th><th>WhatsApp</th><th>Consent.</th><th></th></tr></thead><tbody>
+  ${rows.map(a=>`<tr><td><b>${esc(a.nome)}</b></td><td>${NIVEIS[a.nivel]||'—'}</td><td>${esc(a.cidade||'—')}</td>
+  <td>${a.whatsapp?esc(a.whatsapp):'—'}</td><td>${a.consentimento_em?'<span class="pos">✓</span>':'<span class="neg">pendente</span>'}</td>
+  <td>${podeEditarApoiadores()?`<button class="sec" style="padding:3px 9px;font-size:12px" onclick="formAp('${a.id}')">editar</button>
+  <button class="del" onclick="descad('${a.id}','${esc(a.nome)}')">descadastrar</button>`:''}</td></tr>`).join('')}
+  </tbody></table><div class="mut" style="margin-top:6px">${rows.length} apoiadores.</div>`;
+}
+async function formAp(id){
+  byId('frm')?.remove();  // evita dois formulários com os mesmos IDs
+  let a={};
+  if(id){const {data}=await sb.from('supporters').select('*').eq('id',id).single();a=data||{};}
+  byId('tela-app').insertAdjacentHTML('afterbegin',`<div class="card" id="frm" style="border-color:#2f81f7">
+    <b>${id?'Editar':'Novo'} apoiador</b>
+    <div class="grid3" style="margin-top:8px">
+      <div><label>Nome *</label><input id="a-nome" value="${esc(a.nome||'')}"></div>
+      <div><label>Telefone</label><input id="a-tel" value="${esc(a.telefone||'')}"></div>
+      <div><label>WhatsApp</label><input id="a-zap" value="${esc(a.whatsapp||'')}"></div>
+      <div><label>E-mail</label><input id="a-email" value="${esc(a.email||'')}"></div>
+      <div><label>Cidade</label><input id="a-cid" value="${esc(a.cidade||'')}"></div>
+      <div><label>Nível</label><select id="a-nivel">${[5,4,3,2,1].map(n=>`<option value="${n}" ${a.nivel==n?'selected':''}>${NIVEIS[n]}</option>`).join('')}</select></div>
+    </div>
+    <div style="margin-top:8px;background:#1c2330;border:1px solid #2d333b;border-radius:8px;padding:10px">
+      <div class="mut" style="font-size:11.5px;line-height:1.5;margin-bottom:6px">${esc(CONSENT_PROVA)}</div>
+      <label style="width:auto;color:#e6edf3"><input type="checkbox" id="a-consent" style="width:auto" ${a.consentimento_em?'checked':''}> O apoiador consentiu com o texto acima</label>
+    </div>
+    <div class="row" style="margin-top:8px"><button onclick="salvarAp('${id||''}')">Salvar</button>
+    <button class="sec" onclick="byId('frm').remove()">Cancelar</button></div>
+    <div id="a-msg" class="neg" style="margin-top:6px;font-size:12.5px"></div></div>`);
+}
+async function salvarAp(id){
+  const v=k=>byId('a-'+k).value.trim();
+  if(!v('nome')){byId('a-msg').textContent='Nome é obrigatório.';return;}
+  let err;
+  if(id){
+    // EDIÇÃO: nunca toca nos campos de consentimento (imutáveis)
+    const payloadUpdate={nome:v('nome'),telefone:v('tel'),whatsapp:v('zap'),email:v('email'),cidade:v('cid'),
+      nivel:+byId('a-nivel').value,atualizado_por:user.id,atualizado_em:new Date().toISOString()};
+    const {data,error}=await sb.from('supporters').update(payloadUpdate).eq('id',id).select('id').maybeSingle();
+    if(error){byId('a-msg').textContent=error.message;return;}
+    if(!data||!data.id){byId('a-msg').textContent='Você não tem permissão para editar este apoiador.';return;}
+  }else{
+    if(!byId('a-consent').checked){byId('a-msg').textContent='O consentimento é obrigatório para cadastrar o apoiador.';return;}
+    const payloadInsert={campaign_id:campAtual.id,nome:v('nome'),telefone:v('tel'),whatsapp:v('zap'),email:v('email'),cidade:v('cid'),
+      nivel:+byId('a-nivel').value,consentimento_em:new Date().toISOString(),base_legal:'consentimento',
+      origem:'painel_campanha',consentimento_prova:CONSENT_PROVA,
+      criado_por:user.id,atualizado_por:user.id,atualizado_em:new Date().toISOString()};
+    ({error:err}=await sb.from('supporters').insert(payloadInsert));
+  }
+  if(err){byId('a-msg').textContent=err.message;return;}
+  byId('frm')?.remove();listar();
+}
+// ── Equipe da campanha (somente proprietário; exclusivamente via as 4 RPCs
+//    SECURITY DEFINER — nenhuma operação direta em campaign_members) ──
+let equipe=[];
+async function telaEquipe(){
+  if(!podeAdministrarCampanha())return;   // ocultação não substitui as RPCs; gate de UI apenas
+  byId('tela-app').innerHTML=`<div class="card"><div class="row" style="justify-content:space-between">
+    <div><b style="font-size:16px">Equipe — ${esc(campAtual.candidato_nome)}</b>
+    <span class="tag">${esc(campAtual.cargo||'')} ${esc(campAtual.uf||'')}</span></div>
+    <button class="sec" onclick="telaCampanha()">Voltar para a campanha</button></div>
+    <p class="mut" style="margin:6px 0 0;font-size:12.5px">Somente contas já cadastradas no sistema podem ser adicionadas. Se a pessoa ainda não tem conta, peça que ela crie uma na tela de acesso antes.</p></div>
+    <div class="card"><b>Adicionar membro</b>
+      <div class="grid3" style="margin-top:8px">
+        <div><label>E-mail da conta cadastrada *</label><input id="m-email" type="email" placeholder="pessoa@email.com"></div>
+        <div><label>Perfil na campanha *</label><select id="m-papel">${Object.entries(ROLE_LABEL).map(([k,l])=>`<option value="${k}">${l}</option>`).join('')}</select></div>
+        <div><label>Escopo (opcional)</label><input id="m-escopo" placeholder="região ou cidade"></div>
+      </div>
+      <div class="row" style="margin-top:10px"><button id="m-add" onclick="addMembro()">Adicionar</button></div>
+      <div id="m-msg" style="margin-top:8px;font-size:12.5px;min-height:16px"></div>
+    </div>
+    <div class="card"><b>Membros</b><div id="tb-eq" style="margin-top:8px" class="mut">Carregando equipe…</div></div>`;
+  await listarEquipe();
+}
+function msgEquipe(t,ok){const e=byId('m-msg');if(!e)return;e.textContent=t||'';e.style.color=ok?'#3fb950':'#f85149';}
+async function listarEquipe(){
+  const alvo=byId('tb-eq');if(!alvo)return;
+  alvo.textContent='Carregando equipe…';
+  const {data,error}=await sb.rpc('list_campaign_team',{p_campaign:campAtual.id});
+  if(error){alvo.innerHTML=`<div class="neg">${esc(error.message)}</div>`;return;}
+  equipe=(data||[]).slice().sort((a,b)=>(b.is_owner?1:0)-(a.is_owner?1:0));  // proprietário no topo
+  if(!equipe.length){alvo.innerHTML='<p class="mut">Nenhum membro nesta campanha.</p>';return;}
+  alvo.innerHTML=`<table><thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Escopo</th><th>Incluído em</th><th></th></tr></thead><tbody>
+  ${equipe.map((m,i)=>m.is_owner
+    ?`<tr><td><b>${esc(m.nome||'—')}</b></td><td>${esc(m.email||'—')}</td>
+       <td><span class="tag" style="border-color:var(--ok);color:var(--ok)">Proprietário</span></td>
+       <td>—</td><td>—</td><td><span class="mut" style="font-size:12px">Acesso integral</span></td></tr>`
+    :`<tr><td><b>${esc(m.nome||'—')}</b></td><td>${esc(m.email||'—')}</td>
+       <td>${esc(ROLE_LABEL[m.papel]||m.papel||'—')}</td><td>${esc(m.escopo||'—')}</td>
+       <td>${m.criado_em?new Date(m.criado_em).toLocaleDateString('pt-BR'):'—'}</td>
+       <td><button class="sec" style="padding:3px 9px;font-size:12px" onclick="formPapel(${i})">Editar perfil</button>
+       <button class="del" onclick="removerMembro(${i},this)">Remover</button></td></tr>`).join('')}
+  </tbody></table><div class="mut" style="margin-top:6px">${equipe.length} pessoa(s) na equipe.</div>`;
+}
+async function addMembro(){
+  const btn=byId('m-add');
+  const email=(byId('m-email').value||'').trim();
+  const papel=byId('m-papel').value;
+  const escopo=(byId('m-escopo').value||'').trim();
+  if(!email){msgEquipe('Informe o e-mail da conta cadastrada.');return;}
+  if(!papel){msgEquipe('Escolha o perfil na campanha.');return;}
+  btn.disabled=true;msgEquipe('Adicionando…',true);
+  const {data,error}=await sb.rpc('add_campaign_member_by_email',
+    {p_campaign:campAtual.id,p_email:email,p_papel:papel,p_escopo:escopo||null});
+  btn.disabled=false;
+  if(error){msgEquipe(error.message||'Falha ao adicionar membro.');return;}
+  // Sucesso só quando a RPC devolve o UUID do usuário (não basta error === null).
+  const uuidOk=typeof data==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(data);
+  if(!uuidOk){msgEquipe('A operação não confirmou a inclusão. Recarregue a lista e verifique.');return;}
+  msgEquipe('Membro adicionado à campanha.',true);
+  byId('m-email').value='';byId('m-escopo').value='';byId('m-papel').selectedIndex=0;
+  await listarEquipe();
+}
+function formPapel(i){
+  const m=equipe[i];if(!m||m.is_owner)return;   // proprietário não é editável pela interface
+  byId('frm-eq')?.remove();
+  byId('tela-app').insertAdjacentHTML('afterbegin',`<div class="card" id="frm-eq" style="border-color:#2f81f7">
+    <b>Editar perfil — ${esc(m.nome||m.email)}</b>
+    <div class="grid3" style="margin-top:8px">
+      <div><label>Perfil na campanha</label><select id="e-papel">${Object.entries(ROLE_LABEL).map(([k,l])=>`<option value="${k}" ${m.papel===k?'selected':''}>${l}</option>`).join('')}</select></div>
+      <div><label>Escopo (opcional)</label><input id="e-escopo" value="${esc(m.escopo||'')}"></div>
+      <div></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button id="e-salvar" onclick="salvarPapel(${i})">Salvar</button>
+    <button class="sec" onclick="byId('frm-eq').remove()">Cancelar</button></div>
+    <div id="e-msg" style="margin-top:6px;font-size:12.5px;min-height:16px"></div></div>`);
+}
+async function salvarPapel(i){
+  const m=equipe[i];if(!m||m.is_owner)return;
+  const btn=byId('e-salvar');const box=byId('e-msg');
+  const papel=byId('e-papel').value;
+  const escopo=(byId('e-escopo').value||'').trim();
+  btn.disabled=true;box.style.color='#8b949e';box.textContent='Salvando…';
+  // Função retorna void: sucesso = error === null.
+  const {error}=await sb.rpc('update_campaign_member_role',
+    {p_campaign:campAtual.id,p_user:m.user_id,p_papel:papel,p_escopo:escopo||null});
+  btn.disabled=false;
+  if(error){box.style.color='#f85149';box.textContent=error.message||'Falha ao atualizar o perfil.';return;}
+  byId('frm-eq')?.remove();
+  msgEquipe('Perfil atualizado.',true);
+  await listarEquipe();
+}
+async function removerMembro(i,btn){
+  const m=equipe[i];if(!m||m.is_owner)return;   // proprietário não é removível pela interface
+  if(!confirm('Remover esta pessoa da equipe da campanha?'))return;
+  if(btn)btn.disabled=true;
+  const {error}=await sb.rpc('remove_campaign_member',{p_campaign:campAtual.id,p_user:m.user_id});
+  if(btn)btn.disabled=false;
+  if(error){alert(error.message||'Falha ao remover o membro.');return;}
+  msgEquipe('Membro removido da campanha.',true);
+  await listarEquipe();
+}
+
+async function descad(id,nome){
+  if(!confirm(`Descadastrar ${nome}? Ele será retirado das listas e comunicações, mas o registro histórico será preservado para auditoria.`))return;
+  const {error}=await sb.rpc('descadastrar_supporter',{p_supporter_id:id});
+  if(error)return alert(error.message);
+  listar();
+}
+</script>
+</body>
+</html>
