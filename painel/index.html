@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inteligência Eleitoral SC — Henrichs Consultoria</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --bg:#0d1117;--card:#161b22;--card2:#1c2330;--border:#2d333b;
+  --tx:#e6edf3;--tx2:#8b949e;--ac:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,'Segoe UI',Roboto,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--border);background:var(--card);position:sticky;top:0;z-index:50}
+header .logo{width:34px;height:34px;border-radius:8px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:700}
+header h1{font-size:15px;font-weight:600}
+header small{color:var(--tx2);display:block;font-weight:400}
+nav{display:flex;gap:4px;padding:10px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg);position:sticky;top:63px;z-index:49}
+nav button{background:none;border:1px solid transparent;color:var(--tx2);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13.5px}
+nav button.on{background:var(--card2);color:var(--tx);border-color:var(--border)}
+main{padding:20px 22px;max-width:1400px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.card .v{font-size:22px;font-weight:700;margin:2px 0}
+.card .l{color:var(--tx2);font-size:12.5px}
+.aviso{background:#3b2e12;border:1px solid var(--warn);color:#e3b341;border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+.tools{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+input[type=search],select{background:var(--card);border:1px solid var(--border);color:var(--tx);padding:8px 12px;border-radius:8px;font-size:13.5px;outline:none}
+input[type=search]{min-width:240px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;font-size:13.5px}
+th{background:var(--card2);text-align:left;padding:9px 12px;color:var(--tx2);font-weight:600;cursor:pointer;user-select:none;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:8px 12px;border-top:1px solid var(--border);white-space:nowrap}
+tbody tr:hover{background:var(--card2);cursor:pointer}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;background:var(--card2);border:1px solid var(--border)}
+.pos{color:var(--ok)}.neg{color:var(--bad)}.mut{color:var(--tx2)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-start;justify-content:center;z-index:2000;padding:40px 16px;overflow:auto}
+.modal.on{display:flex}
+.box{background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:860px;width:100%;padding:22px}
+.box h2{font-size:18px;margin-bottom:2px}
+.box .x{float:right;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:14px 0}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}}
+.sub{color:var(--tx2);font-size:12.5px;margin:14px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.bar{height:8px;border-radius:4px;background:var(--ac);min-width:2px}
+.argcard{background:var(--card2);border-left:3px solid var(--ac);border-radius:8px;padding:12px 16px;margin:10px 0;font-size:13.5px}
+.argcard b{color:var(--ac)}
+footer{color:var(--tx2);font-size:12px;padding:18px 22px;border-top:1px solid var(--border);margin-top:30px}
+.foto{width:26px;height:26px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:8px;background:var(--card2)}
+#mapa-el{height:70vh;border-radius:10px;border:1px solid var(--border)}
+.leaflet-container{background:#0d1117}
+.legenda{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0;font-size:12.5px}
+.legenda span{display:flex;align-items:center;gap:5px}
+.legenda i{width:14px;height:14px;border-radius:3px;display:inline-block}
+/* matriz de votação */
+.matriz-wrap{overflow:auto;max-height:75vh;border:1px solid var(--border);border-radius:10px}
+.matriz{border-collapse:collapse;font-size:12px}
+.matriz th{position:sticky;top:0;z-index:3;background:var(--card2);padding:4px 6px}
+.matriz th:first-child,.matriz td:first-child{position:sticky;left:0;z-index:2;background:var(--card);text-align:left;padding:4px 10px;white-space:nowrap}
+.matriz th:first-child{z-index:4}
+.matriz td{text-align:center;padding:3px 6px;border:1px solid #21262d;cursor:pointer;min-width:52px}
+.matriz .col-dep{writing-mode:vertical-rl;transform:rotate(180deg);white-space:nowrap;font-size:11px;max-height:130px;cursor:pointer}
+.c-ok{background:#1a4d2e;color:#7ee2a8}
+.c-warn{background:#4d3a12;color:#e3b341}
+.c-info{background:#12324d;color:#79c0ff}
+.c-null{background:transparent;color:#484f58}
+</style>
+</head>
+<body>
+<div id="login" style="position:fixed;inset:0;background:var(--bg);z-index:5000;display:flex;align-items:center;justify-content:center">
+  <div class="card" style="width:320px;padding:26px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px"><div class="logo" style="width:34px;height:34px;border-radius:8px;background:var(--ac);display:flex;align-items:center;justify-content:center;font-weight:700">H</div>
+    <div><b>Henrichs Consultoria</b><br><small class="mut">Inteligência Eleitoral SC</small></div></div>
+    <input id="lg-user" placeholder="Usuário" style="width:100%;margin:5px 0;background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:9px 12px;border-radius:8px">
+    <input id="lg-pass" type="password" placeholder="Senha" style="width:100%;margin:5px 0;background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:9px 12px;border-radius:8px">
+    <button onclick="entrar()" style="width:100%;margin-top:10px;background:var(--ac);border:none;color:#fff;padding:10px;border-radius:8px;cursor:pointer;font-weight:600">Entrar</button>
+    <div id="lg-erro" class="neg" style="font-size:12.5px;margin-top:8px"></div>
+  </div>
+</div>
+<header>
+  <div class="logo">H</div>
+  <div style="flex:1"><h1 id="titulo">Inteligência Eleitoral</h1><small id="meta">carregando…</small></div>
+  <select id="uf-sel" onchange="trocarUF(this.value)" style="background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:6px 12px;border-radius:8px;font-weight:600">
+    <optgroup label="Sul">
+      <option value="sc">Santa Catarina</option>
+      <option value="pr">Paraná</option>
+      <option value="rs">Rio Grande do Sul</option>
+    </optgroup>
+    <optgroup label="Centro-Oeste">
+      <option value="go">Goiás</option>
+      <option value="mt">Mato Grosso</option>
+      <option value="ms">Mato Grosso do Sul</option>
+      <option value="df">Distrito Federal</option>
+    </optgroup>
+    <optgroup label="Sudeste">
+      <option value="sp">São Paulo</option>
+      <option value="rj">Rio de Janeiro</option>
+      <option value="mg">Minas Gerais</option>
+      <option value="es">Espírito Santo</option>
+    </optgroup>
+    <optgroup label="Nordeste">
+      <option value="ba">Bahia</option>
+      <option value="pe">Pernambuco</option>
+      <option value="ce">Ceará</option>
+      <option value="ma">Maranhão</option>
+      <option value="pb">Paraíba</option>
+      <option value="rn">Rio Grande do Norte</option>
+      <option value="al">Alagoas</option>
+      <option value="se">Sergipe</option>
+      <option value="pi">Piauí</option>
+    </optgroup>
+    <optgroup label="Norte">
+      <option value="pa">Pará</option>
+      <option value="am">Amazonas</option>
+      <option value="ro">Rondônia</option>
+      <option value="to">Tocantins</option>
+      <option value="ac">Acre</option>
+      <option value="ap">Amapá</option>
+      <option value="rr">Roraima</option>
+    </optgroup>
+  </select>
+  <span id="quem" class="mut" style="font-size:12.5px"></span>
+  <a href="gestao.html" style="background:var(--ok);border:none;color:#fff;padding:7px 14px;border-radius:8px;text-decoration:none;font-weight:600;font-size:13px">🧩 Gestão da Campanha</a>
+  <button id="btn-adm" onclick="abrirAdmin()" hidden style="background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:6px 12px;border-radius:8px;cursor:pointer">⚙️ Admin</button>
+  <button onclick="sair()" style="background:none;border:1px solid var(--border);color:var(--tx2);padding:6px 12px;border-radius:8px;cursor:pointer">Sair</button>
+</header>
+<nav id="nav">
+  <button data-t="geral" class="on">📊 Visão Geral</button>
+  <button data-t="mapa">🗺️ Mapa</button>
+  <button data-t="voto">🗳️ Votação por Cidade</button>
+  <button data-t="parl">👥 Parlamentares</button>
+  <button data-t="depest">📍 Dep. Estaduais</button>
+  <button data-t="mun">🏛️ Municípios</button>
+  <button data-t="cruz">🎯 Cruzamentos</button>
+  <button data-t="arg">🗣️ Argumentos</button>
+  <a href="gestao.html" style="background:none;border:1px solid var(--ok);color:var(--ok);padding:7px 14px;border-radius:8px;text-decoration:none;font-size:13.5px">🧩 Gestão de Campanha</a>
+</nav>
+<main>
+  <div id="avisos"></div>
+  <section id="t-geral"></section>
+  <section id="t-mapa" hidden></section>
+  <section id="t-voto" hidden></section>
+  <section id="t-parl" hidden></section>
+  <section id="t-depest" hidden></section>
+  <section id="t-mun" hidden></section>
+  <section id="t-cruz" hidden></section>
+  <section id="t-arg" hidden></section>
+</main>
+<div class="modal" id="modal"><div class="box" id="modal-box"></div></div>
+<footer>Fontes: Portal da Transparência, TransfereGov, TSE, STN. Uso interno — Henrichs Consultoria.</footer>
+<script>
+/* ── Acesso (controle leve, no navegador) ── */
+const USUARIOS_PADRAO=[{u:'admin',s:'wilson2026',papel:'admin'}];
+const getUsuarios=()=>{try{return JSON.parse(localStorage.getItem('hc_usuarios'))||USUARIOS_PADRAO;}catch(e){return USUARIOS_PADRAO;}};
+const setUsuarios=l=>localStorage.setItem('hc_usuarios',JSON.stringify(l));
+const sessao=()=>{try{return JSON.parse(sessionStorage.getItem('hc_sessao'));}catch(e){return null;}};
+function entrar(){
+  const u=byId('lg-user').value.trim(),s=byId('lg-pass').value;
+  const achou=getUsuarios().find(x=>x.u===u&&x.s===s);
+  if(!achou){byId('lg-erro').textContent='Usuário ou senha incorretos.';return;}
+  sessionStorage.setItem('hc_sessao',JSON.stringify({u:achou.u,papel:achou.papel}));
+  aplicarSessao();
+}
+function sair(){sessionStorage.removeItem('hc_sessao');location.reload();}
+const LOGIN_ATIVO=false;  // mude para true quando quiser exigir login
+function aplicarSessao(){
+  if(!LOGIN_ATIVO){byId('login').style.display='none';byId('btn-adm').hidden=false;return;}
+  const s=sessao();
+  byId('login').style.display=s?'none':'flex';
+  if(s){byId('quem').textContent=s.u;byId('btn-adm').hidden=s.papel!=='admin';}
+}
+function abrirAdmin(){
+  const s=sessao()||{u:'admin',papel:'admin'};
+  if(LOGIN_ATIVO&&s.papel!=='admin')return;
+  const us=getUsuarios();
+  abrirModal(`<h2>⚙️ Administração</h2>
+  <div class="sub">Atualização de dados</div>
+  <div class="card" style="margin:8px 0">
+    <div>Dados gerados em: <b>${esc(D?.meta?.gerado_em||'—')}</b> · UF: ${esc(D?.meta?.uf||'')}</div>
+    <div class="mut" style="font-size:12.5px;margin:6px 0">A atualização roda na máquina que mantém o sistema (as APIs do governo bloqueiam servidores). Passos:</div>
+    <pre style="background:var(--card2);padding:10px;border-radius:8px;font-size:12px;overflow:auto">cd ~/Documents/GitHub/sc-inteligencia-sc
+python3 -m pipeline.coleta --etapa todas
+python3 -m pipeline.build
+# publicar: git add -A && git commit -m "dados" && git push</pre>
+    <button onclick="navigator.clipboard.writeText('cd ~/Documents/GitHub/sc-inteligencia-sc && python3 -m pipeline.coleta --etapa todas && python3 -m pipeline.build')" style="background:var(--ac);border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer">📋 Copiar comandos</button>
+  </div>
+  <div class="sub">Usuários (${us.length})</div>
+  <table><thead><tr><th>Usuário</th><th>Papel</th><th></th></tr></thead><tbody id="adm-users">
+  ${us.map((x,i)=>`<tr><td>${esc(x.u)}</td><td><span class="tag">${x.papel}</span></td>
+  <td>${x.u!==s.u?`<button onclick="removerUsuario(${i})" style="background:none;border:1px solid var(--bad);color:var(--bad);padding:2px 10px;border-radius:6px;cursor:pointer">remover</button>`:'<span class="mut">você</span>'}</td></tr>`).join('')}
+  </tbody></table>
+  <div class="sub">Novo usuário</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <input id="nu-user" placeholder="usuário" style="background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:8px 12px;border-radius:8px">
+    <input id="nu-pass" placeholder="senha" style="background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:8px 12px;border-radius:8px">
+    <select id="nu-papel"><option value="consulta">consulta</option><option value="admin">admin</option></select>
+    <button onclick="novoUsuario()" style="background:var(--ok);border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer">Adicionar</button>
+  </div>
+  <div class="mut" style="font-size:12px;margin-top:12px">Nota: controle de acesso leve, armazenado neste navegador — protege contra uso casual, não substitui autenticação de servidor. Os usuários criados valem para este computador; para acesso multi-dispositivo com segurança real, o próximo passo é ativar proteção na Vercel ou um serviço de login.</div>`);
+}
+function novoUsuario(){
+  const u=byId('nu-user').value.trim(),s=byId('nu-pass').value,p=byId('nu-papel').value;
+  if(!u||!s)return;
+  const us=getUsuarios();
+  if(us.some(x=>x.u===u))return alert('Usuário já existe.');
+  us.push({u,s,papel:p});setUsuarios(us);abrirAdmin();
+}
+function removerUsuario(i){const us=getUsuarios();us.splice(i,1);setUsuarios(us);abrirAdmin();}
+
+let D=null;
+const fmt=v=>v>=1e6?`R$ ${(v/1e6).toFixed(1).replace('.',',')} mi`:v>=1e3?`R$ ${(v/1e3).toFixed(0)} mil`:`R$ ${Math.round(v)}`;
+const num=v=>(v||0).toLocaleString('pt-BR');
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const byId=id=>document.getElementById(id);
+const ativos=()=>D.parlamentares.filter(p=>p.ativo&&(p.cargo==='dep_federal'||p.cargo==='senador'));
+const fpmDe=m=>{const f=m.recursos?.FPM;if(!f)return 0;const anos=Object.keys(f).sort();return f[anos.at(-1)]?.t||0;};
+const totR=(m,t)=>Object.values(m.recursos[t]||{}).reduce((a,c)=>a+(c.t||0),0);
+const MESES={1:'jan',2:'fev',3:'mar',4:'abr',5:'mai',6:'jun',7:'jul',8:'ago',9:'set',10:'out',11:'nov',12:'dez'};
+// ⚠ INDICADOR DERIVADO (não é dado oficial): classificação da consultoria com
+// cortes provisórios (R$1M no mandato; 60% de concentração), pendentes de
+// calibração por percentil/porte. Usar como triagem, não como conclusão.
+function territorio(m){
+  // classifica pelas emendas do MANDATO ATUAL (2023+) de parlamentares em exercício
+  const porPartido={};let tot=0;
+  ativos().forEach(p=>{const e=m.emendas[p.chave];if(!e)return;
+    const v=Object.entries(e.por_ano||{}).reduce((a,[ano,x])=>a+(+ano>=2023?x:0),0);
+    if(v>0){porPartido[p.partido]=(porPartido[p.partido]||0)+v;tot+=v;}});
+  if(m.emendas_total===0)return{tipo:'sem',rot:'Sem emenda',cor:'#f85149'};
+  if(tot<1e6)return{tipo:'livre',rot:'🟢 Livre',cor:'#3fb950'};  // < R$1M no mandato atual
+  const [domP,domV]=Object.entries(porPartido).sort((a,b)=>b[1]-a[1])[0];
+  if(Object.keys(porPartido).length>1&&domV/tot<0.6)
+    return{tipo:'disputado',rot:'🟡 Em disputa',cor:'#d29922'};
+  return{tipo:'ocupado',rot:`🔴 Ocupado (${domP})`,cor:'#f85149',dom:domP,pct:domV/tot};
+}
+function irParaMun(terr){
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x.dataset.t==='mun'));
+  document.querySelectorAll('main section').forEach(s=>s.hidden=true);
+  byId('t-mun').hidden=false;
+  byId('f-terr').value=terr;byId('f-terr').dispatchEvent(new Event('change'));
+}
+function tgl(id){const el=byId(id);if(el)el.hidden=!el.hidden;}
+function pizza(fatias,tam=170){
+  // fatias: [{label, valor, cor}] → SVG donut + legenda
+  const tot=fatias.reduce((a,f)=>a+f.valor,0);
+  if(tot<=0)return '';
+  const cx=tam/2,cy=tam/2,r=tam/2-6,ri=r*0.55;
+  let ang=-Math.PI/2,paths='';
+  fatias.forEach(f=>{
+    const frac=f.valor/tot;if(frac<=0)return;
+    const a2=ang+frac*2*Math.PI;
+    const big=frac>0.5?1:0;
+    const x1=cx+r*Math.cos(ang),y1=cy+r*Math.sin(ang),x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    const xi1=cx+ri*Math.cos(a2),yi1=cy+ri*Math.sin(a2),xi2=cx+ri*Math.cos(ang),yi2=cy+ri*Math.sin(ang);
+    paths+=`<path d="M${x1.toFixed(1)},${y1.toFixed(1)} A${r},${r} 0 ${big} 1 ${x2.toFixed(1)},${y2.toFixed(1)} L${xi1.toFixed(1)},${yi1.toFixed(1)} A${ri},${ri} 0 ${big} 0 ${xi2.toFixed(1)},${yi2.toFixed(1)} Z" fill="${f.cor}"><title>${esc(f.label)}: ${fmt(f.valor)} (${(frac*100).toFixed(1)}%)</title></path>`;
+    ang=a2;
+  });
+  const leg=fatias.filter(f=>f.valor>0).map(f=>
+    `<span style="display:flex;align-items:center;gap:6px;font-size:12.5px;margin:2px 0">
+    <i style="width:12px;height:12px;border-radius:3px;background:${f.cor};display:inline-block"></i>
+    ${esc(f.label)} <b>${(f.valor/tot*100).toFixed(1)}%</b> <span class="mut">${fmt(f.valor)}</span></span>`).join('');
+  return `<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+  <svg width="${tam}" height="${tam}" viewBox="0 0 ${tam} ${tam}">${paths}</svg><div>${leg}</div></div>`;
+}
+const pMap={};
+
+const UF_NOMES={sc:'Santa Catarina',pr:'Paraná',rs:'Rio Grande do Sul',go:'Goiás',mt:'Mato Grosso',ms:'Mato Grosso do Sul',df:'Distrito Federal',sp:'São Paulo',rj:'Rio de Janeiro',mg:'Minas Gerais',es:'Espírito Santo',ba:'Bahia',pe:'Pernambuco',ce:'Ceará',ma:'Maranhão',pb:'Paraíba',rn:'Rio Grande do Norte',al:'Alagoas',se:'Sergipe',pi:'Piauí',pa:'Pará',am:'Amazonas',ro:'Rondônia',to:'Tocantins',ac:'Acre',ap:'Amapá',rr:'Roraima'};
+let UF=localStorage.getItem('hc_uf')||'sc';
+function trocarUF(uf){localStorage.setItem('hc_uf',uf);location.reload();}
+function carregarUF(){
+  byId('uf-sel').value=UF;
+  byId('titulo').textContent='Inteligência Eleitoral — '+(UF_NOMES[UF]||UF.toUpperCase());
+  fetch(`data/${UF}.json`).then(r=>{if(!r.ok)throw 0;return r.json();})
+    .then(d=>{D=d;Object.keys(pMap).forEach(k=>delete pMap[k]);d.parlamentares.forEach(p=>pMap[p.chave]=p);init();})
+    .catch(()=>{byId('meta').textContent='';byId('avisos').innerHTML=
+      `<div class="aviso">Dados de ${UF_NOMES[UF]||UF} ainda não gerados. Rode a coleta e o build para esta UF:
+      <code>PIPELINE_UF=${UF.toUpperCase()} python3 -m pipeline.coleta --etapa todas</code> e
+      <code>python3 -m pipeline.build --uf ${UF.toUpperCase()}</code>.</div>`;});
+}
+aplicarSessao();
+byId('lg-pass').addEventListener('keydown',e=>{if(e.key==='Enter')entrar();});
+carregarUF();
+
+function init(){
+  byId('meta').textContent=`Emendas ${D.meta.anos_emendas[0]}–${D.meta.anos_emendas.at(-1)} · gerado em ${D.meta.gerado_em}`;
+  const cob=D.meta.cobertura||{};
+  const nd=[];
+  if(cob.emendas_estaduais===false)nd.push('emendas estaduais (ALESC)');
+  if(cob.tev_estadual===false)nd.push('repasses do executivo estadual');
+  if(cob.obrigatorias_detalhe===false)nd.push('detalhe mensal FPM/CIDE');
+  let html='';
+  if(nd.length)html+=`<div class="aviso" style="background:#1c2330;border-color:var(--border);color:var(--tx2)">ⓘ Fontes <b>não integradas</b> nesta UF (ausência ≠ zero): ${nd.join(' · ')}. Valores estaduais não aparecem — não interprete como "não recebeu".</div>`;
+  if(D.meta.nota_prefeitos)html+=`<div class="aviso" style="background:#1c2330;border-color:var(--border);color:var(--tx2)">ⓘ ${esc(D.meta.nota_prefeitos)}</div>`;
+  if(D.meta.avisos.length)html+=`<div class="aviso">⚠️ Dados pendentes de coleta: ${D.meta.avisos.map(esc).join(' · ')}</div>`;
+  byId('avisos').innerHTML=html;
+  document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+    document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+    document.querySelectorAll('main section').forEach(s=>s.hidden=true);
+    byId('t-'+b.dataset.t).hidden=false;
+    if(b.dataset.t==='mapa')initMapa();
+  });
+  byId('modal').onclick=e=>{if(e.target.id==='modal')fecharModal();};
+  rGeral();rVoto();rParl();rDepEst();rMun();rCruz();rArg();
+}
+function fecharModal(){byId('modal').classList.remove('on');}
+function abrirModal(html){byId('modal-box').innerHTML=`<button class="x" onclick="fecharModal()">✕</button>`+html;byId('modal').classList.add('on');}
+
+/* ── Visão Geral ── */
+function rGeral(){
+  const tot=D.municipios.reduce((a,m)=>a+m.emendas_total,0);
+  const totParl=D.parlamentares.reduce((a,p)=>a+p.emendas_total,0);
+  const munParl=D.parlamentares.reduce((a,p)=>a+p.emendas_municipalizadas,0);
+  const temPref=D.municipios.some(m=>m.prefeito);
+  const terr={sem:0,livre:0,disputado:0,ocupado:0};
+  D.municipios.forEach(m=>terr[territorio(m).tipo]++);
+  byId('t-geral').innerHTML=`
+  <div class="cards">
+    <div class="card"><div class="l">Municípios</div><div class="v">${D.municipios.length}</div><div class="l">Santa Catarina</div></div>
+    <div class="card"><div class="l">Total de emendas (todas as fontes)</div><div class="v">${fmt(totParl)}</div><div class="l">${D.meta.anos_emendas[0]}–${D.meta.anos_emendas.at(-1)}</div></div>
+    <div class="card"><div class="l">Rastreado até o município</div><div class="v">${fmt(tot)}</div><div class="l">${(munParl/totParl*100).toFixed(0)}% municipalizado</div></div>
+    <div class="card" onclick="irParaMun('sem')" style="cursor:pointer" title="Territórios: indicador derivado pela consultoria (cortes provisórios R$1M/60%), não é classificação oficial. Use como triagem."><div class="l">Sem Nenhuma Emenda <span class="mut">ⓘ</span></div><div class="v neg">${terr.sem}</div><div class="l">${(terr.sem/D.municipios.length*100).toFixed(1)}% dos municípios</div></div>
+    <div class="card" onclick="irParaMun('livre')" style="cursor:pointer"><div class="l">🟢 Territórios Livres</div><div class="v pos">${terr.livre}</div><div class="l">menos de R$1M no mandato atual</div></div>
+    <div class="card" onclick="irParaMun('disputado')" style="cursor:pointer"><div class="l">🟡 Em Disputa</div><div class="v" style="color:var(--warn)">${terr.disputado}</div><div class="l">múltiplos partidos</div></div>
+    <div class="card" onclick="irParaMun('ocupado')" style="cursor:pointer"><div class="l">🔴 Ocupados</div><div class="v neg">${terr.ocupado}</div><div class="l">um partido concentra 60%+</div></div>
+    <div class="card"><div class="l">Prefeituras 2024</div><div class="v">${temPref?'✓':'—'}</div><div class="l">${temPref?'prefeito e vice carregados':'pendente de coleta TSE'}</div></div>
+  </div>
+  <div class="grid2">
+    <div><div class="sub">🏆 Top 10 — maior receita própria (menos dependentes)</div>
+    ${rankReceita('propria')}</div>
+    <div><div class="sub">⚠️ Top 10 — mais dependentes da União</div>
+    ${rankReceita('uniao')}</div>
+  </div>
+  <div class="sub">Top 10 parlamentares — emendas destinadas a SC</div>
+  ${barras(D.parlamentares.filter(p=>p.cargo!=='coletivo').slice(0,10).map(p=>[`${p.nome} (${p.partido||p.cargo})`,p.emendas_total]))}
+  <div class="sub">Top 10 municípios — total recebido em emendas</div>
+  ${barras([...D.municipios].sort((a,b)=>b.emendas_total-a.emendas_total).slice(0,10).map(m=>[m.nome,m.emendas_total]))}`;
+}
+function rankReceita(campo){
+  const rows=D.municipios.filter(m=>m.receita?.total>0)
+    .map(m=>({m,pct:m.receita[campo]/m.receita.total*100}))
+    .sort((a,b)=>b.pct-a.pct).slice(0,10);
+  const cor=campo==='propria'?'var(--ok)':'var(--bad)';
+  return `<table><thead><tr><th>#</th><th>Município</th><th class="num">${campo==='propria'?'% própria':'% União'}</th>
+  <th class="num">Eleitorado</th><th class="num">Emendas recebidas</th></tr></thead><tbody>
+  ${rows.map(({m,pct},i)=>`<tr onclick="verMun(${m.ibge})"><td class="mut">${i+1}</td><td>${esc(m.nome)}</td>
+  <td class="num" style="color:${cor}"><b>${pct.toFixed(1)}%</b></td>
+  <td class="num mut">${num(m.eleitorado)}</td><td class="num mut">${fmt(m.emendas_total)}</td></tr>`).join('')}</tbody></table>`;
+}
+function barras(pares){
+  const max=Math.max(...pares.map(p=>p[1]));
+  return `<div class="card">${pares.map(([l,v])=>`
+    <div style="display:grid;grid-template-columns:220px 1fr 90px;gap:10px;align-items:center;padding:3px 0">
+      <span style="overflow:hidden;text-overflow:ellipsis">${esc(l)}</span>
+      <div class="bar" style="width:${(v/max*100).toFixed(1)}%"></div>
+      <span class="num mut">${fmt(v)}</span></div>`).join('')}</div>`;
+}
+
+/* ── Parlamentares ── */
+function rParl(){
+  byId('t-parl').innerHTML=`
+  <div class="tools"><input type="search" id="q-parl" placeholder="Buscar parlamentar…">
+    <select id="f-cargo"><option value="">Todos</option><option value="dep_federal">Deputados federais</option>
+    <option value="senador">Senadores</option><option value="ex_parlamentar">Ex-parlamentares</option>
+    <option value="coletivo">Bancada/Comissões</option><option value="externo">Autores de fora de SC</option></select></div>
+  <div id="tb-parl"></div>`;
+  const draw=()=>{
+    const q=byId('q-parl').value.toLowerCase(),c=byId('f-cargo').value;
+    const rows=D.parlamentares.filter(p=>(!c||p.cargo===c)&&p.nome.toLowerCase().includes(q));
+    byId('tb-parl').innerHTML=`<table><thead><tr><th>Nome</th><th>Partido</th><th>Cargo</th>
+      <th class="num">Empenhado</th><th class="num">Pago</th><th class="num">% pago</th><th class="num">No município</th>
+      <th class="num">Cidades</th><th class="num">Votos 2022</th></tr></thead><tbody>
+      ${rows.map(p=>{const pct=p.emendas_total?p.emendas_pago/p.emendas_total*100:0;
+        return `<tr onclick="verParl('${p.chave}')">
+        <td>${p.foto?`<img class="foto" src="${esc(p.foto)}" loading="lazy" onerror="this.style.display='none'">`:''}${esc(p.nome)}</td>
+        <td><span class="tag">${esc(p.partido||'—')}</span></td><td class="mut">${rotCargo(p.cargo)}</td>
+        <td class="num">${fmt(p.emendas_total)}</td>
+        <td class="num ${pct>=60?'pos':pct>=25?'':'neg'}">${fmt(p.emendas_pago||0)}</td>
+        <td class="num ${pct>=60?'pos':pct>=25?'':'neg'}">${pct.toFixed(0)}%</td>
+        <td class="num mut">${fmt(p.emendas_municipalizadas)}</td>
+        <td class="num">${p.n_municipios}</td><td class="num">${num(p.votos_total)}</td></tr>`;}).join('')}</tbody></table>`;
+  };
+  byId('q-parl').oninput=draw;byId('f-cargo').onchange=draw;draw();
+}
+const rotCargo=c=>({dep_federal:'Dep. Federal',senador:'Senador(a)',ex_parlamentar:'Ex-parlamentar',coletivo:'Coletivo',externo:'Outra UF'}[c]||c);
+const rotTipo=t=>({individual:'Individual',pix:'Pix (Transf. Especial)',bancada:'Bancada',comissao:'Comissão',relator:'Relator'}[t]||t);
+const corTipo=t=>({individual:'var(--ac)',pix:'var(--ok)',bancada:'var(--warn)',comissao:'#a371f7',relator:'var(--bad)'}[t]||'var(--tx2)');
+const tagTipo=t=>`<span class="tag" style="border-color:${corTipo(t)};color:${corTipo(t)}">${rotTipo(t)}</span>`;
+
+function verParl(k){
+  const p=pMap[k];
+  const linhas=D.municipios.filter(m=>m.emendas[k]).map(m=>({m,e:m.emendas[k],v:m.votos[k]||0}))
+    .sort((a,b)=>b.e.total-a.e.total);
+  const soVoto=D.municipios.filter(m=>!m.emendas[k]&&(m.votos[k]||0)>0)
+    .sort((a,b)=>(b.votos[k]||0)-(a.votos[k]||0)).slice(0,15);
+  // todos os itens municipalizados, emenda a emenda
+  const itens=[];
+  linhas.forEach(({m,e})=>(e.itens||[]).forEach(i=>itens.push({...i,mun:m.nome,ibge:m.ibge})));
+  itens.sort((a,b)=>b.valor-a.valor);
+  abrirModal(`<h2>${esc(p.nome)} <span class="tag">${esc(p.partido||'')}</span></h2>
+  <div class="mut">${rotCargo(p.cargo)} · empenhado ${fmt(p.emendas_total)} · <b class="${(p.emendas_pago/p.emendas_total)>=.6?'pos':'neg'}">pago ${fmt(p.emendas_pago||0)} (${p.emendas_total?(p.emendas_pago/p.emendas_total*100).toFixed(0):0}%)</b> · ${num(p.votos_total)} votos em 2022</div>
+  <div style="margin:10px 0">${Object.entries(p.por_tipo||{}).map(([t,v])=>`${tagTipo(t)} <b>${fmt(v)}</b>&nbsp;&nbsp;`).join('')}</div>
+  <div class="grid2">
+    <div class="card"><div class="l mut">Rastreado até o município</div><div class="v" style="font-size:18px">${fmt(p.emendas_municipalizadas)}</div></div>
+    <div class="card"><div class="l mut">Ainda em nível UF (destino não identificado)</div><div class="v" style="font-size:18px">${fmt(p.emendas_uf_nivel)}</div></div>
+  </div>
+  <div class="sub">Resumo por município (${linhas.length})</div>
+  <div style="max-height:260px;overflow:auto"><table><thead><tr><th>Município</th><th>Prefeito</th>
+  <th class="num">Emendas</th><th class="num">Pago</th><th class="num">Votos dele aqui</th></tr></thead><tbody>
+  ${linhas.map(({m,e,v})=>`<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td>
+    <td class="mut">${m.prefeito?esc(m.prefeito.nome)+' ('+esc(m.prefeito.partido)+')':'—'}</td>
+    <td class="num">${fmt(e.total)}</td><td class="num mut">${fmt(e.pago)}</td><td class="num">${num(v)}</td></tr>`).join('')}
+  </tbody></table></div>
+  <div class="sub">Cada centavo, emenda a emenda (${itens.length} lançamentos municipalizados)</div>
+  <div class="tools"><select id="f-tipo-parl" onchange="filtraItens('${k}')"><option value="">Todos os tipos</option>
+  ${[...new Set(itens.map(i=>i.tipo))].map(t=>`<option value="${t}">${rotTipo(t)}</option>`).join('')}</select></div>
+  <div style="max-height:300px;overflow:auto" id="itens-parl">${tabelaItens(itens)}</div>
+  ${p.itens_uf?.length?`<div class="sub">Sem destino municipal identificado (${p.itens_uf.length} emendas — nível UF)</div>
+  <div style="max-height:220px;overflow:auto"><table><thead><tr><th>Código</th><th class="num">Ano</th><th>Tipo</th><th>Finalidade</th><th class="num">Empenhado</th><th class="num">Pago</th></tr></thead><tbody>
+  ${p.itens_uf.map(i=>`<tr><td class="mut">${esc(i.cod)}</td><td class="num">${i.ano||'—'}</td><td>${tagTipo(i.tipo)}</td>
+  <td style="white-space:normal">${finalidade(i)}</td><td class="num">${fmt(i.valor)}</td><td class="num mut">${fmt(i.pago)}</td></tr>`).join('')}</tbody></table></div>`:''}
+  ${soVoto.length?`<div class="sub" title="Indicador derivado pela consultoria: municípios com votação nominal e sem alocação individual municipalizada identificada nas fontes integradas. A ausência pode ter causas legítimas (emendas de bancada, execução regional, demanda não apresentada).">Votou × sem alocação individual identificada (top 15) <span class="mut">· indicador da consultoria</span></div>
+  <div style="max-height:220px;overflow:auto"><table><thead><tr><th>Município</th><th class="num">Votos 2022</th><th class="num">% eleitorado</th></tr></thead><tbody>
+  ${soVoto.map(m=>`<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td><td class="num neg">${num(m.votos[k])}</td>
+  <td class="num mut">${m.eleitorado?(m.votos[k]/m.eleitorado*100).toFixed(1)+'%':'—'}</td></tr>`).join('')}</tbody></table></div>`:''}`);
+  window._itensParl=itens;
+}
+const finalidade=i=>{
+  const a=[i.area,i.sub].filter(Boolean).join(' · ');
+  // Pix: estágio orçamentário, NUNCA "pago/repassado" (empenho ≠ dinheiro na conta)
+  const st=i.st?` <span class="tag" title="Estágio orçamentário no TransfereGov. Empenho enviado inicia a execução; a transferência financeira é etapa posterior e não é informada por esta fonte." style="${String(i.st).startsWith('empenho')?'border-color:var(--ac);color:var(--ac)':'border-color:var(--warn);color:var(--warn)'}">${String(i.st).startsWith('empenho')?'◔ empenho enviado':'⏳ plano (sem empenho)'}</span>`:'';
+  return `${esc(a||'—')}${st}${i.obj?`<div class="mut" style="font-size:11.5px;white-space:normal;max-width:340px">${esc(i.obj)}</div>`:''}`;
+};
+function tabelaItens(itens){
+  return `<table><thead><tr><th>Município</th><th>Código</th><th class="num">Ano</th><th>Tipo</th><th>Finalidade</th>
+  <th class="num">Empenhado</th><th class="num">Pago</th></tr></thead><tbody>
+  ${itens.map(i=>`<tr onclick="verMun(${i.ibge})"><td>${esc(i.mun)}</td><td class="mut">${esc(i.cod)}</td>
+  <td class="num">${i.ano||'—'}</td><td>${tagTipo(i.tipo)}</td><td style="white-space:normal">${finalidade(i)}</td>
+  <td class="num">${fmt(i.valor)}</td><td class="num mut">${fmt(i.pago)}</td></tr>`).join('')}</tbody></table>`;
+}
+function filtraItens(){
+  const t=byId('f-tipo-parl').value;
+  byId('itens-parl').innerHTML=tabelaItens(window._itensParl.filter(i=>!t||i.tipo===t));
+}
+
+/* ── Municípios ── */
+function rMun(){
+  byId('t-mun').innerHTML=`
+  <div class="tools"><input type="search" id="q-mun" placeholder="Buscar município…">
+  <select id="f-terr"><option value="">Todos os territórios</option>
+  <option value="sem">Sem nenhuma emenda</option><option value="livre">🟢 Livres</option>
+  <option value="disputado">🟡 Em disputa</option><option value="ocupado">🔴 Ocupados</option></select>
+  <select id="f-pref"><option value="">Todos os partidos (prefeito)</option></select>
+  <select id="o-mun"><option value="emendas">Ordenar: emendas</option><option value="votos">Ordenar: votos</option>
+  <option value="eleitorado">Ordenar: eleitorado</option><option value="nome">Ordenar: nome</option></select></div>
+  <div id="tb-mun"></div>`;
+  const partidos=[...new Set(D.municipios.map(m=>m.prefeito?.partido).filter(Boolean))].sort();
+  byId('f-pref').innerHTML+=partidos.map(p=>`<option>${esc(p)}</option>`).join('');
+  const draw=()=>{
+    const q=byId('q-mun').value.toLowerCase(),fp=byId('f-pref').value,o=byId('o-mun').value,ft=byId('f-terr').value;
+    let rows=D.municipios.filter(m=>m.nome.toLowerCase().includes(q)&&(!fp||m.prefeito?.partido===fp)
+      &&(!ft||territorio(m).tipo===ft));
+    rows.sort((a,b)=>o==='nome'?a.nome.localeCompare(b.nome):o==='votos'?b.votos_total-a.votos_total:
+      o==='eleitorado'?b.eleitorado-a.eleitorado:b.emendas_total-a.emendas_total);
+    byId('tb-mun').innerHTML=`<table><thead><tr><th>Município</th><th>Território</th><th>Prefeito</th><th>Vice</th>
+    <th class="num">Eleitorado</th><th class="num">Emendas recebidas</th><th class="num">FPM 2024</th><th class="num">Parlamentares</th></tr></thead><tbody>
+    ${rows.map(m=>{const t=territorio(m);
+      return `<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td>
+      <td><span class="tag" style="border-color:${t.cor};color:${t.cor}">${t.rot}</span></td>
+      <td>${m.prefeito?esc(m.prefeito.nome)+' <span class="tag">'+esc(m.prefeito.partido)+'</span>':'<span class="mut">—</span>'}</td>
+      <td class="mut">${m.vice?esc(m.vice.nome)+' ('+esc(m.vice.partido)+')':'—'}</td>
+      <td class="num">${num(m.eleitorado)}</td>
+      <td class="num ${m.emendas_total?'':'neg'}">${m.emendas_total?fmt(m.emendas_total):'R$ 0'}</td>
+      <td class="num mut">${fpmDe(m)?fmt(fpmDe(m)):'—'}</td>
+      <td class="num">${Object.keys(m.emendas).length}</td></tr>`;}).join('')}</tbody></table>
+    <div class="mut" style="margin-top:6px">${rows.length} municípios no recorte.</div>`;
+  };
+  byId('q-mun').oninput=draw;byId('f-pref').onchange=draw;byId('o-mun').onchange=draw;byId('f-terr').onchange=draw;draw();
+}
+
+function verMun(ibge){
+  const m=D.municipios.find(x=>x.ibge===ibge);
+  const ems=Object.entries(m.emendas).map(([k,e])=>({p:pMap[k],e})).sort((a,b)=>b.e.total-a.e.total);
+  const vts=Object.entries(m.votos).map(([k,v])=>({p:pMap[k],v})).sort((a,b)=>b.v-a.v);
+  // emendas agregadas por tipo (especiais × demais)
+  const porTipo={};
+  Object.values(m.emendas).forEach(e=>Object.entries(e.por_tipo||{}).forEach(([t,v])=>porTipo[t]=(porTipo[t]||0)+v));
+  // transferências obrigatórias: recursos = {tipo:{ano:valor}}
+  const tiposR=Object.keys(m.recursos||{});
+  const anosR=[...new Set(tiposR.flatMap(t=>Object.keys(m.recursos[t])))].sort();
+  const totObrig=tiposR.reduce((a,t)=>a+totR(m,t),0);
+  abrirModal(`<h2>${esc(m.nome)}</h2>
+  <div class="mut">${esc(m.meso)} · ${esc(m.micro)} · eleitorado ${num(m.eleitorado)}</div>
+  <div class="grid2">
+    <div class="card"><div class="l mut" title="Eleito em outubro/2024 (TSE). Eleições suplementares e afastamentos posteriores não integrados — confirme o mandatário atual.">Prefeito (eleito 2024) ⓘ</div><div>${m.prefeito?esc(m.prefeito.nome)+' <span class="tag">'+esc(m.prefeito.partido)+'</span>':'<span class="mut">sem eleito registrado</span>'}</div>
+    <div class="l mut" style="margin-top:6px">Vice</div><div>${m.vice?esc(m.vice.nome)+' <span class="tag">'+esc(m.vice.partido)+'</span>':'<span class="mut">—</span>'}</div></div>
+    <div class="card"><div class="l mut">Emendas — empenhado</div><div class="v" style="font-size:18px">${fmt(m.emendas_total)}</div>
+    <div class="l mut">pago: <b>${fmt(Object.values(m.emendas).reduce((a,e)=>a+(e.pago||0),0))}</b> · obrigatórias/legais: ${totObrig?fmt(totObrig):'—'}</div></div>
+  </div>
+  ${m.receita?.total?`<div class="sub">De onde vem o dinheiro da prefeitura — receitas ${m.receita.ano} (SICONFI/DCA)</div>
+  ${pizza([
+    {label:'Receita própria',valor:m.receita.propria,cor:'#3fb950'},
+    {label:'Transferências da União',valor:m.receita.uniao,cor:'#2f81f7'},
+    {label:'Transferências do Estado',valor:m.receita.estado,cor:'#d29922'},
+    {label:'FUNDEB (educação)',valor:m.receita.fundeb||0,cor:'#a371f7'},
+    {label:'Outras transferências',valor:m.receita.outras_transf,cor:'#6e7681'},
+  ])}
+  <div class="mut" style="font-size:12px;margin:6px 0 2px">Receita bruta total ${m.receita.ano}: ${fmt(m.receita.total)}. As emendas federais e as TEV estaduais estão contidas nas fatias de União e Estado — o detalhamento está nos blocos abaixo. "Outras" = consórcios intermunicipais, instituições privadas e demais.</div>`:''}
+  <div class="sub">Transferências federais — emendas, por tipo</div>
+  <div style="margin:6px 0 12px">${Object.entries(porTipo).sort((a,b)=>b[1]-a[1])
+    .map(([t,v])=>`${tagTipo(t)} <b>${fmt(v)}</b>&nbsp;&nbsp;`).join('')||'<span class="mut">nenhuma</span>'}</div>
+  <div class="sub">Transferências federais — obrigatórias e legais (clique na fonte para ver mês a mês)</div>
+  ${tiposR.length?`<table><thead><tr><th></th><th>Fonte</th>${anosR.map(a=>`<th class="num">${a}</th>`).join('')}<th class="num">Total</th></tr></thead><tbody>
+  ${tiposR.sort((a,b)=>totR(m,b)-totR(m,a)).map((t,ix)=>{
+    const temMes=anosR.some(a=>m.recursos[t][a]&&Object.keys(m.recursos[t][a].m||{}).length);
+    return `<tr ${temMes?`onclick="tgl('obr-${ix}')" style="cursor:pointer"`:''}><td class="mut">${temMes?'▸':''}</td>
+    <td>${esc(t)}</td>${anosR.map(a=>`<td class="num mut">${m.recursos[t][a]?fmt(m.recursos[t][a].t):'—'}</td>`).join('')}
+    <td class="num">${fmt(totR(m,t))}</td></tr>
+    ${temMes?`<tr id="obr-${ix}" hidden><td></td><td colspan="${anosR.length+2}" style="white-space:normal;background:var(--card2)">
+    ${anosR.filter(a=>m.recursos[t][a]&&Object.keys(m.recursos[t][a].m||{}).length).map(a=>
+      `<div style="padding:4px 0"><b>${a}</b>: ${Object.entries(m.recursos[t][a].m)
+      .map(([mes,v])=>`<span class="mut">${MESES[mes]}</span> ${fmt(v)}`).join(' · ')}</div>`).join('')}</td></tr>`:''}`;
+  }).join('')}</tbody></table>`
+  :'<div class="mut">Pendente de coleta — rode: python3 -m pipeline.coleta --etapa obrigatorias</div>'}
+  <div class="sub">Quem colocou recursos aqui — clique na linha para abrir emenda a emenda</div>
+  <table><thead><tr><th></th><th>Parlamentar</th><th class="num">Empenhado</th><th class="num">Pago</th><th>Anos</th><th>Tipo</th></tr></thead><tbody>
+  ${ems.length?ems.map(({p,e},ix)=>`<tr onclick="tgl('det-${ix}')" style="cursor:pointer"><td class="mut">▸</td>
+    <td>${esc(p?.nome||'?')} <span class="tag">${esc(p?.partido||rotCargo(p?.cargo))}</span></td>
+    <td class="num">${fmt(e.total)}</td><td class="num mut">${fmt(e.pago)}</td>
+    <td class="mut">${Object.keys(e.por_ano).join(', ')||'—'}</td>
+    <td>${Object.keys(e.por_tipo).map(tagTipo).join(' ')}</td></tr>
+    <tr id="det-${ix}" hidden><td></td><td colspan="5" style="white-space:normal;background:var(--card2)">
+    <table style="margin:6px 0"><thead><tr><th>Código</th><th class="num">Ano</th><th>Tipo</th><th>Finalidade</th>
+    <th class="num">Empenhado</th><th class="num">Pago</th></tr></thead><tbody>
+    ${(e.itens||[]).map(i=>`<tr><td class="mut">${esc(i.cod)}</td><td class="num">${i.ano||'—'}</td>
+    <td>${tagTipo(i.tipo)}</td><td style="white-space:normal">${finalidade(i)}</td>
+    <td class="num">${fmt(i.valor)}</td><td class="num mut">${fmt(i.pago)}</td></tr>`).join('')}</tbody></table></td></tr>`).join('')
+    :'<tr><td colspan="6" class="neg">Nenhuma emenda identificada</td></tr>'}</tbody></table>
+  ${m.emendas_est?.length?`<div class="sub">Emendas parlamentares ESTADUAIS recebidas (deputados ALESC) — ${fmt(m.emendas_est.reduce((a,i)=>a+i.valor,0))}</div>
+  <div style="max-height:220px;overflow:auto"><table><thead><tr><th>Deputado(a) estadual</th><th>Beneficiário</th>
+  <th class="num">Ano</th><th class="num">Valor</th></tr></thead><tbody>
+  ${m.emendas_est.map(i=>`<tr><td>${esc(i.dep)}</td><td class="mut" style="white-space:normal;max-width:260px">${esc(i.benef)}</td>
+  <td class="num">${i.ano||'—'}</td><td class="num">${fmt(i.valor)}</td></tr>`).join('')}</tbody></table></div>`:''}
+  ${m.tev?.itens?.length?`<div class="sub">Repasses do Estado — Transferências Especiais (TEV) · empenhado ${fmt(m.tev.total)} · pago ${fmt(m.tev.pago)} — clique para abrir</div>
+  <table><tbody><tr onclick="tgl('tev-det')" style="cursor:pointer"><td class="mut">▸</td>
+  <td>${m.tev.itens.length} transferências do executivo estadual</td>
+  <td class="num">${fmt(m.tev.total)}</td><td class="num mut">${fmt(m.tev.pago)}</td></tr>
+  <tr id="tev-det" hidden><td></td><td colspan="3" style="white-space:normal;background:var(--card2)">
+  <table style="margin:6px 0"><thead><tr><th class="num">Ano</th><th>Objeto</th><th>Órgão</th><th>Situação</th>
+  <th class="num">Valor</th><th class="num">Pago</th></tr></thead><tbody>
+  ${m.tev.itens.map(i=>`<tr><td class="num">${i.ano||'—'}</td><td style="white-space:normal;max-width:360px">${esc(i.obj)}</td>
+  <td class="mut">${esc(i.orgao)}</td><td class="mut">${esc(i.situacao)}</td>
+  <td class="num">${fmt(i.valor)}</td><td class="num ${i.pago>=i.valor?'pos':'mut'}">${fmt(i.pago)}</td></tr>`).join('')}
+  </tbody></table></td></tr></tbody></table>`:''}
+  ${Object.keys(m.filiados||{}).length?`<div class="sub">Filiados por partido (situação regular)</div>
+  <div style="margin:6px 0 12px">${(()=>{const tot=Object.values(m.filiados).reduce((a,b)=>a+b,0);
+    return `<span class="mut">total ${num(tot)} filiados · ${m.eleitorado?(tot/m.eleitorado*100).toFixed(1)+'% do eleitorado':''}</span><br>`+
+    Object.entries(m.filiados).slice(0,12).map(([p,n])=>
+    `<span class="tag" style="margin:2px;border-color:${corPartido(p)}">${esc(p)} <b>${num(n)}</b></span>`).join(' ');})()}</div>`:''}
+  <div class="sub">Votação 2022 neste município (dep. federal / senador)</div>
+  <div style="max-height:240px;overflow:auto"><table><thead><tr><th>Parlamentar</th><th class="num">Votos</th><th class="num">% eleitorado</th><th class="num">Colocou emenda?</th></tr></thead><tbody>
+  ${vts.slice(0,20).map(({p,v})=>`<tr><td>${esc(p?.nome||'?')}</td><td class="num">${num(v)}</td>
+  <td class="num mut">${m.eleitorado?(v/m.eleitorado*100).toFixed(1)+'%':'—'}</td>
+  <td class="num">${m.emendas[p?.chave]?'<span class="pos">✓ '+fmt(m.emendas[p.chave].total)+'</span>':'<span class="neg">✗ nada</span>'}</td></tr>`).join('')}</tbody></table></div>`);
+}
+
+/* ── Cruzamentos ── */
+function rCruz(){
+  const opts=ativos().map(p=>`<option value="${p.chave}">${esc(p.nome)} (${esc(p.partido)})</option>`).join('');
+  byId('t-cruz').innerHTML=`
+  <div class="tools"><select id="c-parl"><option value="">— Selecione um parlamentar —</option>${opts}</select>
+  <select id="c-modo"><option value="divida">Votou × sem alocação identificada</option>
+  <option value="partido">Cidades do partido dele: quem ele atendeu ou ignorou</option>
+  <option value="cobertura">Cobertura completa: todas as cidades</option></select></div>
+  <div id="c-out" class="mut">Selecione um parlamentar para cruzar votos × emendas × partido do prefeito.</div>
+  <div class="sub" style="margin-top:26px">Matriz — emendas por partido do prefeito</div>
+  <div id="c-matriz"></div>`;
+  byId('c-parl').onchange=byId('c-modo').onchange=drawCruz;
+  drawMatriz();
+}
+function drawCruz(){
+  const k=byId('c-parl').value,modo=byId('c-modo').value,out=byId('c-out');
+  if(!k){out.textContent='Selecione um parlamentar.';return;}
+  const p=pMap[k];
+  let rows=D.municipios.map(m=>({m,v:m.votos[k]||0,e:m.emendas[k]?.total||0,pp:m.prefeito?.partido||''}));
+  if(modo==='divida')rows=rows.filter(r=>r.v>0&&r.e===0).sort((a,b)=>b.v-a.v);
+  else if(modo==='partido')rows=rows.filter(r=>r.pp&&r.pp===p.partido).sort((a,b)=>b.e-a.e);
+  else rows.sort((a,b)=>b.e-a.e);
+  if(modo==='partido'&&!D.municipios.some(m=>m.prefeito)){out.innerHTML='<div class="aviso">Prefeituras 2024 ainda não coletadas — rode <code>python -m pipeline.coleta --etapa tse2024</code>.</div>';return;}
+  out.innerHTML=`<div style="max-height:480px;overflow:auto"><table><thead><tr><th>Município</th><th>Prefeito (partido)</th>
+  <th class="num">Votos ${esc(p.nome.split(' ')[0])} 2022</th><th class="num">Emendas dele</th><th class="num">Emendas de outros</th><th>Leitura</th></tr></thead><tbody>
+  ${rows.map(r=>{
+    const outros=r.m.emendas_total-r.e;
+    const leitura=r.e===0&&r.v>0?'<span class="neg">cobrar retorno</span>':r.e===0?'<span class="mut">território livre</span>':
+      r.v===0?'<span class="tag">emenda sem voto</span>':'<span class="pos">base atendida</span>';
+    return `<tr onclick="verMun(${r.m.ibge})"><td>${esc(r.m.nome)}</td>
+    <td class="mut">${r.m.prefeito?esc(r.m.prefeito.nome)+' ('+esc(r.pp)+')':'—'}</td>
+    <td class="num">${num(r.v)}</td><td class="num ${r.e?'pos':'neg'}">${r.e?fmt(r.e):'R$ 0'}</td>
+    <td class="num mut">${fmt(outros)}</td><td>${leitura}</td></tr>`;}).join('')}</tbody></table></div>
+  <div class="mut" style="margin-top:8px">${rows.length} municípios no recorte.</div>`;
+}
+function drawMatriz(){
+  if(!D.municipios.some(m=>m.prefeito)){byId('c-matriz').innerHTML='<div class="aviso">Disponível após a coleta das prefeituras 2024 (TSE).</div>';return;}
+  const partidos=[...new Set(D.municipios.map(m=>m.prefeito?.partido).filter(Boolean))].sort();
+  const deps=ativos();
+  const cel={};deps.forEach(p=>cel[p.chave]={});
+  D.municipios.forEach(m=>{const pp=m.prefeito?.partido;if(!pp)return;
+    Object.entries(m.emendas).forEach(([k,e])=>{if(cel[k])cel[k][pp]=(cel[k][pp]||0)+e.total;});});
+  byId('c-matriz').innerHTML=`<div style="overflow:auto"><table><thead><tr><th>Parlamentar</th>
+  ${partidos.map(p=>`<th class="num">${esc(p)}</th>`).join('')}</tr></thead><tbody>
+  ${deps.map(p=>`<tr><td>${esc(p.nome)} <span class="tag">${esc(p.partido)}</span></td>
+  ${partidos.map(pp=>{const v=cel[p.chave][pp]||0;
+    return `<td class="num ${pp===p.partido&&!v?'neg':''}">${v?fmt(v):'—'}</td>`;}).join('')}</tr>`).join('')}</tbody></table></div>
+  <div class="mut" style="margin-top:6px">Célula em vermelho: partido do próprio parlamentar sem nenhuma emenda dele.</div>`;
+}
+
+/* ── Deputados Estaduais ── */
+function rDepEst(){
+  const deps=D.dep_estaduais||[];
+  if(!deps.length){
+    byId('t-depest').innerHTML=`<div class="aviso">Deputados estaduais — para carregar a votação 2022, rode:
+    <code>python3 -m pipeline.coleta --etapa tse_estadual</code> e depois <code>python3 -m pipeline.build</code>.<br>
+    Para as emendas estaduais (autor), rode também <code>python3 -m pipeline.coleta --etapa emendas_estaduais</code> e me avise.</div>`;
+    return;
+  }
+  const temEmendas=deps.some(p=>p.total>0);
+  byId('t-depest').innerHTML=`
+  <div class="tools"><input type="search" id="q-depest" placeholder="Buscar deputado estadual…"></div>
+  ${temEmendas?'':'<div class="aviso">Votação carregada ✓ — emendas estaduais por autor ainda pendentes (painéis da SEF): rode <code>python3 -m pipeline.coleta --etapa emendas_estaduais</code> e me avise.</div>'}
+  <div id="tb-depest"></div>`;
+  const draw=()=>{
+    const q=byId('q-depest').value.toLowerCase();
+    const rows=deps.filter(p=>p.nome.toLowerCase().includes(q));
+    byId('tb-depest').innerHTML=`<table><thead><tr><th>#</th><th>Deputado(a)</th><th>Partido</th>
+    <th class="num">Votos 2022</th><th class="num">Emendas estaduais</th><th class="num">Pago</th></tr></thead><tbody>
+    ${rows.map((p,i)=>`<tr onclick="verDepEst('${p.chave}')"><td class="mut">${i+1}</td><td>${esc(p.nome)}</td>
+    <td><span class="tag" style="border-color:${corPartido(p.partido)};color:${corPartido(p.partido)}">${esc(p.partido||'—')}</span></td>
+    <td class="num">${num(p.votos_total)}</td>
+    <td class="num">${p.total?fmt(p.total):(D.meta.cobertura?.emendas_estaduais?'R$ 0':'<span class="mut" title="Fonte de emendas estaduais não integrada nesta UF — não significa que não recebeu">ND</span>')}</td>
+    <td class="num mut">${p.pago?fmt(p.pago):'—'}</td></tr>`).join('')}</tbody></table>`;
+  };
+  byId('q-depest').oninput=draw;draw();
+}
+function verDepEst(k){
+  const p=(D.dep_estaduais||[]).find(x=>x.chave===k);
+  if(!p)return;
+  const votos=D.municipios.map(m=>({m,v:m.votos_est?.[k]||0})).filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+  abrirModal(`<h2>${esc(p.nome)} <span class="tag">${esc(p.partido||'')}</span></h2>
+  <div class="mut">Deputado(a) Estadual · ${num(p.votos_total)} votos em 2022${p.total?` · ${fmt(p.total)} em emendas estaduais`:''}</div>
+  ${(p.itens||[]).length?`<div class="sub">Onde colocou recursos (emendas estaduais)</div>
+  <div style="max-height:300px;overflow:auto"><table><thead><tr><th>Município</th><th>Objeto</th>
+  <th class="num">Ano</th><th class="num">Valor</th><th class="num">Pago</th></tr></thead><tbody>
+  ${p.itens.map(i=>`<tr><td>${esc(i.mun||'—')}</td><td style="white-space:normal;max-width:340px">${esc(i.obj||'—')}</td>
+  <td class="num">${i.ano||'—'}</td><td class="num">${fmt(i.valor)}</td><td class="num mut">${fmt(i.pago||0)}</td></tr>`).join('')}
+  </tbody></table></div>`:''}
+  <div class="sub">Votação por município (${votos.length} cidades)</div>
+  <div style="max-height:340px;overflow:auto"><table><thead><tr><th>Município</th><th class="num">Votos</th>
+  <th class="num">% eleitorado</th></tr></thead><tbody>
+  ${votos.map(({m,v})=>`<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td><td class="num">${num(v)}</td>
+  <td class="num mut">${m.eleitorado?(v/m.eleitorado*100).toFixed(1)+'%':'—'}</td></tr>`).join('')}</tbody></table></div>`);
+}
+
+/* ── Mapa ── */
+const CORES_PARTIDO={PL:'#1f6feb',MDB:'#00b8a9',PP:'#f6a821',PSD:'#8b7cf6',PT:'#e5534b',
+  PSDB:'#54aeff',NOVO:'#fb8f44',REPUBLICANOS:'#3fb950',UNIÃO:'#1a7f8e','UNIAO':'#1a7f8e',
+  PDT:'#d2a8ff',PSB:'#ffa198',PODE:'#79c0ff',CIDADANIA:'#e3b341',AVANTE:'#b87333',PRD:'#9e6a03'};
+const corPartido=p=>CORES_PARTIDO[(p||'').toUpperCase()]||'#6e7681';
+let MAPA=null,GEO=null,CAMADA=null;
+async function initMapa(){
+  if(!byId('t-mapa').innerHTML){
+    const opts=ativos().map(p=>`<option value="${p.chave}">${esc(p.nome)} (${esc(p.partido)})</option>`).join('');
+    byId('t-mapa').innerHTML=`<div class="tools">
+    <select id="m-modo"><option value="prefeito">Partido do prefeito</option>
+    <option value="vice">Partido do vice</option>
+    <option value="territorio">Território (livre/disputa/ocupado)</option>
+    <option value="emendas">Total de emendas recebidas</option>
+    <option value="cruzado">Cruzado: votos × emendas do parlamentar</option></select>
+    <select id="m-parl" style="display:none"><option value="">— parlamentar —</option>${opts}</select></div>
+    <div id="mapa-legenda" class="legenda"></div><div id="mapa-el"></div>`;
+    byId('m-modo').onchange=()=>{byId('m-parl').style.display=byId('m-modo').value==='cruzado'?'':'none';pintarMapa();};
+    byId('m-parl').onchange=pintarMapa;
+  }
+  if(!MAPA){
+    MAPA=L.map('mapa-el',{zoomSnap:.25}).setView([-27.3,-50.5],7);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      {attribution:'© OpenStreetMap © CARTO',subdomains:'abcd'}).addTo(MAPA);
+  }
+  if(!GEO){
+    try{GEO=await (await fetch('data/geo_sc.json')).json();}
+    catch(e){GEO=null;}
+    if(!GEO||!GEO.features){
+      try{GEO=await (await fetch('https://servicodados.ibge.gov.br/api/v3/malhas/estados/42?formato=application/vnd.geo+json&qualidade=minima&intrarregiao=municipio')).json();}
+      catch(e){byId('mapa-legenda').innerHTML='<span class="neg">Não foi possível carregar o contorno dos municípios (IBGE fora do ar?). Rode: python3 -m pipeline.coleta --etapa geo</span>';return;}
+    }
+  }
+  pintarMapa();
+}
+function pintarMapa(){
+  if(!GEO||!MAPA)return;
+  const modo=byId('m-modo').value,k=byId('m-parl').value;
+  const porIbge={};D.municipios.forEach(m=>porIbge[m.ibge]=m);
+  const maxE=Math.max(...D.municipios.map(m=>m.emendas_total));
+  if(CAMADA)MAPA.removeLayer(CAMADA);
+  const leg=byId('mapa-legenda');
+  if(modo==='prefeito'||modo==='vice'){
+    const usados={};D.municipios.forEach(m=>{const q=m[modo];if(q)usados[q.partido]=(usados[q.partido]||0)+1;});
+    leg.innerHTML=Object.keys(usados).length?Object.entries(usados).sort((a,b)=>b[1]-a[1])
+      .map(([p,n])=>`<span><i style="background:${corPartido(p)}"></i>${esc(p)} (${n})</span>`).join('')
+      :'<span class="neg">Prefeituras 2024 pendentes — rode a coleta tse2024 e o build.</span>';
+  }else if(modo==='territorio'){
+    leg.innerHTML=`<span><i style="background:#3fb950"></i>Livre</span>
+    <span><i style="background:#d29922"></i>Em disputa</span>
+    <span><i style="background:#f85149"></i>Ocupado</span>
+    <span><i style="background:#6e1a1a"></i>Sem nenhuma emenda</span>`;
+  }else if(modo==='emendas'){
+    leg.innerHTML='<span><i style="background:#0e4429"></i>pouco</span><span><i style="background:#39d353"></i>muito</span><span class="mut">escala pela raiz do valor</span>';
+  }else{
+    leg.innerHTML=`<span><i class="c-ok" style="background:#1a4d2e"></i>votou + emenda</span>
+    <span><i style="background:#4d3a12"></i>votou, sem emenda</span>
+    <span><i style="background:#12324d"></i>emenda sem voto</span><span><i style="background:#30363d"></i>nada</span>`;
+  }
+  CAMADA=L.geoJSON(GEO,{style:f=>{
+    const m=porIbge[parseInt(f.properties.codarea||f.properties.id||f.properties.CD_MUN)];
+    let cor='#30363d';
+    if(m){
+      if(modo==='prefeito'||modo==='vice')cor=m[modo]?corPartido(m[modo].partido):'#30363d';
+      else if(modo==='territorio'){const t=territorio(m);
+        cor=t.tipo==='livre'?'#3fb950':t.tipo==='disputado'?'#d29922':t.tipo==='ocupado'?'#f85149':'#6e1a1a';}
+      else if(modo==='emendas'){const f2=Math.sqrt(m.emendas_total/maxE);cor=`rgb(${14+37*f2|0},${68+143*f2|0},${41+42*f2|0})`;}
+      else if(k){const v=m.votos[k]||0,e=m.emendas[k]?.total||0;
+        cor=v&&e?'#1a4d2e':v?'#4d3a12':e?'#12324d':'#30363d';}
+    }
+    return {fillColor:cor,fillOpacity:.85,color:'#0d1117',weight:.7};
+  },onEachFeature:(f,layer)=>{
+    const m=porIbge[parseInt(f.properties.codarea||f.properties.id||f.properties.CD_MUN)];
+    if(!m)return;
+    const extra=modo==='cruzado'&&k?`<br>votos: ${num(m.votos[k]||0)} · emendas dele: ${fmt(m.emendas[k]?.total||0)}`:'';
+    const vice=m.vice?`<br>vice: ${esc(m.vice.nome)} (${esc(m.vice.partido)})`:'';
+    layer.bindTooltip(`<b>${esc(m.nome)}</b><br>${m.prefeito?esc(m.prefeito.nome)+' ('+esc(m.prefeito.partido)+')':''}${vice}<br>emendas: ${fmt(m.emendas_total)}${extra}`);
+    layer.on('click',()=>verMun(m.ibge));
+  }}).addTo(MAPA);
+}
+
+/* ── Votação por Cidade (matriz) ── */
+function rVoto(){
+  byId('t-voto').innerHTML=`<div class="tools">
+  <input type="search" id="q-voto" placeholder="Buscar município…">
+  <select id="v-esfera"><option value="fed">Federais + Senadores</option>
+  <option value="est">Deputados Estaduais</option></select>
+  <div class="legenda" id="v-leg"></div></div>
+  <div class="matriz-wrap" id="v-wrap"></div>`;
+  const draw=()=>{
+    const esfera=byId('v-esfera').value;
+    const q=byId('q-voto').value.toLowerCase();
+    const rows=D.municipios.filter(m=>m.nome.toLowerCase().includes(q));
+    if(esfera==='fed'){
+      byId('v-leg').innerHTML=`<span><i style="background:#1a4d2e"></i>votou + emenda</span>
+      <span><i style="background:#4d3a12"></i>votou, sem emenda</span>
+      <span><i style="background:#12324d"></i>emenda sem voto</span><span><i style="background:transparent;border:1px solid var(--border)"></i>nada</span>`;
+      const deps=ativos().sort((a,b)=>b.votos_total-a.votos_total);
+      byId('v-wrap').innerHTML=`<table class="matriz"><thead><tr><th>Município</th>
+      ${deps.map(p=>`<th onclick="verParl('${p.chave}')" title="${esc(p.nome)} (${esc(p.partido)}) — ${num(p.votos_total)} votos">
+        ${p.foto?`<img class="foto" src="${esc(p.foto)}" style="margin:0 0 4px" loading="lazy" onerror="this.style.display='none'"><br>`:''}
+        <span class="col-dep">${esc(p.nome)}</span></th>`).join('')}</tr></thead><tbody>
+      ${rows.map(m=>`<tr><td onclick="verMun(${m.ibge})">${esc(m.nome)}</td>
+      ${deps.map(p=>{
+        const v=m.votos[p.chave]||0,e=m.emendas[p.chave]?.total||0;
+        const cls=v&&e?'c-ok':v?'c-warn':e?'c-info':'c-null';
+        return `<td class="${cls}" onclick="verMun(${m.ibge})" title="${esc(m.nome)} × ${esc(p.nome)}: ${num(v)} votos · ${fmt(e)}">${v?num(v):'·'}</td>`;
+      }).join('')}</tr>`).join('')}</tbody></table>`;
+    }else{
+      const deps=D.dep_estaduais||[];
+      if(!deps.length){byId('v-wrap').innerHTML='<div class="aviso">Votação estadual pendente — rode: python3 -m pipeline.coleta --etapa tse_estadual e depois o build.</div>';byId('v-leg').innerHTML='';return;}
+      byId('v-leg').innerHTML='<span class="mut">Deputados estaduais eleitos 2022 — intensidade = votos no município</span>';
+      const max=Math.max(...rows.flatMap(m=>deps.map(p=>m.votos_est?.[p.chave]||0)),1);
+      byId('v-wrap').innerHTML=`<table class="matriz"><thead><tr><th>Município</th>
+      ${deps.map(p=>`<th title="${esc(p.nome)} (${esc(p.partido)}) — ${num(p.votos_total)} votos">
+        <span class="col-dep">${esc(p.nome)}</span></th>`).join('')}</tr></thead><tbody>
+      ${rows.map(m=>`<tr><td onclick="verMun(${m.ibge})">${esc(m.nome)}</td>
+      ${deps.map(p=>{
+        const v=m.votos_est?.[p.chave]||0;
+        const al=v?Math.min(.15+.85*Math.sqrt(v/max),1):0;
+        return `<td style="${v?`background:rgba(63,185,80,${al.toFixed(2)});color:#eaffea`:''}" title="${esc(m.nome)} × ${esc(p.nome)}: ${num(v)} votos">${v?num(v):'·'}</td>`;
+      }).join('')}</tr>`).join('')}</tbody></table>`;
+    }
+  };
+  byId('q-voto').oninput=draw;byId('v-esfera').onchange=draw;draw();
+}
+
+/* ── Argumentos ── */
+function rArg(){
+  const semAtivo=D.municipios.filter(m=>!ativos().some(p=>m.emendas[p.chave]))
+    .sort((a,b)=>b.eleitorado-a.eleitorado);
+  const perEleitor=D.municipios.filter(m=>m.eleitorado>0)
+    .map(m=>({m,pe:m.emendas_total/m.eleitorado})).sort((a,b)=>a.pe-b.pe).slice(0,30);
+  byId('t-arg').innerHTML=`
+  <div class="argcard"><b>Como usar:</b> os recortes abaixo são os argumentos de prospecção — cidades onde os parlamentares
+  atuais deixaram vácuo. Mensagem-base: <i>"esta cidade não recebeu praticamente nada de quem está lá; com quem está, não dá pra contar — fecha comigo."</i></div>
+  <div class="sub">Municípios sem emenda de nenhum parlamentar em exercício (${semAtivo.length})</div>
+  <div style="max-height:380px;overflow:auto"><table><thead><tr><th>Município</th><th>Prefeito</th>
+  <th class="num">Eleitorado</th><th class="num">Recebido (só ex/coletivo)</th></tr></thead><tbody>
+  ${semAtivo.map(m=>`<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td>
+  <td class="mut">${m.prefeito?esc(m.prefeito.nome)+' ('+esc(m.prefeito.partido)+')':'—'}</td>
+  <td class="num">${num(m.eleitorado)}</td><td class="num mut">${fmt(m.emendas_total)}</td></tr>`).join('')||'<tr><td colspan="4" class="mut">Nenhum — todos os municípios receberam algo de parlamentares em exercício.</td></tr>'}</tbody></table></div>
+  <div class="sub">30 municípios mais mal atendidos — emendas por eleitor</div>
+  <div style="max-height:380px;overflow:auto"><table><thead><tr><th>Município</th><th class="num">Eleitorado</th>
+  <th class="num">Total emendas</th><th class="num">R$ por eleitor</th></tr></thead><tbody>
+  ${perEleitor.map(({m,pe})=>`<tr onclick="verMun(${m.ibge})"><td>${esc(m.nome)}</td>
+  <td class="num">${num(m.eleitorado)}</td><td class="num">${fmt(m.emendas_total)}</td>
+  <td class="num neg">R$ ${pe.toFixed(0)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+</script>
+</body>
+</html>

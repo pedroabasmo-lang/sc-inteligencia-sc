@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestão de Campanha — Henrichs Consultoria</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root{--bg:#0d1117;--card:#161b22;--card2:#1c2330;--border:#2d333b;--tx:#e6edf3;--tx2:#8b949e;--ac:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,'Segoe UI',Roboto,sans-serif}
+header{display:flex;align-items:center;gap:12px;padding:14px 22px;border-bottom:1px solid var(--border);background:var(--card);position:sticky;top:0;z-index:50}
+header .logo{width:34px;height:34px;border-radius:8px;background:var(--ok);display:flex;align-items:center;justify-content:center;font-weight:700}
+header h1{font-size:15px}
+header small{color:var(--tx2);display:block;font-weight:400}
+nav{display:flex;gap:4px;padding:10px 22px;border-bottom:1px solid var(--border);flex-wrap:wrap;background:var(--bg);position:sticky;top:63px;z-index:49}
+nav button,nav a{background:none;border:1px solid transparent;color:var(--tx2);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13.5px;text-decoration:none}
+nav button.on{background:var(--card2);color:var(--tx);border-color:var(--border)}
+main{padding:20px 22px;max-width:1400px;margin:0 auto}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.card .v{font-size:20px;font-weight:700;margin:2px 0}
+.card .l{color:var(--tx2);font-size:12.5px}
+.tools{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap;align-items:center}
+input,select,textarea{background:var(--card);border:1px solid var(--border);color:var(--tx);padding:8px 12px;border-radius:8px;font-size:13.5px;outline:none}
+textarea{width:100%;min-height:60px}
+button.b{background:var(--ac);border:none;color:#fff;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+button.b2{background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:8px 14px;border-radius:8px;cursor:pointer}
+button.bd{background:none;border:1px solid var(--bad);color:var(--bad);padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px}
+table{width:100%;border-collapse:collapse;background:var(--card);border-radius:10px;overflow:hidden;font-size:13.5px}
+th{background:var(--card2);text-align:left;padding:9px 12px;color:var(--tx2);font-weight:600;white-space:nowrap}
+th.num,td.num{text-align:right}
+td{padding:8px 12px;border-top:1px solid var(--border)}
+tbody tr:hover{background:var(--card2)}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;background:var(--card2);border:1px solid var(--border)}
+.pos{color:var(--ok)}.neg{color:var(--bad)}.mut{color:var(--tx2)}
+.sub{color:var(--tx2);font-size:12.5px;margin:16px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-start;justify-content:center;z-index:2000;padding:40px 16px;overflow:auto}
+.modal.on{display:flex}
+.box{background:var(--card);border:1px solid var(--border);border-radius:12px;max-width:820px;width:100%;padding:22px}
+.box .x{float:right;background:none;border:none;color:var(--tx2);font-size:20px;cursor:pointer}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:10px 0}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.aviso{background:#3b2e12;border:1px solid var(--warn);color:#e3b341;border-radius:8px;padding:10px 14px;margin:10px 0;font-size:13px}
+.nivel{display:inline-block;padding:1px 10px;border-radius:20px;font-size:11.5px;font-weight:600}
+label{font-size:12px;color:var(--tx2);display:block;margin-bottom:2px}
+.fld{display:flex;flex-direction:column}
+.fld input,.fld select{width:100%}
+@media print{body *{visibility:hidden}#imprimivel,#imprimivel *{visibility:visible}#imprimivel{position:absolute;left:0;top:0;width:100%;background:#fff;color:#000;padding:40px;font:13px/1.7 Georgia,serif}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">G</div>
+  <div style="flex:1"><h1>Gestão de Campanha</h1><small>dados salvos neste navegador — faça backup regularmente</small></div>
+  <button class="b2" onclick="backup()">💾 Backup</button>
+  <label class="b2" style="cursor:pointer;padding:8px 14px">📂 Restaurar<input type="file" accept=".json" hidden onchange="restaurar(this)"></label>
+  <a href="index.html" class="b2" style="padding:8px 14px">← Painel de dados</a>
+</header>
+<nav id="nav">
+  <button data-t="dash" class="on">📊 Resumo</button>
+  <button data-t="apoio">🤝 Apoiadores</button>
+  <button data-t="org">🧭 Organograma</button>
+  <button data-t="equipe">🚗 Equipes</button>
+  <button data-t="comp">📌 Compromissos</button>
+  <button data-t="agenda">📅 Agenda</button>
+  <button data-t="metas">🎯 Metas</button>
+  <button data-t="evt">🗓️ Eventos</button>
+  <button data-t="diad">🗳️ Dia D</button>
+  <button data-t="midia">📻 Mídia Local</button>
+  <button data-t="crise">🚨 Crises</button>
+  <button data-t="docs">📄 Termos & Contratos</button>
+  <button data-t="fin">💰 Financeiro</button>
+  <button data-t="mat">📦 Materiais</button>
+  <button data-t="normas">📖 Normas</button>
+</nav>
+<main>
+  <section id="t-dash"></section>
+  <section id="t-apoio" hidden></section>
+  <section id="t-org" hidden></section>
+  <section id="t-comp" hidden></section>
+  <section id="t-agenda" hidden></section>
+  <section id="t-metas" hidden></section>
+  <section id="t-evt" hidden></section>
+  <section id="t-diad" hidden></section>
+  <section id="t-midia" hidden></section>
+  <section id="t-crise" hidden></section>
+  <section id="t-normas" hidden></section>
+  <section id="t-equipe" hidden></section>
+  <section id="t-docs" hidden></section>
+  <section id="t-fin" hidden></section>
+  <section id="t-mat" hidden></section>
+</main>
+<div class="modal" id="modal"><div class="box" id="modal-box"></div></div>
+<div id="imprimivel" style="display:none"></div>
+<script>
+/* ═══════════ base ═══════════ */
+const byId=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const fmt=v=>'R$ '+(+v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+const hoje=()=>new Date().toISOString().slice(0,10);
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const DB={
+  get:k=>{try{return JSON.parse(localStorage.getItem('hc_'+k))||[];}catch(e){return[];}},
+  set:(k,v)=>localStorage.setItem('hc_'+k,JSON.stringify(v)),
+  obj:k=>{try{return JSON.parse(localStorage.getItem('hc_'+k))||{};}catch(e){return{};}},
+};
+let CIDADES=[];
+const UF=(localStorage.getItem('hc_uf')||'sc');
+fetch(`data/${UF}.json`).then(r=>r.json()).then(d=>{CIDADES=d.municipios.map(m=>({nome:m.nome,meso:m.meso}));rAll();}).catch(()=>rAll());
+
+function backup(){
+  const tudo={};['apoiadores','equipes','documentos','despesas','receitas','materiais','distribuicoes','planejamento',
+    'organograma','compromissos','agenda','ligacoes','metas','metasCfg','relatorios','eventos','fiscais','midias','crises','visibilidade']
+    .forEach(k=>tudo[k]=DB.get(k).length?DB.get(k):DB.obj(k));
+  const blob=new Blob([JSON.stringify(tudo,null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`backup_campanha_${hoje()}.json`;a.click();
+}
+function restaurar(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);
+    Object.entries(d).forEach(([k,v])=>DB.set(k,v));alert('Backup restaurado.');rAll();
+  }catch(e){alert('Arquivo inválido.');}};
+  r.readAsText(f);
+}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+  document.querySelectorAll('main section').forEach(s=>s.hidden=true);
+  byId('t-'+b.dataset.t).hidden=false;
+});
+byId('modal').onclick=e=>{if(e.target.id==='modal')fechar();};
+function fechar(){byId('modal').classList.remove('on');}
+function abrir(html){byId('modal-box').innerHTML=`<button class="x" onclick="fechar()">✕</button>`+html;byId('modal').classList.add('on');}
+const selCidade=(id,val='')=>`<select id="${id}"><option value="">— cidade —</option>${CIDADES.map(c=>`<option ${c.nome===val?'selected':''}>${esc(c.nome)}</option>`).join('')}</select>`;
+function rAll(){rDash();rApoio();rOrg();rEquipe();rComp();rAgenda();rMetas();rEvt();rDiaD();rMidia();rCrise();rDocs();rFin();rMat();rNormas();}
+
+/* ═══════════ Apoiadores ═══════════ */
+// Escala de importância (adaptada de metodologias de organização de base/community organizing)
+const NIVEIS={
+  5:{rot:'⭐ Multiplicador',cor:'#f85149',desc:'lidera rede própria: vereador, presidente de associação, líder comunitário/religioso, empresário com equipe'},
+  4:{rot:'Mobilizador',cor:'#d29922',desc:'traz outras pessoas: organiza eventos, arregimenta voluntários'},
+  3:{rot:'Voluntário ativo',cor:'#2f81f7',desc:'trabalha na campanha: distribui material, dirige, faz bandeiraço'},
+  2:{rot:'Simpatizante',cor:'#3fb950',desc:'declara voto e divulga nas redes/círculo próximo'},
+  1:{rot:'Contato',cor:'#8b949e',desc:'cadastrado, ainda sem engajamento confirmado'},
+};
+const tagNivel=n=>{const x=NIVEIS[n]||NIVEIS[1];return `<span class="nivel" style="border:1px solid ${x.cor};color:${x.cor}">${x.rot}</span>`;};
+
+function rApoio(){
+  const lista=DB.get('apoiadores');
+  byId('t-apoio').innerHTML=`
+  <datalist id="dl-aps">${lista.map(a=>`<option>${esc(a.nome)}</option>`).join('')}</datalist>
+  <div class="tools">
+    <button class="b" onclick="formApoiador()">+ Novo apoiador</button>
+    <label class="b2" style="cursor:pointer">📊 Importar Excel<input type="file" accept=".xlsx,.xls,.csv" hidden onchange="importarXlsx(this)"></label>
+    <button class="b2" onclick="exportarApoiadores()">⬇️ Exportar</button>
+    <input type="search" id="q-ap" placeholder="Buscar…" oninput="rApoioTb()">
+    <select id="f-ap-cidade" onchange="rApoioTb()"><option value="">Todas as cidades</option>
+    ${[...new Set(lista.map(a=>a.cidade).filter(Boolean))].sort().map(c=>`<option>${esc(c)}</option>`).join('')}</select>
+    <select id="f-ap-nivel" onchange="rApoioTb()"><option value="">Todos os níveis</option>
+    ${[5,4,3,2,1].map(n=>`<option value="${n}">${NIVEIS[n].rot}</option>`).join('')}</select>
+  </div>
+  <div class="mut" style="font-size:12.5px;margin-bottom:8px">Escala: ${[5,4,3,2,1].map(n=>`<b style="color:${NIVEIS[n].cor}">${NIVEIS[n].rot}</b> = ${NIVEIS[n].desc}`).join(' · ')}</div>
+  <div id="tb-apoio"></div>`;
+  rApoioTb();
+}
+function rApoioTb(){
+  const lista=DB.get('apoiadores');
+  const q=(byId('q-ap')?.value||'').toLowerCase(),fc=byId('f-ap-cidade')?.value||'',fn=byId('f-ap-nivel')?.value||'';
+  const rows=lista.filter(a=>(!q||`${a.nome} ${a.cidade} ${a.telefone}`.toLowerCase().includes(q))
+    &&(!fc||a.cidade===fc)&&(!fn||String(a.nivel)===fn))
+    .sort((a,b)=>(b.nivel||0)-(a.nivel||0)||a.nome.localeCompare(b.nome));
+  byId('tb-apoio').innerHTML=`<table><thead><tr><th>Nome</th><th>Nível</th><th>Telefone</th><th>WhatsApp</th>
+  <th>E-mail</th><th>Cidade</th><th>Função</th><th></th></tr></thead><tbody>
+  ${rows.map(a=>`<tr><td><b>${esc(a.nome)}</b></td><td>${tagNivel(a.nivel)}</td>
+  <td>${esc(a.telefone||'—')}</td>
+  <td>${a.whatsapp?`<a href="https://wa.me/55${String(a.whatsapp).replace(/\D/g,'')}" target="_blank" style="color:var(--ok)">${esc(a.whatsapp)}</a>`:'—'}</td>
+  <td class="mut">${esc(a.email||'—')}</td><td>${esc(a.cidade||'—')}</td><td class="mut">${esc(a.funcao||'—')}</td>
+  <td><button class="b2" style="padding:3px 10px;font-size:12px" onclick="formApoiador('${a.id}')">editar</button>
+  <button class="bd" onclick="delApoiador('${a.id}')">×</button></td></tr>`).join('')}</tbody></table>
+  <div class="mut" style="margin-top:6px">${rows.length} de ${lista.length} apoiadores.</div>`;
+}
+function formApoiador(id){
+  const a=DB.get('apoiadores').find(x=>x.id===id)||{};
+  abrir(`<h2>${id?'Editar':'Novo'} apoiador</h2>
+  <div class="grid2">
+    <div class="fld"><label>Nome *</label><input id="ap-nome" value="${esc(a.nome||'')}"></div>
+    <div class="fld"><label>Telefone *</label><input id="ap-tel" value="${esc(a.telefone||'')}"></div>
+    <div class="fld"><label>WhatsApp *</label><input id="ap-zap" value="${esc(a.whatsapp||'')}"></div>
+    <div class="fld"><label>E-mail *</label><input id="ap-email" value="${esc(a.email||'')}"></div>
+    <div class="fld"><label>Cidade *</label>${selCidade('ap-cidade',a.cidade)}</div>
+    <div class="fld"><label>Bairro</label><input id="ap-bairro" value="${esc(a.bairro||'')}"></div>
+    <div class="fld"><label>Função na campanha</label><input id="ap-funcao" value="${esc(a.funcao||'')}" placeholder="motorista, coordenador de bairro…"></div>
+    <div class="fld"><label>Data de nascimento</label><input id="ap-nasc" type="date" value="${esc(a.nasc||'')}"></div>
+    <div class="fld"><label>Nível de importância</label><select id="ap-nivel">
+    ${[5,4,3,2,1].map(n=>`<option value="${n}" ${a.nivel==n?'selected':''}>${NIVEIS[n].rot} — ${NIVEIS[n].desc}</option>`).join('')}</select></div>
+  </div>
+  <div class="fld"><label>Observações</label><textarea id="ap-obs">${esc(a.obs||'')}</textarea></div>
+  <button class="b" style="margin-top:10px" onclick="salvarApoiador('${id||''}')">Salvar</button>`);
+}
+function salvarApoiador(id){
+  const v=k=>byId('ap-'+k).value.trim();
+  if(!v('nome')||!v('tel')||!v('zap')||!v('email')||!v('cidade'))return alert('Preencha os campos obrigatórios: nome, telefone, WhatsApp, e-mail e cidade.');
+  const lista=DB.get('apoiadores');
+  const novo={id:id||uid(),nome:v('nome'),telefone:v('tel'),whatsapp:v('zap'),email:v('email'),
+    cidade:v('cidade'),bairro:v('bairro'),funcao:v('funcao'),nasc:byId('ap-nasc').value,nivel:+byId('ap-nivel').value,obs:byId('ap-obs').value,criado:id?(lista.find(x=>x.id===id)?.criado||hoje()):hoje()};
+  const i=lista.findIndex(x=>x.id===id);
+  if(i>=0)lista[i]=novo;else lista.push(novo);
+  DB.set('apoiadores',lista);fechar();rApoio();rDash();
+}
+function delApoiador(id){if(!confirm('Remover apoiador?'))return;DB.set('apoiadores',DB.get('apoiadores').filter(x=>x.id!==id));rApoio();rDash();}
+function exportarApoiadores(){
+  const ws=XLSX.utils.json_to_sheet(DB.get('apoiadores').map(a=>({Nome:a.nome,Nível:NIVEIS[a.nivel]?.rot,Telefone:a.telefone,WhatsApp:a.whatsapp,Email:a.email,Cidade:a.cidade,Bairro:a.bairro,Função:a.funcao,Obs:a.obs})));
+  const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'Apoiadores');
+  XLSX.writeFile(wb,`apoiadores_${hoje()}.xlsx`);
+}
+/* importação com mapeamento automático de colunas */
+const MAPA_COLUNAS={
+  nome:['nome','name','apoiador','contato'],
+  telefone:['telefone','tel','fone','celular','phone'],
+  whatsapp:['whatsapp','whats','zap','wpp'],
+  email:['email','e-mail','mail'],
+  cidade:['cidade','municipio','município','city'],
+  bairro:['bairro','distrito'],
+  funcao:['funcao','função','cargo','papel','atividade'],
+  obs:['obs','observacao','observação','observacoes','notas'],
+  nasc:['nascimento','aniversario','aniversário','data de nascimento','nasc','dt_nasc'],
+};
+function importarXlsx(inp){
+  const f=inp.files[0];if(!f)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    const wb=XLSX.read(e.target.result,{type:'array'});
+    const ws=wb.Sheets[wb.SheetNames[0]];
+    const linhas=XLSX.utils.sheet_to_json(ws,{defval:''});
+    if(!linhas.length)return alert('Planilha vazia.');
+    const cols=Object.keys(linhas[0]);
+    const norm=s=>String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
+    const auto={};
+    Object.entries(MAPA_COLUNAS).forEach(([campo,alts])=>{
+      const achou=cols.find(c=>alts.some(a=>norm(c).includes(a)||a.includes(norm(c))));
+      if(achou)auto[campo]=achou;
+    });
+    // telefone vira whatsapp se não houver coluna própria
+    abrir(`<h2>Importar ${linhas.length} linhas</h2>
+    <div class="mut" style="margin-bottom:8px">Confira o mapeamento das colunas (detectado automaticamente):</div>
+    <div class="grid2">${Object.keys(MAPA_COLUNAS).map(campo=>`
+      <div class="fld"><label>${campo}${['nome','telefone','whatsapp','email','cidade'].includes(campo)?' *':''}</label>
+      <select id="map-${campo}"><option value="">— ignorar —</option>
+      ${cols.map(c=>`<option ${auto[campo]===c?'selected':''}>${esc(c)}</option>`).join('')}</select></div>`).join('')}
+    </div>
+    <div class="fld"><label>Nível padrão para importados</label><select id="map-nivel">
+    ${[1,2,3,4,5].map(n=>`<option value="${n}">${NIVEIS[n].rot}</option>`).join('')}</select></div>
+    <div class="aviso">Se a planilha não tiver coluna de WhatsApp, o telefone será usado como WhatsApp.</div>
+    <button class="b" onclick="confirmarImport()">Importar</button>`);
+    window._imp={linhas};
+  };
+  r.readAsArrayBuffer(f);inp.value='';
+}
+function confirmarImport(){
+  const {linhas}=window._imp;
+  const mapa={};Object.keys(MAPA_COLUNAS).forEach(c=>mapa[c]=byId('map-'+c).value);
+  if(!mapa.nome)return alert('Mapeie ao menos a coluna de nome.');
+  const nivel=+byId('map-nivel').value;
+  const lista=DB.get('apoiadores');
+  const jaTem=new Set(lista.map(a=>a.nome.toLowerCase()+'|'+(a.cidade||'').toLowerCase()));
+  let add=0,dup=0,semObrig=0;
+  linhas.forEach(l=>{
+    const g=c=>mapa[c]?String(l[mapa[c]]||'').trim():'';
+    const nome=g('nome');if(!nome)return;
+    const tel=g('telefone'),zap=g('whatsapp')||tel,email=g('email'),cidade=g('cidade');
+    if(!tel&&!zap){semObrig++;}
+    const chave=nome.toLowerCase()+'|'+cidade.toLowerCase();
+    if(jaTem.has(chave)){dup++;return;}
+    jaTem.add(chave);
+    let nasc=g('nasc');
+    if(nasc&&/^\d{2}\/\d{2}\/\d{4}$/.test(nasc))nasc=nasc.split('/').reverse().join('-');
+    lista.push({id:uid(),nome,telefone:tel,whatsapp:zap,email,cidade,bairro:g('bairro'),
+      funcao:g('funcao'),obs:g('obs'),nasc,nivel,criado:hoje()});
+    add++;
+  });
+  DB.set('apoiadores',lista);fechar();rApoio();rDash();
+  alert(`Importados: ${add}\nDuplicados ignorados: ${dup}\nSem telefone (importados mesmo assim, completar depois): ${semObrig}`);
+}
+
+/* ═══════════ Equipes ═══════════ */
+function rEquipe(){
+  const eqs=DB.get('equipes'),aps=DB.get('apoiadores');
+  byId('t-equipe').innerHTML=`
+  <div class="tools"><button class="b" onclick="formEquipe()">+ Nova equipe</button></div>
+  ${eqs.length?'':'<div class="mut">Nenhuma equipe. Crie a primeira — ex.: "Carro 1 — Oeste", com responsável e 4 membros.</div>'}
+  <div class="cards" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr))">
+  ${eqs.map(e=>`<div class="card">
+    <div style="display:flex;justify-content:space-between"><b>${e.tipo==='carro'?'🚗':e.tipo==='base'?'🏠':'📣'} ${esc(e.nome)}</b>
+    <span><button class="b2" style="padding:2px 8px;font-size:12px" onclick="formEquipe('${e.id}')">editar</button>
+    <button class="bd" onclick="delEquipe('${e.id}')">×</button></span></div>
+    ${e.veiculo?.modelo?`<div class="mut" style="font-size:12.5px">${esc(e.veiculo.modelo)} · placa ${esc(e.veiculo.placa||'—')} · dono: ${esc(e.veiculo.proprietario||'—')}
+    ${e.veiculo.termoId?'<span class="pos">· termo ✓</span>':`· <a style="color:var(--warn);cursor:pointer" onclick="novoDocDeEquipe('${e.id}')">gerar termo de cessão</a>`}</div>`:''}
+    <div style="margin:6px 0"><span class="tag">Responsável</span> ${esc(e.responsavel||'—')}</div>
+    <div class="mut" style="font-size:12.5px">Membros (${(e.membros||[]).length}): ${(e.membros||[]).map(esc).join(', ')||'—'}</div>
+    ${e.cidade?`<div class="mut" style="font-size:12px;margin-top:4px">📍 ${esc(e.cidade)}</div>`:''}
+  </div>`).join('')}</div>`;
+}
+function formEquipe(id){
+  const e=DB.get('equipes').find(x=>x.id===id)||{membros:[]};
+  const aps=DB.get('apoiadores');
+  abrir(`<h2>${id?'Editar':'Nova'} equipe</h2>
+  <div class="grid3">
+    <div class="fld"><label>Nome da equipe *</label><input id="eq-nome" value="${esc(e.nome||'')}" placeholder="Carro 1 — Oeste"></div>
+    <div class="fld"><label>Tipo</label><select id="eq-tipo">
+      <option value="carro" ${e.tipo==='carro'?'selected':''}>🚗 Carro/rua</option>
+      <option value="base" ${e.tipo==='base'?'selected':''}>🏠 Base/comitê</option>
+      <option value="mob" ${e.tipo==='mob'?'selected':''}>📣 Mobilização</option></select></div>
+    <div class="fld"><label>Cidade</label>${selCidade('eq-cidade',e.cidade)}</div>
+    <div class="fld"><label>Responsável *</label><input id="eq-resp" list="dl-aps" value="${esc(e.responsavel||'')}">
+      <datalist id="dl-aps">${aps.map(a=>`<option>${esc(a.nome)}</option>`).join('')}</datalist></div>
+    <div class="fld"><label>Membros (separados por vírgula)</label><input id="eq-membros" value="${esc((e.membros||[]).join(', '))}"></div>
+  </div>
+  <div class="sub">Veículo (se equipe de carro)</div>
+  <div class="grid3">
+    <div class="fld"><label>Marca/modelo</label><input id="eq-vmodelo" value="${esc(e.veiculo?.modelo||'')}"></div>
+    <div class="fld"><label>Placa</label><input id="eq-vplaca" value="${esc(e.veiculo?.placa||'')}"></div>
+    <div class="fld"><label>Proprietário (quem cede)</label><input id="eq-vdono" list="dl-aps" value="${esc(e.veiculo?.proprietario||'')}"></div>
+  </div>
+  <button class="b" onclick="salvarEquipe('${id||''}')">Salvar</button>`);
+}
+function salvarEquipe(id){
+  const v=k=>byId('eq-'+k).value.trim();
+  if(!v('nome')||!v('resp'))return alert('Nome e responsável são obrigatórios.');
+  const eqs=DB.get('equipes');
+  const ant=eqs.find(x=>x.id===id);
+  const novo={id:id||uid(),nome:v('nome'),tipo:byId('eq-tipo').value,cidade:v('cidade'),
+    responsavel:v('resp'),membros:v('membros').split(',').map(s=>s.trim()).filter(Boolean),
+    veiculo:{modelo:v('vmodelo'),placa:v('vplaca'),proprietario:v('vdono'),termoId:ant?.veiculo?.termoId||null}};
+  const i=eqs.findIndex(x=>x.id===id);
+  if(i>=0)eqs[i]=novo;else eqs.push(novo);
+  DB.set('equipes',eqs);fechar();rEquipe();rDash();
+}
+function delEquipe(id){if(!confirm('Remover equipe?'))return;DB.set('equipes',DB.get('equipes').filter(x=>x.id!==id));rEquipe();}
+function novoDocDeEquipe(eqId){
+  const e=DB.get('equipes').find(x=>x.id===eqId);
+  formDoc(null,'termo_veiculo',{cedente_nome:e?.veiculo?.proprietario||'',bem:`${e?.veiculo?.modelo||''} placa ${e?.veiculo?.placa||''}`,equipeId:eqId});
+}
+
+/* ═══════════ Termos & Contratos ═══════════ */
+const TIPOS_DOC={
+  termo_veiculo:'Termo de cessão de veículo',
+  termo_espaco:'Termo de cessão de espaço/imóvel',
+  termo_bem:'Termo de cessão de outro bem/serviço',
+  contrato_servico:'Contrato de prestação de serviços',
+};
+function rDocs(){
+  const docs=DB.get('documentos');
+  byId('t-docs').innerHTML=`
+  <div class="tools">${Object.entries(TIPOS_DOC).map(([k,v])=>`<button class="b2" onclick="formDoc(null,'${k}')">+ ${v}</button>`).join('')}</div>
+  <div class="aviso">Modelos baseados na Lei 9.504/97 (art. 23 — doações estimáveis em dinheiro por pessoa física) e Res. TSE de prestação de contas.
+  Fluxo: preencher → gerar PDF → assinatura (digital ou física) → anexar o assinado aqui → repassar à prestação de contas. <b>Valide os modelos com o contador/advogado da campanha.</b></div>
+  <table><thead><tr><th>Tipo</th><th>Parte</th><th>Objeto</th><th class="num">Valor estimado</th><th>Data</th><th>Status</th><th>Anexos</th><th></th></tr></thead><tbody>
+  ${docs.map(d=>`<tr><td><span class="tag">${TIPOS_DOC[d.tipo]||d.tipo}</span></td>
+  <td>${esc(d.campos.cedente_nome||d.campos.contratado_nome||'—')}</td>
+  <td class="mut" style="max-width:280px">${esc((d.campos.bem||d.campos.objeto||'').slice(0,90))}</td>
+  <td class="num">${d.campos.valor?fmt(d.campos.valor):'—'}</td>
+  <td class="mut">${esc(d.criado)}</td>
+  <td><select onchange="statusDoc('${d.id}',this.value)">
+    ${['pendente','assinado','na prestação de contas'].map(s=>`<option ${d.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+  <td>${(d.anexos||[]).length}📎 <label style="cursor:pointer;color:var(--ac)">+<input type="file" accept="image/*,.pdf" hidden onchange="anexarDoc('${d.id}',this)"></label>
+   ${(d.anexos||[]).length?`<a style="color:var(--ac);cursor:pointer" onclick="verAnexos('${d.id}')">ver</a>`:''}</td>
+  <td><button class="b2" style="padding:3px 10px;font-size:12px" onclick="formDoc('${d.id}')">editar</button>
+  <button class="b2" style="padding:3px 10px;font-size:12px" onclick="imprimirDoc('${d.id}')">🖨 PDF</button>
+  <button class="bd" onclick="delDoc('${d.id}')">×</button></td></tr>`).join('')}
+  </tbody></table>
+  ${docs.length?'':'<div class="mut" style="margin-top:8px">Nenhum documento ainda.</div>'}`;
+}
+function formDoc(id,tipo,pre={}){
+  const d=id?DB.get('documentos').find(x=>x.id===id):null;
+  tipo=d?.tipo||tipo;
+  const c=d?.campos||pre;
+  const ehContrato=tipo==='contrato_servico';
+  abrir(`<h2>${TIPOS_DOC[tipo]}</h2>
+  <div class="sub">${ehContrato?'Contratado':'Cedente/Doador'} (pessoa física)</div>
+  <div class="grid3">
+    <div class="fld"><label>Nome completo *</label><input id="dc-cedente_nome" value="${esc(c.cedente_nome||c.contratado_nome||'')}"></div>
+    <div class="fld"><label>CPF *</label><input id="dc-cpf" value="${esc(c.cpf||'')}"></div>
+    <div class="fld"><label>Endereço completo</label><input id="dc-endereco" value="${esc(c.endereco||'')}"></div>
+  </div>
+  <div class="sub">${ehContrato?'Objeto do contrato':'Bem/serviço cedido'}</div>
+  <div class="grid2">
+    <div class="fld"><label>${ehContrato?'Descrição do serviço *':'Descrição do bem *'}</label>
+    <input id="dc-bem" value="${esc(c.bem||c.objeto||'')}" placeholder="${tipo==='termo_veiculo'?'VW Gol 1.6 2020, placa ABC1D23':tipo==='termo_espaco'?'Sala comercial na Rua X, 100m²':'—'}"></div>
+    <div class="fld"><label>Valor ${ehContrato?'do contrato':'estimado (mercado)'} R$ *</label><input id="dc-valor" type="number" step="0.01" value="${c.valor||''}"></div>
+    <div class="fld"><label>Período — início</label><input id="dc-inicio" type="date" value="${c.inicio||hoje()}"></div>
+    <div class="fld"><label>Período — fim</label><input id="dc-fim" type="date" value="${c.fim||''}"></div>
+    ${ehContrato?`<div class="fld"><label>Forma de pagamento</label><input id="dc-pagamento" value="${esc(c.pagamento||'')}" placeholder="transferência do fundo de campanha, em X parcelas"></div>`:''}
+  </div>
+  <div class="sub">Campanha (quem recebe)</div>
+  <div class="grid3">
+    <div class="fld"><label>Candidato(a)</label><input id="dc-candidato" value="${esc(c.candidato||'')}"></div>
+    <div class="fld"><label>CNPJ da campanha</label><input id="dc-cnpj" value="${esc(c.cnpj||'')}"></div>
+    <div class="fld"><label>Município/UF</label><input id="dc-mun" value="${esc(c.mun||'')}"></div>
+  </div>
+  <button class="b" onclick="salvarDoc('${id||''}','${tipo}','${esc(pre.equipeId||'')}')">Salvar</button>`);
+}
+function salvarDoc(id,tipo,equipeId){
+  const v=k=>byId('dc-'+k)?.value.trim()||'';
+  if(!v('cedente_nome')||!v('cpf')||!v('bem')||!v('valor'))return alert('Preencha nome, CPF, descrição e valor.');
+  const docs=DB.get('documentos');
+  const campos={cedente_nome:v('cedente_nome'),cpf:v('cpf'),endereco:v('endereco'),bem:v('bem'),
+    valor:+v('valor'),inicio:v('inicio'),fim:v('fim'),pagamento:v('pagamento'),
+    candidato:v('candidato'),cnpj:v('cnpj'),mun:v('mun')};
+  const novo={id:id||uid(),tipo,campos,status:id?(docs.find(x=>x.id===id)?.status||'pendente'):'pendente',
+    anexos:id?(docs.find(x=>x.id===id)?.anexos||[]):[],criado:id?(docs.find(x=>x.id===id)?.criado||hoje()):hoje()};
+  const i=docs.findIndex(x=>x.id===id);
+  if(i>=0)docs[i]=novo;else docs.push(novo);
+  DB.set('documentos',docs);
+  if(equipeId){const eqs=DB.get('equipes');const e=eqs.find(x=>x.id===equipeId);
+    if(e){e.veiculo.termoId=novo.id;DB.set('equipes',eqs);}}
+  fechar();rDocs();rEquipe();rDash();
+}
+function statusDoc(id,s){const docs=DB.get('documentos');const d=docs.find(x=>x.id===id);if(d){d.status=s;DB.set('documentos',docs);rDash();}}
+function delDoc(id){if(!confirm('Remover documento?'))return;DB.set('documentos',DB.get('documentos').filter(x=>x.id!==id));rDocs();}
+/* anexos comprimidos em base64 (fotos de documentos assinados, notas etc.) */
+function anexarDoc(id,inp){
+  const f=inp.files[0];if(!f)return;
+  if(f.type==='application/pdf'&&f.size>2e6)return alert('PDF acima de 2MB — reduza antes de anexar.');
+  const fim=b64=>{
+    const docs=DB.get('documentos');const d=docs.find(x=>x.id===id);
+    d.anexos=d.anexos||[];d.anexos.push({nome:f.name,tipo:f.type,b64,data:hoje()});
+    try{DB.set('documentos',docs);}catch(e){return alert('Espaço do navegador cheio — faça backup e remova anexos antigos.');}
+    rDocs();
+  };
+  if(f.type.startsWith('image/')){
+    const img=new Image();
+    img.onload=()=>{const cv=document.createElement('canvas');
+      const esc2=Math.min(1,1200/Math.max(img.width,img.height));
+      cv.width=img.width*esc2;cv.height=img.height*esc2;
+      cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+      fim(cv.toDataURL('image/jpeg',.8));};
+    img.src=URL.createObjectURL(f);
+  }else{const r=new FileReader();r.onload=()=>fim(r.result);r.readAsDataURL(f);}
+  inp.value='';
+}
+function verAnexos(id){
+  const d=DB.get('documentos').find(x=>x.id===id);
+  abrir(`<h2>Anexos — ${TIPOS_DOC[d.tipo]}</h2>
+  ${(d.anexos||[]).map((a,i)=>`<div class="card" style="margin:8px 0">
+  <div style="display:flex;justify-content:space-between"><b>${esc(a.nome)}</b>
+  <span><a class="b2" style="padding:3px 10px;text-decoration:none" href="${a.b64}" download="${esc(a.nome)}">⬇️</a>
+  <button class="bd" onclick="delAnexo('${id}',${i})">×</button></span></div>
+  ${a.tipo.startsWith('image/')?`<img src="${a.b64}" style="max-width:100%;border-radius:8px;margin-top:8px">`:''}
+  </div>`).join('')||'<div class="mut">Nenhum anexo.</div>'}`);
+}
+function delAnexo(id,i){const docs=DB.get('documentos');const d=docs.find(x=>x.id===id);d.anexos.splice(i,1);DB.set('documentos',docs);verAnexos(id);rDocs();}
+const dataBR=d=>d?d.split('-').reverse().join('/'):'____________';
+function imprimirDoc(id){
+  const d=DB.get('documentos').find(x=>x.id===id);
+  const c=d.campos;
+  const cabec=`<div style="text-align:center;margin-bottom:30px"><h2 style="font-size:16px">${TIPOS_DOC[d.tipo].toUpperCase()}</h2>
+  <div style="font-size:11px">Eleições ${new Date().getFullYear()} — nos termos da Lei nº 9.504/1997 e resoluções do TSE sobre prestação de contas</div></div>`;
+  const assin=`<div style="margin-top:60px">
+  <p>${esc(c.mun||'____________')}, ${new Date().toLocaleDateString('pt-BR')}.</p>
+  <div style="margin-top:50px;display:flex;justify-content:space-between;gap:40px">
+    <div style="flex:1;border-top:1px solid #000;text-align:center;padding-top:4px">${esc(c.cedente_nome)}<br>CPF ${esc(c.cpf)}</div>
+    <div style="flex:1;border-top:1px solid #000;text-align:center;padding-top:4px">${esc(c.candidato||'Candidato(a)')}<br>${c.cnpj?'CNPJ campanha '+esc(c.cnpj):''}</div>
+  </div>
+  <div style="margin-top:40px;font-size:11px">Testemunhas:<br><br>1. ______________________________ CPF ____________<br><br>2. ______________________________ CPF ____________</div></div>`;
+  let corpo='';
+  if(d.tipo==='contrato_servico'){
+    corpo=`<p><b>CONTRATANTE:</b> Campanha eleitoral de ${esc(c.candidato||'____________')}, ${c.cnpj?'CNPJ '+esc(c.cnpj):'CNPJ ____________'}, com sede em ${esc(c.mun||'____________')}.</p>
+    <p><b>CONTRATADO(A):</b> ${esc(c.cedente_nome)}, CPF ${esc(c.cpf)}, residente em ${esc(c.endereco||'____________')}.</p>
+    <p><b>CLÁUSULA 1ª — OBJETO.</b> Prestação dos seguintes serviços à campanha: ${esc(c.bem)}.</p>
+    <p><b>CLÁUSULA 2ª — VIGÊNCIA.</b> De ${dataBR(c.inicio)} a ${dataBR(c.fim)}, restrito ao período de campanha eleitoral.</p>
+    <p><b>CLÁUSULA 3ª — VALOR E PAGAMENTO.</b> ${fmt(c.valor)}, pago ${esc(c.pagamento||'por transferência bancária da conta de campanha')}, com emissão do respectivo recibo/documento fiscal, para registro na prestação de contas (Res. TSE).</p>
+    <p><b>CLÁUSULA 4ª — OBRIGAÇÕES.</b> O contratado declara ciência de que o serviço se destina exclusivamente à campanha e autoriza o registro deste contrato no SPCE. As partes elegem o foro de ${esc(c.mun||'____________')}.</p>`;
+  }else{
+    const tipoBem=d.tipo==='termo_veiculo'?'o veículo':d.tipo==='termo_espaco'?'o imóvel/espaço':'o bem/serviço';
+    corpo=`<p><b>CEDENTE:</b> ${esc(c.cedente_nome)}, CPF ${esc(c.cpf)}, residente em ${esc(c.endereco||'____________')}.</p>
+    <p><b>CESSIONÁRIA:</b> Campanha eleitoral de ${esc(c.candidato||'____________')}, ${c.cnpj?'CNPJ '+esc(c.cnpj):'CNPJ ____________'}, em ${esc(c.mun||'____________')}.</p>
+    <p><b>1. OBJETO.</b> O cedente, pessoa física, cede gratuitamente à campanha ${tipoBem} de sua propriedade: <b>${esc(c.bem)}</b>, no período de ${dataBR(c.inicio)} a ${dataBR(c.fim)}.</p>
+    <p><b>2. NATUREZA DA DOAÇÃO.</b> A cessão constitui doação estimável em dinheiro, avaliada em <b>${fmt(c.valor)}</b> (valor de mercado do uso no período), nos termos do art. 23, §7º, da Lei 9.504/97, e será registrada na prestação de contas da campanha (SPCE) mediante recibo eleitoral.</p>
+    <p><b>3. DECLARAÇÕES.</b> O cedente declara: (a) ser proprietário/legítimo possuidor do bem; (b) que a doação provém de recursos próprios, não excedendo 10% dos seus rendimentos brutos do ano anterior (art. 23, §1º); (c) que não é fonte vedada (art. 24 da Lei 9.504/97).</p>
+    <p><b>4. RESPONSABILIDADES.</b> A campanha responsabiliza-se pelo uso adequado do bem no período, respondendo por danos causados por seus agentes. ${d.tipo==='termo_veiculo'?'Combustível e manutenção durante o uso correm por conta da campanha, com registro próprio de despesas.':''}</p>`;
+  }
+  byId('imprimivel').innerHTML=cabec+corpo+assin;
+  byId('imprimivel').style.display='block';
+  window.print();
+  byId('imprimivel').style.display='none';
+}
+
+/* ═══════════ Financeiro ═══════════ */
+const CATEGORIAS=['Pessoal/Contratações','Combustível','Material gráfico','Carros de som/Serviços','Publicidade digital','Eventos','Alimentação','Aluguel/Estrutura','Outros'];
+function rFin(){
+  const desp=DB.get('despesas'),rec=DB.get('receitas'),plano=DB.obj('planejamento');
+  const totD=desp.reduce((a,d)=>a+d.valor,0),totR=rec.reduce((a,r)=>a+r.valor,0);
+  const porCat={};CATEGORIAS.forEach(c=>porCat[c]=0);desp.forEach(d=>porCat[d.categoria]=(porCat[d.categoria]||0)+d.valor);
+  byId('t-fin').innerHTML=`
+  <div class="cards">
+    <div class="card"><div class="l">Entradas (receitas)</div><div class="v pos">${fmt(totR)}</div><div class="l">${rec.length} lançamentos</div></div>
+    <div class="card"><div class="l">Saídas (despesas)</div><div class="v neg">${fmt(totD)}</div><div class="l">${desp.length} lançamentos</div></div>
+    <div class="card"><div class="l">Saldo</div><div class="v ${totR-totD>=0?'pos':'neg'}">${fmt(totR-totD)}</div><div class="l">compensação entradas − saídas</div></div>
+    <div class="card"><div class="l">Orçamento planejado</div><div class="v">${plano.total?fmt(plano.total):'—'}</div>
+    <div class="l">${plano.total?(totD/plano.total*100).toFixed(1)+'% executado':'defina no planejamento'}</div></div>
+  </div>
+  <div class="tools">
+    <button class="b" onclick="formDespesa()">+ Despesa</button>
+    <button class="b" style="background:var(--ok)" onclick="formReceita()">+ Entrada</button>
+    <button class="b2" onclick="formPlanejamento()">🎯 Planejamento (%)</button>
+  </div>
+  <div class="sub">Planejado × executado por categoria</div>
+  <table><thead><tr><th>Categoria</th><th class="num">Planejado</th><th class="num">Gasto</th><th class="num">% do plano</th><th style="width:35%"></th></tr></thead><tbody>
+  ${CATEGORIAS.map(c=>{
+    const plan=plano.total?plano.total*(plano.pct?.[c]||0)/100:0;
+    const gasto=porCat[c]||0;const p=plan?gasto/plan*100:0;
+    return `<tr><td>${c} ${plano.pct?.[c]?`<span class="mut">(${plano.pct[c]}%)</span>`:''}</td>
+    <td class="num mut">${plan?fmt(plan):'—'}</td><td class="num">${fmt(gasto)}</td>
+    <td class="num ${p>100?'neg':p>80?'':'pos'}">${plan?p.toFixed(0)+'%':'—'}</td>
+    <td><div style="background:var(--card2);border-radius:4px;height:10px;overflow:hidden">
+    <div style="height:10px;width:${Math.min(p,100)}%;background:${p>100?'var(--bad)':p>80?'var(--warn)':'var(--ok)'}"></div></div></td></tr>`;
+  }).join('')}</tbody></table>
+  <div class="sub">Evolução dos gastos (acumulado por mês)</div>
+  <div class="card">${graficoEvolucao(desp,rec)}</div>
+  <div class="sub">Despesas</div>
+  <table><thead><tr><th>Data</th><th>Categoria</th><th>Descrição</th><th>Fornecedor</th><th>NF/Recibo</th><th class="num">Valor</th><th></th></tr></thead><tbody>
+  ${desp.sort((a,b)=>b.data.localeCompare(a.data)).map(d=>`<tr><td class="mut">${dataBR(d.data)}</td>
+  <td><span class="tag">${esc(d.categoria)}</span></td><td>${esc(d.descricao)}</td><td class="mut">${esc(d.fornecedor||'—')}</td>
+  <td class="mut">${esc(d.nf||'—')}</td><td class="num neg">${fmt(d.valor)}</td>
+  <td><button class="bd" onclick="delFin('despesas','${d.id}')">×</button></td></tr>`).join('')}</tbody></table>
+  <div class="sub">Entradas</div>
+  <table><thead><tr><th>Data</th><th>Tipo</th><th>Origem/Doador</th><th>CPF/CNPJ</th><th class="num">Valor</th><th></th></tr></thead><tbody>
+  ${rec.sort((a,b)=>b.data.localeCompare(a.data)).map(r=>`<tr><td class="mut">${dataBR(r.data)}</td>
+  <td><span class="tag">${esc(r.tipo)}</span></td><td>${esc(r.origem)}</td><td class="mut">${esc(r.doc||'—')}</td>
+  <td class="num pos">${fmt(r.valor)}</td><td><button class="bd" onclick="delFin('receitas','${r.id}')">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function graficoEvolucao(desp,rec){
+  const meses={};
+  desp.forEach(d=>{const m=d.data.slice(0,7);meses[m]=meses[m]||{d:0,r:0};meses[m].d+=d.valor;});
+  rec.forEach(r=>{const m=r.data.slice(0,7);meses[m]=meses[m]||{d:0,r:0};meses[m].r+=r.valor;});
+  const ks=Object.keys(meses).sort();
+  if(ks.length<1)return '<span class="mut">Lance despesas e entradas para ver a evolução.</span>';
+  let accD=0,accR=0;
+  const pts=ks.map(k=>{accD+=meses[k].d;accR+=meses[k].r;return{k,d:accD,r:accR};});
+  const W=760,H=200,max=Math.max(...pts.map(p=>Math.max(p.d,p.r)),1);
+  const x=i=>40+(W-60)*(pts.length===1?0.5:i/(pts.length-1));
+  const y=v=>H-24-(H-44)*(v/max);
+  const linha=(cor,ch)=>`<polyline fill="none" stroke="${cor}" stroke-width="2.5" points="${pts.map((p,i)=>`${x(i)},${y(p[ch])}`).join(' ')}"/>`
+    +pts.map((p,i)=>`<circle cx="${x(i)}" cy="${y(p[ch])}" r="3.5" fill="${cor}"><title>${p.k}: ${fmt(p[ch])}</title></circle>`).join('');
+  return `<svg width="100%" viewBox="0 0 ${W} ${H}">
+  ${linha('#f85149','d')}${linha('#3fb950','r')}
+  ${pts.map((p,i)=>`<text x="${x(i)}" y="${H-6}" fill="#8b949e" font-size="10" text-anchor="middle">${p.k.slice(5)}/${p.k.slice(2,4)}</text>`).join('')}
+  </svg>
+  <div style="display:flex;gap:16px;font-size:12.5px"><span><i style="display:inline-block;width:12px;height:3px;background:#f85149;vertical-align:middle"></i> despesas acumuladas</span>
+  <span><i style="display:inline-block;width:12px;height:3px;background:#3fb950;vertical-align:middle"></i> entradas acumuladas</span></div>`;
+}
+function formDespesa(){
+  abrir(`<h2>Nova despesa</h2>
+  <div class="grid3">
+    <div class="fld"><label>Data *</label><input id="fd-data" type="date" value="${hoje()}"></div>
+    <div class="fld"><label>Categoria *</label><select id="fd-cat">${CATEGORIAS.map(c=>`<option>${c}</option>`).join('')}</select></div>
+    <div class="fld"><label>Valor R$ *</label><input id="fd-valor" type="number" step="0.01"></div>
+    <div class="fld"><label>Descrição *</label><input id="fd-desc" placeholder="500L gasolina carro 1"></div>
+    <div class="fld"><label>Fornecedor</label><input id="fd-forn"></div>
+    <div class="fld"><label>Nº NF/recibo</label><input id="fd-nf"></div>
+  </div>
+  <button class="b" onclick="salvarDespesa()">Salvar</button>`);
+}
+function salvarDespesa(){
+  const v=k=>byId('fd-'+k).value.trim();
+  if(!v('valor')||!v('desc'))return alert('Valor e descrição são obrigatórios.');
+  const l=DB.get('despesas');
+  l.push({id:uid(),data:v('data'),categoria:byId('fd-cat').value,valor:+v('valor'),descricao:v('desc'),fornecedor:v('forn'),nf:v('nf')});
+  DB.set('despesas',l);fechar();rFin();rDash();
+}
+function formReceita(){
+  abrir(`<h2>Nova entrada</h2>
+  <div class="grid3">
+    <div class="fld"><label>Data *</label><input id="fr-data" type="date" value="${hoje()}"></div>
+    <div class="fld"><label>Tipo *</label><select id="fr-tipo"><option>Fundo eleitoral</option><option>Doação PF</option>
+    <option>Doação estimável (bens/serviços)</option><option>Recursos próprios</option><option>Financiamento coletivo</option></select></div>
+    <div class="fld"><label>Valor R$ *</label><input id="fr-valor" type="number" step="0.01"></div>
+    <div class="fld"><label>Origem/doador *</label><input id="fr-origem"></div>
+    <div class="fld"><label>CPF/CNPJ</label><input id="fr-doc"></div>
+  </div>
+  <button class="b" onclick="salvarReceita()">Salvar</button>`);
+}
+function salvarReceita(){
+  const v=k=>byId('fr-'+k).value.trim();
+  if(!v('valor')||!v('origem'))return alert('Valor e origem são obrigatórios.');
+  const l=DB.get('receitas');
+  l.push({id:uid(),data:v('data'),tipo:byId('fr-tipo').value,valor:+v('valor'),origem:v('origem'),doc:v('doc')});
+  DB.set('receitas',l);fechar();rFin();rDash();
+}
+function delFin(k,id){if(!confirm('Remover lançamento?'))return;DB.set(k,DB.get(k).filter(x=>x.id!==id));rFin();rDash();}
+function formPlanejamento(){
+  const p=DB.obj('planejamento');
+  abrir(`<h2>🎯 Planejamento de recursos</h2>
+  <div class="fld" style="max-width:260px"><label>Orçamento total previsto (R$)</label>
+  <input id="pl-total" type="number" step="0.01" value="${p.total||''}"></div>
+  <div class="sub">Percentual por categoria (deve somar 100%)</div>
+  <div class="grid3">${CATEGORIAS.map(c=>`<div class="fld"><label>${c} (%)</label>
+  <input id="pl-${CATEGORIAS.indexOf(c)}" type="number" min="0" max="100" value="${p.pct?.[c]||0}" oninput="somaPlano()"></div>`).join('')}</div>
+  <div id="pl-soma" class="mut"></div>
+  <button class="b" style="margin-top:10px" onclick="salvarPlanejamento()">Salvar</button>`);
+  somaPlano();
+}
+function somaPlano(){
+  const s=CATEGORIAS.reduce((a,c,i)=>a+(+byId('pl-'+i).value||0),0);
+  byId('pl-soma').innerHTML=`Soma: <b class="${s===100?'pos':'neg'}">${s}%</b>${s!==100?' — ajuste para fechar 100%':''}`;
+}
+function salvarPlanejamento(){
+  const pct={};CATEGORIAS.forEach((c,i)=>pct[c]=+byId('pl-'+i).value||0);
+  DB.set('planejamento',{total:+byId('pl-total').value||0,pct});
+  fechar();rFin();rDash();
+}
+
+/* ═══════════ Materiais & Distribuição ═══════════ */
+function rMat(){
+  const mats=DB.get('materiais'),dists=DB.get('distribuicoes');
+  const distPorMat={};dists.forEach(d=>distPorMat[d.materialId]=(distPorMat[d.materialId]||0)+d.qtd);
+  byId('t-mat').innerHTML=`
+  <div class="tools"><button class="b" onclick="formMaterial()">+ Material</button>
+  <button class="b" style="background:var(--warn)" onclick="formDistribuicao()">+ Distribuição</button>
+  <button class="b2" onclick="gerarRoteiro()">🗺️ Gerar roteiro de distribuição</button></div>
+  <div class="sub">Estoque de materiais</div>
+  <table><thead><tr><th>Material</th><th class="num">Total</th><th class="num">Distribuído</th><th class="num">Em estoque</th><th></th></tr></thead><tbody>
+  ${mats.map(m=>{const dist=distPorMat[m.id]||0;
+  return `<tr><td><b>${esc(m.tipo)}</b> <span class="mut">${esc(m.desc||'')}</span></td>
+  <td class="num">${m.qtd.toLocaleString('pt-BR')}</td><td class="num">${dist.toLocaleString('pt-BR')}</td>
+  <td class="num ${m.qtd-dist<0?'neg':''}">${(m.qtd-dist).toLocaleString('pt-BR')}</td>
+  <td><button class="bd" onclick="delMat('${m.id}')">×</button></td></tr>`;}).join('')}</tbody></table>
+  <div class="sub">Visibilidade — casas com bandeira, muro pintado, adesivo grande</div>
+  <div class="tools">${selCidade('vz-cidade')}<input id="vz-end" placeholder="endereço/referência">
+  <input id="vz-quem" list="dl-aps" placeholder="apoiador que cedeu">
+  <select id="vz-tipo"><option>bandeira</option><option>muro</option><option>adesivo grande</option><option>placa</option></select>
+  <button class="b2" onclick="addVisib()">Adicionar</button></div>
+  ${(DB.get('visibilidade')||[]).length?`<table style="margin-bottom:14px"><thead><tr><th>Cidade</th><th>Endereço</th><th>Quem cedeu</th><th>Tipo</th><th></th></tr></thead><tbody>
+  ${DB.get('visibilidade').sort((a,b)=>a.cidade.localeCompare(b.cidade)).map(v=>`<tr><td><b>${esc(v.cidade)}</b></td>
+  <td>${esc(v.endereco)}</td><td class="mut">${esc(v.apoiador||'—')}</td><td><span class="tag">${esc(v.tipo)}</span></td>
+  <td><button class="bd" onclick="delGen('visibilidade','${v.id}',rMat)">×</button></td></tr>`).join('')}</tbody></table>`
+  :'<div class="mut" style="margin-bottom:12px">Nenhum ponto de visibilidade mapeado. Quem cede o muro é apoiador de nível acima — atualize o cadastro dele.</div>'}
+  <div class="sub">Distribuições</div>
+  <table><thead><tr><th>Data</th><th>Material</th><th>Cidade</th><th class="num">Qtd</th><th>Responsável</th><th>Status</th><th></th></tr></thead><tbody>
+  ${dists.sort((a,b)=>(a.data||'').localeCompare(b.data||'')).map(d=>{
+  const m=mats.find(x=>x.id===d.materialId);
+  return `<tr><td class="mut">${dataBR(d.data)}</td><td>${esc(m?.tipo||'?')}</td><td>${esc(d.cidade)}</td>
+  <td class="num">${d.qtd.toLocaleString('pt-BR')}</td><td class="mut">${esc(d.responsavel||'—')}</td>
+  <td><select onchange="statusDist('${d.id}',this.value)">${['planejada','em rota','entregue'].map(s=>`<option ${d.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+  <td><button class="bd" onclick="delDist('${d.id}')">×</button></td></tr>`;}).join('')}</tbody></table>`;
+}
+function addVisib(){
+  const c=byId('vz-cidade').value,e=byId('vz-end').value.trim();
+  if(!c||!e)return alert('Cidade e endereço obrigatórios.');
+  const l=DB.get('visibilidade');
+  l.push({id:uid(),cidade:c,endereco:e,apoiador:byId('vz-quem').value.trim(),tipo:byId('vz-tipo').value,data:hoje()});
+  DB.set('visibilidade',l);rMat();
+}
+function formMaterial(){
+  abrir(`<h2>Novo material</h2><div class="grid3">
+  <div class="fld"><label>Tipo *</label><input id="mt-tipo" placeholder="Adesivo 30x20, Santinho, Bandeira…"></div>
+  <div class="fld"><label>Quantidade total *</label><input id="mt-qtd" type="number"></div>
+  <div class="fld"><label>Descrição</label><input id="mt-desc"></div></div>
+  <button class="b" onclick="salvarMaterial()">Salvar</button>`);
+}
+function salvarMaterial(){
+  const t=byId('mt-tipo').value.trim(),q=+byId('mt-qtd').value;
+  if(!t||!q)return alert('Tipo e quantidade obrigatórios.');
+  const l=DB.get('materiais');l.push({id:uid(),tipo:t,qtd:q,desc:byId('mt-desc').value.trim()});
+  DB.set('materiais',l);fechar();rMat();
+}
+function delMat(id){if(!confirm('Remover material?'))return;DB.set('materiais',DB.get('materiais').filter(x=>x.id!==id));rMat();}
+function formDistribuicao(){
+  const mats=DB.get('materiais');
+  if(!mats.length)return alert('Cadastre um material primeiro.');
+  abrir(`<h2>Nova distribuição</h2><div class="grid3">
+  <div class="fld"><label>Material *</label><select id="ds-mat">${mats.map(m=>`<option value="${m.id}">${esc(m.tipo)}</option>`).join('')}</select></div>
+  <div class="fld"><label>Cidade *</label>${selCidade('ds-cidade')}</div>
+  <div class="fld"><label>Quantidade *</label><input id="ds-qtd" type="number"></div>
+  <div class="fld"><label>Data planejada</label><input id="ds-data" type="date" value="${hoje()}"></div>
+  <div class="fld"><label>Responsável</label><input id="ds-resp"></div></div>
+  <button class="b" onclick="salvarDistribuicao()">Salvar</button>`);
+}
+function salvarDistribuicao(){
+  const cid=byId('ds-cidade').value,q=+byId('ds-qtd').value;
+  if(!cid||!q)return alert('Cidade e quantidade obrigatórios.');
+  const l=DB.get('distribuicoes');
+  l.push({id:uid(),materialId:byId('ds-mat').value,cidade:cid,qtd:q,data:byId('ds-data').value,responsavel:byId('ds-resp').value.trim(),status:'planejada'});
+  DB.set('distribuicoes',l);fechar();rMat();
+}
+function statusDist(id,s){const l=DB.get('distribuicoes');const d=l.find(x=>x.id===id);if(d){d.status=s;DB.set('distribuicoes',l);}}
+function delDist(id){DB.set('distribuicoes',DB.get('distribuicoes').filter(x=>x.id!==id));rMat();}
+function gerarRoteiro(){
+  const dists=DB.get('distribuicoes').filter(d=>d.status!=='entregue');
+  if(!dists.length)return alert('Nenhuma distribuição pendente.');
+  const mats=DB.get('materiais');
+  // agrupa por mesorregião (rota lógica) e por cidade
+  const porMeso={};
+  dists.forEach(d=>{
+    const meso=CIDADES.find(c=>c.nome===d.cidade)?.meso||'—';
+    (porMeso[meso]=porMeso[meso]||{}); (porMeso[meso][d.cidade]=porMeso[meso][d.cidade]||[]).push(d);
+  });
+  abrir(`<h2>🗺️ Roteiro de distribuição</h2>
+  <div class="mut" style="margin-bottom:10px">Agrupado por região (uma viagem por bloco) — imprima e entregue ao responsável.</div>
+  ${Object.entries(porMeso).map(([meso,cidades])=>`
+  <div class="card" style="margin:10px 0"><b>📍 ${esc(meso)}</b>
+  ${Object.entries(cidades).map(([cid,ds])=>`
+    <div style="margin:8px 0 0 12px"><b>${esc(cid)}</b>
+    <ul style="margin-left:22px">${ds.map(d=>{const m=mats.find(x=>x.id===d.materialId);
+    return `<li>${esc(m?.tipo||'?')} — <b>${d.qtd.toLocaleString('pt-BR')} un.</b>${d.responsavel?' · resp.: '+esc(d.responsavel):''}${d.data?' · '+dataBR(d.data):''}</li>`;}).join('')}</ul></div>`).join('')}
+  </div>`).join('')}
+  <button class="b2" onclick="imprimirRoteiro()">🖨 Imprimir/PDF</button>`);
+  window._roteiroHtml=byId('modal-box').innerHTML;
+}
+function imprimirRoteiro(){
+  byId('imprimivel').innerHTML='<h2>Roteiro de distribuição de material</h2>'+window._roteiroHtml.replace(/<button.*?<\/button>/g,'');
+  byId('imprimivel').style.display='block';window.print();byId('imprimivel').style.display='none';
+}
+
+/* ═══════════ Organograma ═══════════ */
+const FUNCOES_CENTRAIS=[
+  {id:'geral',nome:'Coordenador(a) Geral',desc:'comanda a estratégia, arbitra conflitos, único que fala pelo conjunto da campanha com o candidato'},
+  {id:'financeiro',nome:'Coordenador(a) Financeiro',desc:'gere a conta de campanha, autoriza pagamentos, controla orçamento × planejado'},
+  {id:'contas',nome:'Responsável Prestação de Contas',desc:'coleta notas, recibos e termos; lança no SPCE; parciais em setembro e final em até 30 dias após a eleição'},
+  {id:'juridico',nome:'Responsável Jurídico',desc:'registra candidatura, responde representações, valida material e contratos, direito de resposta'},
+  {id:'logistica',nome:'Responsável Logística',desc:'carros, combustível, rotas, agenda de deslocamento, estrutura de eventos'},
+  {id:'materiais',nome:'Responsável Materiais',desc:'orça e controla gráfica, estoque e distribuição de santinho, adesivo, bandeira'},
+  {id:'digital',nome:'Coordenador(a) Mídia Digital',desc:'redes sociais, impulsionamento (só via plataformas cadastradas, com CNPJ da campanha), grupos de WhatsApp, resposta a ataques, calendário de postagens'},
+  {id:'fisica',nome:'Coordenador(a) Mídia Física',desc:'rádio/TV (horário eleitoral), carro de som, bandeiraços, adesivaços'},
+  {id:'imprensa',nome:'Assessoria de Imprensa',desc:'releases, relacionamento com veículos, porta-voz, agenda de entrevistas'},
+  {id:'agenda',nome:'Responsável Agenda do Candidato',desc:'monta e confirma a agenda diária, articula com coordenadores regionais'},
+  {id:'dados',nome:'Inteligência e Pesquisas',desc:'acompanha pesquisas registradas, metas por cidade (usa o painel de dados), relatórios semanais'},
+  {id:'mobilizacao',nome:'Coordenador(a) de Mobilização',desc:'recruta e ativa voluntários, organiza os multiplicadores da base de apoiadores'},
+];
+const TEMATICAS_SUGERIDAS=['Saúde','Educação','Agro','Mulheres','Juventude','Igrejas/Fé','Empreendedores','Segurança','Esporte','Cultura'];
+function getOrg(){const o=DB.obj('organograma');o.centrais=o.centrais||{};o.regioes=o.regioes||[];o.cidades=o.cidades||[];o.tematicas=o.tematicas||[];return o;}
+function rOrg(){
+  const o=getOrg(),aps=DB.get('apoiadores');
+  const dl=`<datalist id="dl-org">${aps.map(a=>`<option>${esc(a.nome)}</option>`).join('')}</datalist>`;
+  const vagas=FUNCOES_CENTRAIS.filter(f=>!o.centrais[f.id]).length;
+  byId('t-org').innerHTML=`${dl}
+  ${vagas?`<div class="aviso">⚠️ ${vagas} função(ões) central(is) sem responsável definido.</div>`:''}
+  <div class="sub">Coordenação central — quem faz o quê</div>
+  <table><thead><tr><th style="width:220px">Função</th><th>Responsabilidade</th><th style="width:220px">Responsável</th></tr></thead><tbody>
+  ${FUNCOES_CENTRAIS.map(f=>`<tr><td><b>${f.nome}</b></td><td class="mut" style="white-space:normal">${f.desc}</td>
+  <td><input list="dl-org" value="${esc(o.centrais[f.id]||'')}" placeholder="— vago —"
+   style="width:100%;${o.centrais[f.id]?'':'border-color:var(--warn)'}"
+   onchange="setOrgCentral('${f.id}',this.value)"></td></tr>`).join('')}</tbody></table>
+  <div class="sub">Coordenadores de região</div>
+  <div class="tools"><select id="org-meso">${[...new Set(CIDADES.map(c=>c.meso).filter(Boolean))].map(m=>`<option>${esc(m)}</option>`).join('')}</select>
+  <input list="dl-org" id="org-meso-resp" placeholder="responsável"><button class="b2" onclick="addOrgItem('regioes','org-meso','org-meso-resp')">Adicionar</button></div>
+  ${tabelaOrgItens('regioes','Região')}
+  <div class="sub">Coordenadores de cidade</div>
+  <div class="tools">${selCidade('org-cid')}
+  <input list="dl-org" id="org-cid-resp" placeholder="responsável"><button class="b2" onclick="addOrgItem('cidades','org-cid','org-cid-resp')">Adicionar</button></div>
+  ${tabelaOrgItens('cidades','Cidade')}
+  <div class="sub">Coordenadores temáticos</div>
+  <div class="tools"><input id="org-tema" list="dl-temas" placeholder="temática">
+  <datalist id="dl-temas">${TEMATICAS_SUGERIDAS.map(t=>`<option>${t}</option>`).join('')}</datalist>
+  <input list="dl-org" id="org-tema-resp" placeholder="responsável"><button class="b2" onclick="addOrgItem('tematicas','org-tema','org-tema-resp')">Adicionar</button></div>
+  ${tabelaOrgItens('tematicas','Temática')}
+  <button class="b2" style="margin-top:14px" onclick="imprimirOrg()">🖨 Imprimir organograma</button>`;
+}
+function tabelaOrgItens(chave,rotulo){
+  const o=getOrg();
+  if(!o[chave].length)return `<div class="mut" style="margin:4px 0 10px">Nenhum ${rotulo.toLowerCase()} atribuído.</div>`;
+  return `<table style="margin-bottom:10px"><thead><tr><th>${rotulo}</th><th>Responsável</th><th></th></tr></thead><tbody>
+  ${o[chave].map((x,i)=>`<tr><td>${esc(x.alvo)}</td><td>${esc(x.resp)}</td>
+  <td><button class="bd" onclick="delOrgItem('${chave}',${i})">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function setOrgCentral(id,val){const o=getOrg();o.centrais[id]=val.trim();DB.set('organograma',o);rDash();}
+function addOrgItem(chave,idAlvo,idResp){
+  const alvo=byId(idAlvo).value.trim(),resp=byId(idResp).value.trim();
+  if(!alvo||!resp)return alert('Preencha os dois campos.');
+  const o=getOrg();o[chave].push({alvo,resp});DB.set('organograma',o);rOrg();
+}
+function delOrgItem(chave,i){const o=getOrg();o[chave].splice(i,1);DB.set('organograma',o);rOrg();}
+function imprimirOrg(){
+  const o=getOrg();
+  byId('imprimivel').innerHTML=`<h2>Organograma da campanha</h2>
+  <h3>Coordenação central</h3><ul>${FUNCOES_CENTRAIS.map(f=>`<li><b>${f.nome}:</b> ${esc(o.centrais[f.id]||'— vago —')}</li>`).join('')}</ul>
+  ${['regioes','cidades','tematicas'].map((k,ix)=>o[k].length?`<h3>${['Regiões','Cidades','Temáticas'][ix]}</h3>
+  <ul>${o[k].map(x=>`<li><b>${esc(x.alvo)}:</b> ${esc(x.resp)}</li>`).join('')}</ul>`:'').join('')}`;
+  byId('imprimivel').style.display='block';window.print();byId('imprimivel').style.display='none';
+}
+
+/* ═══════════ Normas ═══════════ */
+function rNormas(){
+  const bloco=(titulo,corpo)=>`<div class="card" style="margin:10px 0">
+  <div style="cursor:pointer;font-weight:600" onclick="this.nextElementSibling.hidden=!this.nextElementSibling.hidden">▸ ${titulo}</div>
+  <div hidden style="margin-top:10px;line-height:1.8;font-size:13.5px">${corpo}</div></div>`;
+  byId('t-normas').innerHTML=`
+  <div class="aviso">Guia prático baseado na <b>Lei 9.504/97</b> (Lei das Eleições), <b>Lei 9.096/95</b> (partidos) e resoluções do TSE.
+  As resoluções específicas de 2026 são editadas pelo TSE no ano anterior à eleição — <b>confirme valores-limite e datas no calendário oficial</b>
+  (<a href="https://www.tse.jus.br" target="_blank" style="color:var(--ac)">tse.jus.br</a>) e valide decisões com o advogado da campanha.</div>
+
+  ${bloco('📅 Calendário eleitoral 2026 (marcos da Lei 9.504/97)',`
+  <b>Até 4 de abril:</b> prazo de filiação partidária e domicílio eleitoral do candidato.<br>
+  <b>1º de julho em diante:</b> vedações a agentes públicos se intensificam (condutas vedadas, art. 73).<br>
+  <b>20 de julho a 5 de agosto:</b> convenções partidárias.<br>
+  <b>Até 15 de agosto:</b> registro de candidaturas; abertura de CNPJ e conta bancária de campanha logo após.<br>
+  <b>16 de agosto:</b> início da propaganda eleitoral (rua, internet, comício).<br>
+  <b>~5 de setembro:</b> início da propaganda em rádio e TV (35 dias antes do 1º turno).<br>
+  <b>Setembro:</b> prestação de contas parcial (9 a 13/9, conferir resolução).<br>
+  <b>4 de outubro:</b> 1º turno (primeiro domingo). <b>25 de outubro:</b> 2º turno.<br>
+  <b>Até 3 de novembro:</b> prestação de contas final (30 dias após o 1º turno; candidatos ao 2º turno: até 20 dias após).`)}
+
+  ${bloco('🧾 Passo a passo — como CONTRATAR (pessoas e serviços)',`
+  <b>1.</b> Só contrate depois do CNPJ e da conta de campanha abertos.<br>
+  <b>2.</b> Formalize por escrito — use o modelo em Termos & Contratos (objeto, valor, prazo, forma de pagamento).<br>
+  <b>3.</b> Pague sempre pela conta oficial de campanha (transferência/cheque) — nunca em dinheiro vivo por fora.<br>
+  <b>4.</b> Exija NF (PJ) ou recibo com CPF (PF) em toda despesa — sem documento, a conta é reprovada.<br>
+  <b>5.</b> Cabos eleitorais: contratação permitida, gera direitos trabalhistas simplificados (Lei 9.504, art. 100) — registre cada um com contrato e recibo.<br>
+  <b>6.</b> Lance tudo no Financeiro deste sistema no mesmo dia e guarde o documento físico para o responsável pela prestação de contas.<br>
+  <b>Vedado:</b> contratar ou pagar com recursos não transitados pela conta de campanha; showmício; brindes (camisetas, chaveiros, bonés para eleitores).`)}
+
+  ${bloco('💵 Passo a passo — como RECEBER DOAÇÃO',`
+  <b>Quem pode doar:</b> pessoa física (até <b>10% dos rendimentos brutos do ano anterior</b>), o próprio candidato (limite conforme resolução), partido (fundo partidário/eleitoral) e financiamento coletivo (vaquinha autorizada pelo TSE, permitida desde a pré-campanha).<br>
+  <b>Quem NÃO pode (art. 24):</b> empresas (CNPJ), sindicatos, entidades de classe, concessionários de serviço público, ONGs que recebem recurso público, origem estrangeira.<br>
+  <b>Como fazer:</b> 1) doação em dinheiro entra só por transferência identificada por CPF na conta de campanha; 2) emita recibo eleitoral para TODA doação, inclusive estimável; 3) bens/serviços cedidos (carro, sala, som) = doação estimável — gere o termo na aba Termos & Contratos com valor de mercado; 4) doações acima de R$1.064,10 em dinheiro só por transferência bancária (confirmar valor atualizado na resolução); 5) lance no Financeiro como Entrada no mesmo dia.<br>
+  <b>Atenção:</b> doação de fonte vedada ou acima do limite = devolução + multa + risco de rejeição das contas.`)}
+
+  ${bloco('📊 Passo a passo — PRESTAÇÃO DE CONTAS',`
+  <b>Responsável:</b> o candidato responde pessoalmente, com apoio de contador habilitado (obrigatório) e advogado.<br>
+  <b>Ferramenta:</b> SPCE (Sistema de Prestação de Contas Eleitorais do TSE) — baixado no site do TSE.<br>
+  <b>Rotina durante a campanha:</b> 1) todo documento (NF, recibo, termo, extrato) vai para o responsável de prestação de contas na semana em que foi gerado; 2) use este sistema para conferência: cada despesa aqui precisa ter documento correspondente; 3) concilie o extrato bancário semanalmente.<br>
+  <b>Parcial (setembro):</b> relatório de doações e gastos até então.<br>
+  <b>Final (até 30 dias após a eleição):</b> completa, com extratos definitivos, sobras de campanha (devolução ao partido/fundo) e recibos.<br>
+  <b>Reprovação — causas mais comuns:</b> despesa sem NF, doação de fonte vedada, gasto sem trânsito na conta oficial, omissão de doação estimável (o carro cedido sem termo!), extrapolação do limite de gastos do cargo.`)}
+
+  ${bloco('📱 Regras da campanha DIGITAL',`
+  <b>Pode:</b> páginas e perfis do candidato, vídeos, lives, e-mail marketing com descadastro, vaquinha desde a pré-campanha, impulsionamento pago SOMENTE contratado direto com plataformas (Meta, Google) com CNPJ da campanha e identificação de quem pagou.<br>
+  <b>Não pode:</b> disparo em massa de WhatsApp/SMS por empresas, robôs e perfis falsos, anúncio pago fora das plataformas cadastradas, propaganda paga em site de pessoa jurídica (portais de notícia), deepfake/IA sem rótulo (resoluções recentes exigem aviso de conteúdo sintético), impulsionamento por terceiros.<br>
+  <b>Boas práticas:</b> arquive prints de ataques e fake news com URL e data (para representação e direito de resposta em 72h); calendário editorial semanal; um responsável único aprova o que sobe.`)}
+
+  ${bloco('📢 Propaganda física — o que pode e o que não pode',`
+  <b>Pode:</b> adesivo em carro (até 0,5 m²), bandeiraço, caminhada, carreata, carro de som (8h–22h, a serviço de candidato), santinhos, adesivaço em comitê e bens particulares com autorização (sem pagamento).<br>
+  <b>Não pode:</b> outdoor, propaganda em bens públicos (postes, praças, viadutos), cavalete/banner em via pública, brindes, showmício, propaganda paga em cinema, alto-falante a menos de 200m de hospitais e escolas.<br>
+  <b>Dia da eleição:</b> manifestação individual e silenciosa é permitida (adesivo na roupa); boca de urna, aglomeração com material e transporte irregular de eleitores são CRIME.`)}
+
+  ${bloco('❓ FAQ — dúvidas frequentes da equipe',`
+  <b>Posso usar meu carro para a campanha?</b> Pode, como doação estimável: gere o termo de cessão (aba Termos & Contratos); combustível pago pela campanha vira despesa registrada.<br>
+  <b>Voluntário precisa de contrato?</b> Trabalho voluntário é permitido e não exige pagamento, mas registre nome e função (organograma) — se houver qualquer pagamento, vira contratação formal.<br>
+  <b>Posso pagar almoço da equipe?</b> Alimentação do pessoal de campanha é despesa legal — com NF, lançada na categoria própria.<br>
+  <b>Sobrou dinheiro, e agora?</b> Sobras vão para o partido (recursos próprios/doações) ou devolvidas ao Tesouro (fundo) — nunca para o candidato.<br>
+  <b>Recebi PIX de um apoiador direto no meu CPF, vale?</b> NÃO — devolva e oriente a doar via conta de campanha/vaquinha com CPF identificado.<br>
+  <b>Empresário quer ajudar com a empresa dele.</b> Não pode: doação de CNPJ é vedada. Ele pode doar como pessoa física, dentro do limite de 10%.<br>
+  <b>Padre/pastor pode pedir voto no culto?</b> Templo é equiparado a bem de uso comum: propaganda lá é vedada; o líder, como cidadão, tem liberdade fora do púlpito — cautela.<br>
+  <b>Pesquisa "boca de urna" própria pode?</b> Pesquisas devem ser registradas no TSE 5 dias antes da divulgação; enquete sem registro não pode ser divulgada.`)}
+
+  ${bloco('🔗 Fontes oficiais',`
+  <a href="https://www.planalto.gov.br/ccivil_03/leis/l9504.htm" target="_blank" style="color:var(--ac)">Lei 9.504/1997 — Lei das Eleições</a><br>
+  <a href="https://www.planalto.gov.br/ccivil_03/leis/l9096.htm" target="_blank" style="color:var(--ac)">Lei 9.096/1995 — Lei dos Partidos</a><br>
+  <a href="https://www.tse.jus.br/legislacao/normas-editadas-pelo-tse" target="_blank" style="color:var(--ac)">Resoluções do TSE (normas da eleição vigente)</a><br>
+  <a href="https://www.tse.jus.br/eleicoes/prestacao-de-contas" target="_blank" style="color:var(--ac)">Prestação de contas — SPCE e manuais</a><br>
+  <a href="https://www.tse.jus.br/eleicoes/calendario-eleitoral" target="_blank" style="color:var(--ac)">Calendário eleitoral oficial</a>`)}`;
+}
+
+/* ═══════════ Compromissos (caderno de pedidos) ═══════════ */
+const ST_COMP=['aberto','em andamento','cumprido','retorno dado'];
+function rComp(){
+  const l=DB.get('compromissos');
+  byId('t-comp').innerHTML=`
+  <div class="tools"><button class="b" onclick="formComp()">+ Registrar pedido/compromisso</button>
+  <input type="search" id="q-comp" placeholder="Buscar…" oninput="rCompTb()">
+  <select id="f-comp-st" onchange="rCompTb()"><option value="">Todos os status</option>
+  ${ST_COMP.map(s=>`<option>${s}</option>`).join('')}</select></div>
+  <div class="mut" style="font-size:12.5px">Regra de ouro: todo pedido anotado tem dono e prazo. Pedido sem retorno é voto perdido — e cidade queimada.</div>
+  <div id="tb-comp"></div>`;
+  rCompTb();
+}
+function rCompTb(){
+  const l=DB.get('compromissos');
+  const q=(byId('q-comp')?.value||'').toLowerCase(),fs=byId('f-comp-st')?.value||'';
+  const rows=l.filter(c=>(!q||`${c.cidade} ${c.quem} ${c.pedido}`.toLowerCase().includes(q))&&(!fs||c.status===fs))
+    .sort((a,b)=>(a.status==='aberto'?0:1)-(b.status==='aberto'?0:1)||(a.prazo||'9999').localeCompare(b.prazo||'9999'));
+  const corSt=s=>s==='aberto'?'var(--bad)':s==='em andamento'?'var(--warn)':'var(--ok)';
+  byId('tb-comp').innerHTML=`<table><thead><tr><th>Data</th><th>Cidade</th><th>Quem pediu</th><th>Pedido</th>
+  <th>Compromisso assumido</th><th>Dono</th><th>Prazo</th><th>Status</th><th></th></tr></thead><tbody>
+  ${rows.map(c=>`<tr><td class="mut">${dataBR(c.data)}</td><td><b>${esc(c.cidade)}</b></td><td>${esc(c.quem)}</td>
+  <td style="white-space:normal;max-width:240px">${esc(c.pedido)}</td>
+  <td style="white-space:normal;max-width:240px" class="mut">${esc(c.promessa||'—')}</td>
+  <td>${esc(c.responsavel||'—')}</td>
+  <td class="${c.prazo&&c.prazo<hoje()&&c.status!=='cumprido'&&c.status!=='retorno dado'?'neg':'mut'}">${dataBR(c.prazo)}</td>
+  <td><select onchange="stComp('${c.id}',this.value)" style="border-color:${corSt(c.status)}">
+  ${ST_COMP.map(s=>`<option ${c.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+  <td><button class="b2" style="padding:3px 10px;font-size:12px" onclick="formComp('${c.id}')">editar</button>
+  <button class="bd" onclick="delGen('compromissos','${c.id}',rComp)">×</button></td></tr>`).join('')}</tbody></table>
+  <div class="mut" style="margin-top:6px">${rows.length} registros · ${l.filter(c=>c.status==='aberto').length} abertos.</div>`;
+}
+function formComp(id){
+  const c=DB.get('compromissos').find(x=>x.id===id)||{};
+  abrir(`<h2>${id?'Editar':'Novo'} compromisso</h2>
+  <div class="grid3">
+    <div class="fld"><label>Data do pedido *</label><input id="cp-data" type="date" value="${c.data||hoje()}"></div>
+    <div class="fld"><label>Cidade *</label>${selCidade('cp-cidade',c.cidade)}</div>
+    <div class="fld"><label>Quem pediu *</label><input id="cp-quem" value="${esc(c.quem||'')}" placeholder="prefeito, líder comunitário…"></div>
+  </div>
+  <div class="fld"><label>Pedido *</label><textarea id="cp-pedido">${esc(c.pedido||'')}</textarea></div>
+  <div class="fld"><label>Compromisso assumido pelo candidato</label><textarea id="cp-promessa">${esc(c.promessa||'')}</textarea></div>
+  <div class="grid2">
+    <div class="fld"><label>Dono do encaminhamento</label><input id="cp-resp" list="dl-org" value="${esc(c.responsavel||'')}"></div>
+    <div class="fld"><label>Prazo de retorno</label><input id="cp-prazo" type="date" value="${c.prazo||''}"></div>
+  </div>
+  <button class="b" onclick="salvarComp('${id||''}')">Salvar</button>`);
+}
+function salvarComp(id){
+  const v=k=>byId('cp-'+k).value.trim();
+  if(!v('cidade')||!v('quem')||!v('pedido'))return alert('Cidade, quem pediu e pedido são obrigatórios.');
+  const l=DB.get('compromissos');
+  const novo={id:id||uid(),data:v('data'),cidade:v('cidade'),quem:v('quem'),pedido:v('pedido'),
+    promessa:v('promessa'),responsavel:v('resp'),prazo:v('prazo'),status:id?(l.find(x=>x.id===id)?.status||'aberto'):'aberto'};
+  const i=l.findIndex(x=>x.id===id);if(i>=0)l[i]=novo;else l.push(novo);
+  DB.set('compromissos',l);fechar();rComp();rDash();
+}
+function stComp(id,s){const l=DB.get('compromissos');const c=l.find(x=>x.id===id);if(c){c.status=s;DB.set('compromissos',l);rCompTb();rDash();}}
+function delGen(chave,id,rerender){if(!confirm('Remover?'))return;DB.set(chave,DB.get(chave).filter(x=>x.id!==id));rerender();rDash();}
+
+/* ═══════════ Agenda do candidato ═══════════ */
+function aniversariantes(dias){
+  const hj=new Date();
+  return DB.get('apoiadores').filter(a=>a.nasc).map(a=>{
+    const [y,m,d]=a.nasc.split('-').map(Number);
+    const prox=new Date(hj.getFullYear(),m-1,d);
+    if(prox<new Date(hj.getFullYear(),hj.getMonth(),hj.getDate()))prox.setFullYear(hj.getFullYear()+1);
+    const diff=Math.round((prox-hj)/864e5);
+    return {a,diff,dia:`${String(d).padStart(2,'0')}/${String(m).padStart(2,'0')}`};
+  }).filter(x=>x.diff<=dias).sort((a,b)=>a.diff-b.diff);
+}
+function rAgenda(){
+  const ag=DB.get('agenda'),lig=DB.get('ligacoes');
+  const aniv=aniversariantes(7);
+  const pendAgrad=ag.filter(e=>e.status==='realizado'&&!e.agradecido);
+  byId('t-agenda').innerHTML=`
+  <div class="tools"><button class="b" onclick="formAgenda()">+ Compromisso de agenda</button>
+  <button class="b2" onclick="formLigacao()">+ Ligação do dia</button>
+  <button class="b2" onclick="imprimirAgendaDia()">🖨 Agenda do dia</button></div>
+  ${aniv.length?`<div class="card" style="margin-bottom:10px"><b>🎂 Aniversários (próximos 7 dias) — o candidato liga:</b><br>
+  ${aniv.map(x=>`<span class="tag" style="margin:2px">${x.dia} — ${esc(x.a.nome)} (${esc(x.a.cidade)})${x.a.whatsapp?` <a style="color:var(--ok)" href="https://wa.me/55${String(x.a.whatsapp).replace(/\D/g,'')}" target="_blank">📱</a>`:''}</span>`).join(' ')}</div>`:''}
+  ${pendAgrad.length?`<div class="aviso">🙏 ${pendAgrad.length} evento(s) realizados sem agradecimento registrado — quem abriu a porta merece a ligação do dia seguinte.</div>`:''}
+  <div class="sub">Ligações estratégicas do candidato</div>
+  <table><thead><tr><th>Data</th><th>Para quem</th><th>Motivo</th><th>Feita?</th><th></th></tr></thead><tbody>
+  ${lig.sort((a,b)=>b.data.localeCompare(a.data)).slice(0,20).map(g=>`<tr>
+  <td class="mut">${dataBR(g.data)}</td><td>${esc(g.nome)}</td><td class="mut">${esc(g.motivo)}</td>
+  <td><input type="checkbox" ${g.feito?'checked':''} onchange="tglLig('${g.id}')"></td>
+  <td><button class="bd" onclick="delGen('ligacoes','${g.id}',rAgenda)">×</button></td></tr>`).join('')}</tbody></table>
+  <div class="sub">Agenda</div>
+  <table><thead><tr><th>Data</th><th>Hora</th><th>Cidade</th><th>Atividade</th><th>Quem recebe</th><th>Acompanha</th><th>Status</th><th>Agradecido</th><th></th></tr></thead><tbody>
+  ${ag.sort((a,b)=>(a.data+a.hora).localeCompare(b.data+b.hora)).map(e=>`<tr>
+  <td class="mut">${dataBR(e.data)}</td><td>${esc(e.hora||'')}</td><td><b>${esc(e.cidade)}</b></td>
+  <td style="white-space:normal">${esc(e.atividade)}${e.local?` <span class="mut">· ${esc(e.local)}</span>`:''}</td>
+  <td>${esc(e.quem||'—')}</td><td class="mut">${esc(e.acompanha||'—')}</td>
+  <td><select onchange="stAgenda('${e.id}',this.value)">${['a confirmar','confirmado','realizado','cancelado'].map(s=>`<option ${e.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+  <td>${e.status==='realizado'?`<input type="checkbox" ${e.agradecido?'checked':''} onchange="tglAgrad('${e.id}')">`:'—'}</td>
+  <td><button class="bd" onclick="delGen('agenda','${e.id}',rAgenda)">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function formAgenda(){
+  abrir(`<h2>Compromisso de agenda</h2><div class="grid3">
+  <div class="fld"><label>Data *</label><input id="ag-data" type="date" value="${hoje()}"></div>
+  <div class="fld"><label>Hora</label><input id="ag-hora" type="time"></div>
+  <div class="fld"><label>Cidade *</label>${selCidade('ag-cidade')}</div>
+  <div class="fld"><label>Atividade *</label><input id="ag-atv" placeholder="reunião com sindicato, rádio, visita…"></div>
+  <div class="fld"><label>Local</label><input id="ag-local"></div>
+  <div class="fld"><label>Quem recebe</label><input id="ag-quem"></div>
+  <div class="fld"><label>Quem acompanha</label><input id="ag-acomp" list="dl-org"></div></div>
+  <button class="b" onclick="salvarAgenda()">Salvar</button>`);
+}
+function salvarAgenda(){
+  const v=k=>byId('ag-'+k).value.trim();
+  if(!v('cidade')||!v('atv'))return alert('Cidade e atividade obrigatórias.');
+  const l=DB.get('agenda');
+  l.push({id:uid(),data:v('data'),hora:v('hora'),cidade:v('cidade'),atividade:v('atv'),local:v('local'),
+    quem:v('quem'),acompanha:v('acomp'),status:'a confirmar',agradecido:false});
+  DB.set('agenda',l);fechar();rAgenda();rDash();
+}
+function stAgenda(id,s){const l=DB.get('agenda');const e=l.find(x=>x.id===id);if(e){e.status=s;DB.set('agenda',l);rAgenda();}}
+function tglAgrad(id){const l=DB.get('agenda');const e=l.find(x=>x.id===id);if(e){e.agradecido=!e.agradecido;DB.set('agenda',l);rAgenda();}}
+function formLigacao(){
+  abrir(`<h2>Ligação estratégica</h2><div class="grid3">
+  <div class="fld"><label>Data</label><input id="lg2-data" type="date" value="${hoje()}"></div>
+  <div class="fld"><label>Para quem *</label><input id="lg2-nome" list="dl-aps"></div>
+  <div class="fld"><label>Motivo *</label><input id="lg2-motivo" placeholder="aniversário, apoio novo, líder magoado…"></div></div>
+  <button class="b" onclick="salvarLigacao()">Salvar</button>`);
+}
+function salvarLigacao(){
+  const nome=byId('lg2-nome').value.trim(),motivo=byId('lg2-motivo').value.trim();
+  if(!nome||!motivo)return alert('Preencha os campos.');
+  const l=DB.get('ligacoes');l.push({id:uid(),data:byId('lg2-data').value,nome,motivo,feito:false});
+  DB.set('ligacoes',l);fechar();rAgenda();
+}
+function tglLig(id){const l=DB.get('ligacoes');const g=l.find(x=>x.id===id);if(g){g.feito=!g.feito;DB.set('ligacoes',l);}}
+function imprimirAgendaDia(){
+  const d=prompt('Agenda de qual data? (AAAA-MM-DD)',hoje());if(!d)return;
+  const ag=DB.get('agenda').filter(e=>e.data===d&&e.status!=='cancelado').sort((a,b)=>(a.hora||'').localeCompare(b.hora||''));
+  const lig=DB.get('ligacoes').filter(g=>g.data===d&&!g.feito);
+  const aniv=DB.get('apoiadores').filter(a=>a.nasc&&a.nasc.slice(5)===d.slice(5));
+  byId('imprimivel').innerHTML=`<h2>Agenda do candidato — ${dataBR(d)}</h2>
+  ${ag.map(e=>`<p><b>${esc(e.hora||'—')}</b> · <b>${esc(e.cidade)}</b> — ${esc(e.atividade)}${e.local?' ('+esc(e.local)+')':''}<br>
+  <small>Recebe: ${esc(e.quem||'—')} · Acompanha: ${esc(e.acompanha||'—')} · ${e.status}</small></p>`).join('')||'<p>Sem compromissos.</p>'}
+  ${lig.length?`<h3>Ligações do dia</h3><ul>${lig.map(g=>`<li>${esc(g.nome)} — ${esc(g.motivo)}</li>`).join('')}</ul>`:''}
+  ${aniv.length?`<h3>Aniversariantes</h3><ul>${aniv.map(a=>`<li>${esc(a.nome)} (${esc(a.cidade)}) ${esc(a.whatsapp||a.telefone||'')}</li>`).join('')}</ul>`:''}`;
+  byId('imprimivel').style.display='block';window.print();byId('imprimivel').style.display='none';
+}
+
+/* ═══════════ Metas de votos + diário dos coordenadores ═══════════ */
+function rMetas(){
+  const metas=DB.get('metas'),cfg=DB.obj('metasCfg'),rel=DB.get('relatorios');
+  const somaMetas=metas.reduce((a,m)=>a+(+m.meta||0),0);
+  const TEND={subindo:'📈',estavel:'➡️',caindo:'📉'};
+  byId('t-metas').innerHTML=`
+  <div class="cards">
+    <div class="card"><div class="l">Votos necessários (estimativa p/ eleger)</div>
+    <input id="mt-necessarios" type="number" value="${cfg.necessarios||''}" onchange="salvarMetasCfg()" style="width:100%;margin-top:4px"></div>
+    <div class="card"><div class="l">Soma das metas assumidas</div><div class="v">${somaMetas.toLocaleString('pt-BR')}</div>
+    <div class="l ${cfg.necessarios&&somaMetas<cfg.necessarios?'neg':'pos'}">${cfg.necessarios?(somaMetas/cfg.necessarios*100).toFixed(0)+'% do necessário':'defina o alvo'}</div></div>
+    <div class="card"><div class="l">Cidades com meta</div><div class="v">${metas.length}</div><div class="l">de ${CIDADES.length||295}</div></div>
+  </div>
+  <div class="tools"><button class="b" onclick="formMeta()">+ Meta por cidade</button>
+  <button class="b2" onclick="formRelatorio()">+ Relatório diário do coordenador</button></div>
+  <div class="sub">Metas por cidade — o coordenador assina a entrega</div>
+  <table><thead><tr><th>Cidade</th><th>Coordenador</th><th class="num">Meta de votos</th><th>Última avaliação</th><th>Tendência</th><th></th></tr></thead><tbody>
+  ${metas.sort((a,b)=>b.meta-a.meta).map(m=>{
+    const ult=(m.avaliacoes||[]).at(-1);
+    return `<tr><td><b>${esc(m.cidade)}</b></td><td>${esc(m.responsavel)}</td>
+    <td class="num">${(+m.meta).toLocaleString('pt-BR')}</td>
+    <td class="mut">${ult?dataBR(ult.data)+(ult.obs?' — '+esc(ult.obs):''):'—'}</td>
+    <td>${ult?TEND[ult.tendencia]+' '+ult.tendencia:'—'}
+    <button class="b2" style="padding:2px 8px;font-size:11px" onclick="formAvaliacao('${m.id}')">avaliar</button></td>
+    <td><button class="bd" onclick="delGen('metas','${m.id}',rMetas)">×</button></td></tr>`;}).join('')}</tbody></table>
+  <div class="sub">Diário dos coordenadores (últimos 30)</div>
+  <table><thead><tr><th>Data</th><th>Coordenador</th><th>Cidade</th><th>Atividades</th><th class="num">Contatos novos</th><th>Alerta</th><th></th></tr></thead><tbody>
+  ${rel.sort((a,b)=>b.data.localeCompare(a.data)).slice(0,30).map(r=>`<tr>
+  <td class="mut">${dataBR(r.data)}</td><td>${esc(r.coordenador)}</td><td>${esc(r.cidade||'—')}</td>
+  <td style="white-space:normal;max-width:300px">${esc(r.atividades)}</td><td class="num">${r.contatos||0}</td>
+  <td class="${r.alerta?'neg':'mut'}" style="white-space:normal;max-width:200px">${esc(r.alerta||'—')}</td>
+  <td><button class="bd" onclick="delGen('relatorios','${r.id}',rMetas)">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function salvarMetasCfg(){DB.set('metasCfg',{necessarios:+byId('mt-necessarios').value||0});rMetas();}
+function formMeta(){
+  abrir(`<h2>Meta por cidade</h2><div class="grid3">
+  <div class="fld"><label>Cidade *</label>${selCidade('me-cidade')}</div>
+  <div class="fld"><label>Coordenador responsável *</label><input id="me-resp" list="dl-org"></div>
+  <div class="fld"><label>Meta de votos *</label><input id="me-meta" type="number"></div></div>
+  <button class="b" onclick="salvarMeta()">Salvar</button>`);
+}
+function salvarMeta(){
+  const c=byId('me-cidade').value,r=byId('me-resp').value.trim(),m=+byId('me-meta').value;
+  if(!c||!r||!m)return alert('Preencha tudo.');
+  const l=DB.get('metas');
+  if(l.some(x=>x.cidade===c))return alert('Já existe meta para esta cidade — remova a antiga primeiro.');
+  l.push({id:uid(),cidade:c,responsavel:r,meta:m,avaliacoes:[]});
+  DB.set('metas',l);fechar();rMetas();
+}
+function formAvaliacao(id){
+  abrir(`<h2>Avaliação semanal</h2><div class="grid3">
+  <div class="fld"><label>Tendência</label><select id="av-t"><option value="subindo">📈 Subindo</option>
+  <option value="estavel">➡️ Estável</option><option value="caindo">📉 Caindo</option></select></div>
+  <div class="fld" style="grid-column:span 2"><label>Observação</label><input id="av-obs" placeholder="adversário forte no bairro X, prefeito fechou apoio…"></div></div>
+  <button class="b" onclick="salvarAvaliacao('${id}')">Registrar</button>`);
+}
+function salvarAvaliacao(id){
+  const l=DB.get('metas');const m=l.find(x=>x.id===id);
+  m.avaliacoes=m.avaliacoes||[];
+  m.avaliacoes.push({data:hoje(),tendencia:byId('av-t').value,obs:byId('av-obs').value.trim()});
+  DB.set('metas',l);fechar();rMetas();
+}
+function formRelatorio(){
+  abrir(`<h2>Relatório diário</h2><div class="grid3">
+  <div class="fld"><label>Data</label><input id="rl-data" type="date" value="${hoje()}"></div>
+  <div class="fld"><label>Coordenador *</label><input id="rl-coord" list="dl-org"></div>
+  <div class="fld"><label>Cidade</label>${selCidade('rl-cidade')}</div>
+  <div class="fld"><label>Contatos novos</label><input id="rl-contatos" type="number" value="0"></div></div>
+  <div class="fld"><label>Atividades do dia *</label><textarea id="rl-atv"></textarea></div>
+  <div class="fld"><label>Alerta/problema</label><input id="rl-alerta"></div>
+  <button class="b" onclick="salvarRelatorio()">Salvar</button>`);
+}
+function salvarRelatorio(){
+  const co=byId('rl-coord').value.trim(),atv=byId('rl-atv').value.trim();
+  if(!co||!atv)return alert('Coordenador e atividades obrigatórios.');
+  const l=DB.get('relatorios');
+  l.push({id:uid(),data:byId('rl-data').value,coordenador:co,cidade:byId('rl-cidade').value,
+    atividades:atv,contatos:+byId('rl-contatos').value||0,alerta:byId('rl-alerta').value.trim()});
+  DB.set('relatorios',l);fechar();rMetas();
+}
+
+/* ═══════════ Eventos ═══════════ */
+const CHECK_EVT=['Som/microfone','Espaço/palco','Comunicação à polícia/autorização','Cadeiras','Café/água','Convites às lideranças','Ordem de falas definida','Material para distribuir','Fotógrafo/vídeo','Lista de presença'];
+function rEvt(){
+  const l=DB.get('eventos');
+  byId('t-evt').innerHTML=`
+  <div class="tools"><button class="b" onclick="formEvt()">+ Evento</button></div>
+  <div class="mut" style="font-size:12.5px">Regra do veterano: lista de presença vira cadastro de apoiador no dia seguinte, e evento caro em cidade decidida é dinheiro queimado — confira custo × votos esperados.</div>
+  ${l.sort((a,b)=>(a.data||'').localeCompare(b.data||'')).map(e=>{
+    const feitos=(e.checklist||[]).length;
+    return `<div class="card" style="margin:10px 0">
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px">
+    <b>${dataBR(e.data)} · ${esc(e.cidade)} — ${esc(e.tipo)}</b>
+    <span><span class="tag">${feitos}/${CHECK_EVT.length} checklist</span>
+    <span class="tag">previsto ${fmt(e.custoPrevisto||0)}</span>
+    ${e.custoReal?`<span class="tag" style="border-color:${e.custoReal>e.custoPrevisto?'var(--bad)':'var(--ok)'}">real ${fmt(e.custoReal)}</span>`:''}
+    ${e.presencas?`<span class="tag">${e.presencas} presentes</span>`:''}
+    <button class="b2" style="padding:2px 8px;font-size:12px" onclick="formEvt('${e.id}')">abrir</button>
+    <button class="bd" onclick="delGen('eventos','${e.id}',rEvt)">×</button></span></div>
+    ${e.local?`<div class="mut" style="font-size:12.5px">${esc(e.local)}${e.obs?' · '+esc(e.obs):''}</div>`:''}</div>`;
+  }).join('')||'<div class="mut">Nenhum evento.</div>'}`;
+}
+function formEvt(id){
+  const e=DB.get('eventos').find(x=>x.id===id)||{checklist:[]};
+  abrir(`<h2>${id?'Evento':'Novo evento'}</h2><div class="grid3">
+  <div class="fld"><label>Data *</label><input id="ev-data" type="date" value="${e.data||hoje()}"></div>
+  <div class="fld"><label>Cidade *</label>${selCidade('ev-cidade',e.cidade)}</div>
+  <div class="fld"><label>Tipo *</label><input id="ev-tipo" value="${esc(e.tipo||'')}" placeholder="reunião de bairro, comício, café com lideranças"></div>
+  <div class="fld"><label>Local</label><input id="ev-local" value="${esc(e.local||'')}"></div>
+  <div class="fld"><label>Custo previsto R$</label><input id="ev-prev" type="number" step="0.01" value="${e.custoPrevisto||''}"></div>
+  <div class="fld"><label>Custo real R$</label><input id="ev-real" type="number" step="0.01" value="${e.custoReal||''}"></div>
+  <div class="fld"><label>Nº de presentes</label><input id="ev-pres" type="number" value="${e.presencas||''}"></div></div>
+  <div class="sub">Checklist</div>
+  ${CHECK_EVT.map((c,i)=>`<label style="display:inline-block;margin:3px 12px 3px 0;color:var(--tx);font-size:13px">
+  <input type="checkbox" id="ev-ck-${i}" ${(e.checklist||[]).includes(c)?'checked':''}> ${c}</label>`).join('')}
+  <div class="fld" style="margin-top:8px"><label>Observações</label><textarea id="ev-obs">${esc(e.obs||'')}</textarea></div>
+  <button class="b" onclick="salvarEvt('${id||''}')">Salvar</button>`);
+}
+function salvarEvt(id){
+  const v=k=>byId('ev-'+k).value.trim();
+  if(!v('cidade')||!v('tipo'))return alert('Cidade e tipo obrigatórios.');
+  const l=DB.get('eventos');
+  const novo={id:id||uid(),data:v('data'),cidade:v('cidade'),tipo:v('tipo'),local:v('local'),
+    custoPrevisto:+v('prev')||0,custoReal:+v('real')||0,presencas:+v('pres')||0,obs:v('obs'),
+    checklist:CHECK_EVT.filter((c,i)=>byId('ev-ck-'+i).checked)};
+  const i=l.findIndex(x=>x.id===id);if(i>=0)l[i]=novo;else l.push(novo);
+  DB.set('eventos',l);fechar();rEvt();rDash();
+}
+
+/* ═══════════ Dia D — fiscalização ═══════════ */
+function rDiaD(){
+  const l=DB.get('fiscais');
+  const okCred=l.filter(f=>f.credencial).length,okTrein=l.filter(f=>f.treinado).length,okBU=l.filter(f=>f.bu).length;
+  byId('t-diad').innerHTML=`
+  <div class="cards">
+    <div class="card"><div class="l">Fiscais cadastrados</div><div class="v">${l.length}</div></div>
+    <div class="card"><div class="l">Com credencial</div><div class="v ${okCred===l.length&&l.length?'pos':''}">${okCred}</div></div>
+    <div class="card"><div class="l">Treinados</div><div class="v ${okTrein===l.length&&l.length?'pos':''}">${okTrein}</div></div>
+    <div class="card"><div class="l">BU coletado (pós-eleição)</div><div class="v">${okBU}</div></div>
+  </div>
+  <div class="tools"><button class="b" onclick="formFiscal()">+ Fiscal</button>
+  <button class="b2" onclick="imprimirFiscais()">🖨 Lista por cidade</button>
+  <input type="search" id="q-fis" placeholder="Buscar…" oninput="rDiaDTb()"></div>
+  <div class="mut" style="font-size:12.5px">Operação do domingo: fiscal por local de votação com credencial do partido, ponto de encontro às 6h30, alimentação garantida, e coleta do Boletim de Urna às 17h para conferência paralela na madrugada.</div>
+  <div id="tb-fis"></div>`;
+  rDiaDTb();
+}
+function rDiaDTb(){
+  const l=DB.get('fiscais');
+  const q=(byId('q-fis')?.value||'').toLowerCase();
+  const rows=l.filter(f=>!q||`${f.nome} ${f.cidade} ${f.local}`.toLowerCase().includes(q))
+    .sort((a,b)=>a.cidade.localeCompare(b.cidade)||a.local.localeCompare(b.local));
+  byId('tb-fis').innerHTML=`<table><thead><tr><th>Cidade</th><th>Local de votação</th><th>Seções</th><th>Fiscal</th>
+  <th>Telefone</th><th>Credencial</th><th>Treinado</th><th>BU</th><th></th></tr></thead><tbody>
+  ${rows.map(f=>`<tr><td><b>${esc(f.cidade)}</b></td><td>${esc(f.local)}</td><td class="mut">${esc(f.secoes||'—')}</td>
+  <td>${esc(f.nome)}</td><td class="mut">${esc(f.telefone||'—')}</td>
+  ${['credencial','treinado','bu'].map(k=>`<td><input type="checkbox" ${f[k]?'checked':''} onchange="tglFiscal('${f.id}','${k}')"></td>`).join('')}
+  <td><button class="bd" onclick="delGen('fiscais','${f.id}',rDiaD)">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function formFiscal(){
+  abrir(`<h2>Fiscal de urna</h2><div class="grid3">
+  <div class="fld"><label>Cidade *</label>${selCidade('fi-cidade')}</div>
+  <div class="fld"><label>Local de votação *</label><input id="fi-local" placeholder="EEB Centro, Ginásio…"></div>
+  <div class="fld"><label>Seções cobertas</label><input id="fi-secoes" placeholder="12ª a 18ª"></div>
+  <div class="fld"><label>Nome do fiscal *</label><input id="fi-nome" list="dl-aps"></div>
+  <div class="fld"><label>Telefone</label><input id="fi-tel"></div></div>
+  <button class="b" onclick="salvarFiscal()">Salvar</button>`);
+}
+function salvarFiscal(){
+  const v=k=>byId('fi-'+k).value.trim();
+  if(!v('cidade')||!v('local')||!v('nome'))return alert('Cidade, local e nome obrigatórios.');
+  const l=DB.get('fiscais');
+  l.push({id:uid(),cidade:v('cidade'),local:v('local'),secoes:v('secoes'),nome:v('nome'),telefone:v('tel'),credencial:false,treinado:false,bu:false});
+  DB.set('fiscais',l);fechar();rDiaD();
+}
+function tglFiscal(id,k){const l=DB.get('fiscais');const f=l.find(x=>x.id===id);if(f){f[k]=!f[k];DB.set('fiscais',l);rDiaD();}}
+function imprimirFiscais(){
+  const l=DB.get('fiscais');const porCid={};
+  l.forEach(f=>(porCid[f.cidade]=porCid[f.cidade]||[]).push(f));
+  byId('imprimivel').innerHTML=`<h2>Fiscalização — Dia da Eleição</h2>
+  ${Object.entries(porCid).sort().map(([c,fs])=>`<h3>${esc(c)}</h3><ul>
+  ${fs.map(f=>`<li><b>${esc(f.local)}</b> (seções ${esc(f.secoes||'—')}): ${esc(f.nome)} — ${esc(f.telefone||'s/ tel')}</li>`).join('')}</ul>`).join('')}`;
+  byId('imprimivel').style.display='block';window.print();byId('imprimivel').style.display='none';
+}
+
+/* ═══════════ Mídia Local ═══════════ */
+function rMidia(){
+  const l=DB.get('midias');
+  const REL={aliado:'var(--ok)',neutro:'var(--warn)',hostil:'var(--bad)'};
+  byId('t-midia').innerHTML=`
+  <div class="tools"><button class="b" onclick="formMidia()">+ Veículo/contato</button>
+  <input type="search" id="q-mid" placeholder="Buscar…" oninput="rMidiaTb()"></div>
+  <div class="mut" style="font-size:12.5px">No interior, o locutor da rádio local vale mais que impulsionamento. Mapeie veículo, programa, horário de audiência e relação.</div>
+  <div id="tb-mid"></div>`;
+  rMidiaTb();
+}
+function rMidiaTb(){
+  const l=DB.get('midias');
+  const q=(byId('q-mid')?.value||'').toLowerCase();
+  const rows=l.filter(m=>!q||`${m.cidade} ${m.veiculo} ${m.contato}`.toLowerCase().includes(q))
+    .sort((a,b)=>a.cidade.localeCompare(b.cidade));
+  const REL={aliado:'var(--ok)',neutro:'var(--warn)',hostil:'var(--bad)'};
+  byId('tb-mid').innerHTML=`<table><thead><tr><th>Cidade</th><th>Veículo</th><th>Tipo</th><th>Programa/horário</th>
+  <th>Contato</th><th>Telefone</th><th>Relação</th><th></th></tr></thead><tbody>
+  ${rows.map(m=>`<tr><td><b>${esc(m.cidade)}</b></td><td>${esc(m.veiculo)}</td>
+  <td><span class="tag">${esc(m.tipo)}</span></td><td class="mut">${esc(m.programa||'—')}</td>
+  <td>${esc(m.contato||'—')}</td><td class="mut">${esc(m.telefone||'—')}</td>
+  <td><span class="tag" style="border-color:${REL[m.relacao]};color:${REL[m.relacao]}">${m.relacao}</span></td>
+  <td><button class="bd" onclick="delGen('midias','${m.id}',rMidia)">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function formMidia(){
+  abrir(`<h2>Veículo de mídia local</h2><div class="grid3">
+  <div class="fld"><label>Cidade *</label>${selCidade('md-cidade')}</div>
+  <div class="fld"><label>Veículo *</label><input id="md-veiculo" placeholder="Rádio Líder FM"></div>
+  <div class="fld"><label>Tipo</label><select id="md-tipo"><option>rádio</option><option>jornal</option><option>blog/portal</option><option>TV</option><option>influenciador</option></select></div>
+  <div class="fld"><label>Programa/horário de audiência</label><input id="md-programa"></div>
+  <div class="fld"><label>Contato (nome)</label><input id="md-contato"></div>
+  <div class="fld"><label>Telefone</label><input id="md-tel"></div>
+  <div class="fld"><label>Relação</label><select id="md-rel"><option>aliado</option><option>neutro</option><option>hostil</option></select></div></div>
+  <button class="b" onclick="salvarMidia()">Salvar</button>`);
+}
+function salvarMidia(){
+  const v=k=>byId('md-'+k).value.trim();
+  if(!v('cidade')||!v('veiculo'))return alert('Cidade e veículo obrigatórios.');
+  const l=DB.get('midias');
+  l.push({id:uid(),cidade:v('cidade'),veiculo:v('veiculo'),tipo:byId('md-tipo').value,programa:v('programa'),
+    contato:v('contato'),telefone:v('tel'),relacao:byId('md-rel').value});
+  DB.set('midias',l);fechar();rMidia();
+}
+
+/* ═══════════ Crises e rumores ═══════════ */
+function rCrise(){
+  const l=DB.get('crises');
+  const cor=s=>s==='monitorando'?'var(--warn)':s==='no jurídico'?'var(--bad)':s==='respondida'?'var(--ac)':'var(--ok)';
+  byId('t-crise').innerHTML=`
+  <div class="tools"><button class="b" onclick="formCrise()">+ Registrar ataque/boato</button></div>
+  <div class="mut" style="font-size:12.5px">Memória de crise evita respostas contraditórias. Guarde print com URL e data — direito de resposta na internet tem prazo de 72h.</div>
+  <table><thead><tr><th>Data</th><th>Cidade</th><th>Canal</th><th>O que circula</th><th>Resposta dada</th><th>Dono</th><th>Status</th><th></th></tr></thead><tbody>
+  ${l.sort((a,b)=>b.data.localeCompare(a.data)).map(c=>`<tr>
+  <td class="mut">${dataBR(c.data)}</td><td><b>${esc(c.cidade||'geral')}</b></td><td><span class="tag">${esc(c.canal)}</span></td>
+  <td style="white-space:normal;max-width:260px">${esc(c.descricao)}</td>
+  <td style="white-space:normal;max-width:260px" class="mut">${esc(c.resposta||'—')}</td>
+  <td>${esc(c.responsavel||'—')}</td>
+  <td><select onchange="stCrise('${c.id}',this.value)" style="border-color:${cor(c.status)}">
+  ${['monitorando','respondida','no jurídico','encerrada'].map(s=>`<option ${c.status===s?'selected':''}>${s}</option>`).join('')}</select></td>
+  <td><button class="b2" style="padding:3px 10px;font-size:12px" onclick="formCrise('${c.id}')">editar</button>
+  <button class="bd" onclick="delGen('crises','${c.id}',rCrise)">×</button></td></tr>`).join('')}</tbody></table>`;
+}
+function formCrise(id){
+  const c=DB.get('crises').find(x=>x.id===id)||{};
+  abrir(`<h2>${id?'Editar':'Registrar'} crise/boato</h2><div class="grid3">
+  <div class="fld"><label>Data</label><input id="cr-data" type="date" value="${c.data||hoje()}"></div>
+  <div class="fld"><label>Cidade</label>${selCidade('cr-cidade',c.cidade)}</div>
+  <div class="fld"><label>Canal</label><select id="cr-canal">${['WhatsApp','Facebook/Instagram','rádio','boca a boca','imprensa','outro'].map(x=>`<option ${c.canal===x?'selected':''}>${x}</option>`).join('')}</select></div></div>
+  <div class="fld"><label>O que está circulando *</label><textarea id="cr-desc">${esc(c.descricao||'')}</textarea></div>
+  <div class="fld"><label>Resposta dada / linha de resposta</label><textarea id="cr-resp">${esc(c.resposta||'')}</textarea></div>
+  <div class="fld"><label>Dono do caso</label><input id="cr-dono" list="dl-org" value="${esc(c.responsavel||'')}"></div>
+  <button class="b" style="margin-top:8px" onclick="salvarCrise('${id||''}')">Salvar</button>`);
+}
+function salvarCrise(id){
+  const desc=byId('cr-desc').value.trim();
+  if(!desc)return alert('Descreva o que circula.');
+  const l=DB.get('crises');
+  const novo={id:id||uid(),data:byId('cr-data').value,cidade:byId('cr-cidade').value,canal:byId('cr-canal').value,
+    descricao:desc,resposta:byId('cr-resp').value.trim(),responsavel:byId('cr-dono').value.trim(),
+    status:id?(l.find(x=>x.id===id)?.status||'monitorando'):'monitorando'};
+  const i=l.findIndex(x=>x.id===id);if(i>=0)l[i]=novo;else l.push(novo);
+  DB.set('crises',l);fechar();rCrise();rDash();
+}
+function stCrise(id,s){const l=DB.get('crises');const c=l.find(x=>x.id===id);if(c){c.status=s;DB.set('crises',l);rDash();}}
+
+/* ═══════════ Dashboard ═══════════ */
+function rDash(){
+  const aps=DB.get('apoiadores'),eqs=DB.get('equipes'),docs=DB.get('documentos'),
+        desp=DB.get('despesas'),rec=DB.get('receitas'),dists=DB.get('distribuicoes');
+  const totD=desp.reduce((a,d)=>a+d.valor,0),totR=rec.reduce((a,r)=>a+r.valor,0);
+  const pendDocs=docs.filter(d=>d.status==='pendente').length;
+  const semTermo=DB.get('equipes').filter(e=>e.veiculo?.modelo&&!e.veiculo?.termoId).length;
+  const topCidades=Object.entries(aps.reduce((a,x)=>{if(x.cidade)a[x.cidade]=(a[x.cidade]||0)+1;return a;},{}))
+    .sort((a,b)=>b[1]-a[1]).slice(0,8);
+  byId('t-dash').innerHTML=`
+  <div class="cards">
+    <div class="card"><div class="l">Apoiadores</div><div class="v">${aps.length}</div>
+    <div class="l">${aps.filter(a=>a.nivel>=4).length} mobilizadores/multiplicadores</div></div>
+    <div class="card"><div class="l">Equipes</div><div class="v">${eqs.length}</div>
+    <div class="l">${eqs.filter(e=>e.tipo==='carro').length} carros</div></div>
+    <div class="card"><div class="l">Saldo financeiro</div><div class="v ${totR-totD>=0?'pos':'neg'}">${fmt(totR-totD)}</div>
+    <div class="l">${fmt(totR)} entradas · ${fmt(totD)} saídas</div></div>
+    <div class="card"><div class="l">Documentos pendentes de assinatura</div><div class="v ${pendDocs?'neg':'pos'}">${pendDocs}</div>
+    <div class="l">${docs.length} no total</div></div>
+    <div class="card"><div class="l">Distribuições pendentes</div><div class="v">${dists.filter(d=>d.status!=='entregue').length}</div>
+    <div class="l">${dists.length} no total</div></div>
+    <div class="card"><div class="l">📌 Compromissos abertos</div>
+    <div class="v ${DB.get('compromissos').filter(c=>c.status==='aberto').length?'neg':'pos'}">${DB.get('compromissos').filter(c=>c.status==='aberto').length}</div>
+    <div class="l">${DB.get('compromissos').filter(c=>c.prazo&&c.prazo<hoje()&&!['cumprido','retorno dado'].includes(c.status)).length} com prazo vencido</div></div>
+    <div class="card"><div class="l">📅 Agenda próximos 7 dias</div>
+    <div class="v">${DB.get('agenda').filter(e=>e.data>=hoje()&&e.data<=new Date(Date.now()+7*864e5).toISOString().slice(0,10)&&e.status!=='cancelado').length}</div>
+    <div class="l">${DB.get('agenda').filter(e=>e.data>=hoje()&&e.status==='a confirmar').length} a confirmar</div></div>
+    <div class="card"><div class="l">🎂 Aniversários (7 dias)</div><div class="v">${aniversariantes(7).length}</div>
+    <div class="l">${aniversariantes(0).length} hoje — ligar!</div></div>
+    <div class="card"><div class="l">🚨 Crises em aberto</div>
+    <div class="v ${DB.get('crises').filter(c=>!['encerrada'].includes(c.status)).length?'neg':'pos'}">${DB.get('crises').filter(c=>c.status!=='encerrada').length}</div></div>
+  </div>
+  ${semTermo?`<div class="aviso">⚠️ ${semTermo} carro(s) cedido(s) sem termo de cessão gerado — regularize antes do uso (risco na prestação de contas).</div>`:''}
+  ${(()=>{const o=DB.obj('organograma');const vagas=FUNCOES_CENTRAIS.filter(f=>!(o.centrais||{})[f.id]);
+    return vagas.length?`<div class="aviso">🧭 Funções centrais sem responsável: ${vagas.map(f=>f.nome).join(', ')} — preencha no Organograma.</div>`:'';})()}
+  <div class="sub">Apoiadores por cidade (top 8)</div>
+  <div class="card">${topCidades.map(([c,n])=>`<div style="display:grid;grid-template-columns:200px 1fr 40px;gap:10px;align-items:center;padding:2px 0">
+  <span>${esc(c)}</span><div style="background:var(--ac);height:8px;border-radius:4px;width:${(n/topCidades[0][1]*100).toFixed(0)}%"></div>
+  <span class="num mut">${n}</span></div>`).join('')||'<span class="mut">Cadastre apoiadores para ver o mapa de cobertura.</span>'}</div>
+  <div class="sub">Checklist de conformidade (prestação de contas)</div>
+  <div class="card" style="font-size:13.5px;line-height:2">
+  ☐ Todo bem cedido (carro, sala, som) tem termo assinado e valor estimado registrado como doação estimável<br>
+  ☐ Toda despesa tem NF ou recibo com CPF/CNPJ do fornecedor<br>
+  ☐ Doações de PF respeitam o limite de 10% dos rendimentos do doador no ano anterior<br>
+  ☐ Nenhuma doação de fonte vedada (CNPJ, concessionários, sindicatos — art. 24, Lei 9.504/97)<br>
+  ☐ Gastos com combustível vinculados aos veículos com termo de cessão<br>
+  ☐ Backup deste sistema feito após cada dia de lançamentos</div>`;
+}
+</script>
+</body>
+</html>
