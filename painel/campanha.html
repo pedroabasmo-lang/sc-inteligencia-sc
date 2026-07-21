@@ -74,6 +74,8 @@ const CONSENT_PROVA='CONSENTIMENTO_APOIADOR_V1 — Autorizo o tratamento dos meu
 function msg(t,cor){const e=byId('lg-msg');if(!e)return;e.textContent=t||'';e.style.color=cor==='ok'?'#3fb950':cor==='bad'?'#f85149':'#8b949e';}
 
 let sb=null,user=null,org=null,campanhas=[],campAtual=null,papelCampanhaAtual=null;
+let organizacoesProprias=[];      // organizações onde organizations.dono_id = user (0, 1 ou várias)
+// "org" é legado: pode ser null, não controla acesso e não escolhe org de campanha.
 let orgsAdmin=new Set();          // is_org_owner (só p/ rótulo)
 let orgsProprietarias=new Set();  // organizations.dono_id = user (gate administrativo, espelha p_camp_upd/del)
 // Papel efetivo vem da função SQL existente campaign_role (membro OU 'admin' se dono da org).
@@ -126,27 +128,54 @@ async function sair(){await sb.auth.signOut();location.reload();}
 function mostrarApp(){byId('tela-login').style.display='none';byId('tela-app').style.display='';byId('btn-sair').style.display='';}
 async function aposLogin(){
   mostrarApp();byId('quem').textContent=user.email;
-  let {data:orgs,error}=await sb.from('organizations').select('*').eq('dono_id',user.id);
-  if(error){byId('tela-app').innerHTML=`<div class="card neg">Erro ao ler dados: ${esc(error.message)}</div>`;return;}
-  if(!orgs||!orgs.length)return telaCriarOrg();
-  org=orgs[0];carregarCampanhas();
+  await carregarOrganizacoesProprias();   // pode resultar em zero organizações — acesso continua
+  await carregarCampanhas();
 }
 
-// ── Organização ──
-function telaCriarOrg(){
+// ── Organizações próprias (0, 1 ou várias; nunca obrigatórias no login) ──
+async function carregarOrganizacoesProprias(){
+  const {data,error}=await sb.from('organizations').select('*').eq('dono_id',user.id).order('criada_em');
+  if(error){console.error('Erro ao carregar organizações próprias:',error);organizacoesProprias=[];}
+  else organizacoesProprias=data||[];
+  orgsProprietarias=new Set(organizacoesProprias.map(o=>o.id));
+  org=organizacoesProprias[0]||null;      // legado; não decide acesso nem org de nova campanha
+}
+async function recarregarTudo(){await carregarOrganizacoesProprias();await carregarCampanhas();}
+
+// Tela neutra: sem organização própria e sem campanha visível.
+function telaNeutra(){
+  byId('tela-app').innerHTML=`<div class="card" style="max-width:520px;margin:8vh auto;text-align:center">
+    <h3>Você ainda não participa de nenhuma campanha.</h3>
+    <p class="mut" style="margin:8px 0 14px">Se você foi convidado para uma equipe, peça ao responsável para adicionar o e-mail da sua conta. Se você vai coordenar campanhas, crie a sua organização.</p>
+    <div class="row" style="justify-content:center">
+      <button onclick="telaCriarOrg(true)">Criar organização e iniciar campanha</button>
+      <button class="sec" onclick="recarregarTudo()">Atualizar campanhas</button>
+    </div></div>`;
+}
+
+// ── Organização: criação voluntária ──
+function telaCriarOrg(continuarParaCampanha){
   byId('tela-app').innerHTML=`<div class="card" style="max-width:460px;margin:6vh auto">
-    <h3>Sua consultoria</h3>
-    <p class="mut" style="margin:6px 0 12px">Primeiro acesso: crie a organização que abriga suas campanhas.</p>
-    <label>Nome</label><input id="or-nome" value="Henrichs Consultoria">
-    <div style="margin-top:10px"><button onclick="criarOrg()">Criar</button></div>
+    <h3>Criar organização</h3>
+    <p class="mut" style="margin:6px 0 12px">${continuarParaCampanha?'Para criar uma campanha, primeiro crie uma organização. ':''}A organização é a responsável pelas campanhas que você criar.</p>
+    <label>Nome *</label><input id="or-nome" placeholder="Nome da organização">
+    <div class="row" style="margin-top:10px"><button id="or-btn" onclick="criarOrg(${continuarParaCampanha?'true':'false'})">Criar</button>
+    <button class="sec" onclick="telaGerir()">Voltar</button></div>
     <div id="or-msg" class="neg" style="margin-top:8px;font-size:12.5px"></div>
   </div>`;
 }
-async function criarOrg(){
-  const nome=byId('or-nome').value.trim();if(!nome)return;
+async function criarOrg(continuarParaCampanha){
+  const nome=byId('or-nome').value.trim();
+  if(!nome){byId('or-msg').textContent='Informe o nome da organização.';return;}
+  const btn=byId('or-btn');btn.disabled=true;
   const {data,error}=await sb.from('organizations').insert({nome,dono_id:user.id}).select().single();
+  btn.disabled=false;
   if(error){byId('or-msg').textContent=error.message;return;}
-  org=data;carregarCampanhas();
+  organizacoesProprias.push(data);
+  orgsProprietarias.add(data.id);
+  org=org||data;                          // legado
+  if(continuarParaCampanha)editar();      // segue direto para o formulário de nova campanha
+  else telaGerir();
 }
 
 // ── Campanhas ──
@@ -155,10 +184,7 @@ async function carregarCampanhas(){
   const {data,error}=await sb.from('campaigns').select('*').order('criada_em');
   if(error){byId('tela-app').innerHTML=`<div class="card neg">Erro ao carregar campanhas: ${esc(error.message)}</div>`;return;}
   campanhas=data||[];
-  // Propriedade real (gate administrativo): organizations.dono_id = user
-  const {data:orgsDoUsuario,error:errOrg}=await sb.from('organizations').select('id').eq('dono_id',user.id);
-  if(errOrg)console.error('Erro ao verificar propriedade das organizações:',errOrg);
-  orgsProprietarias=new Set((orgsDoUsuario||[]).map(o=>o.id));
+  // orgsProprietarias já foi montado em carregarOrganizacoesProprias() (sem consulta duplicada).
   // Vínculo organizacional (só p/ rótulo "Administrador da organização"): is_org_owner por org
   orgsAdmin=new Set();
   for(const oid of [...new Set(campanhas.map(c=>c.org_id))]){
@@ -170,11 +196,17 @@ async function carregarCampanhas(){
   sel.style.display=ativasSel.length?'':'none';
   sel.innerHTML=ativasSel.map(c=>`<option value="${c.id}">${esc(c.candidato_nome)}</option>`).join('');
   if(ativasSel.length){campAtual=ativasSel[0];sel.value=campAtual.id;telaCampanha();}
+  else if(!campanhas.length && !organizacoesProprias.length)telaNeutra();  // pessoa sem org e sem campanha
   else telaGerir();
 }
 function selecionarCampanha(id){campAtual=campanhas.find(c=>c.id===id);telaCampanha();}
+function badgeVinculo(c){
+  return ehProprietarioDaCampanha(c)
+    ? '<span class="tag" style="border-color:var(--ac);color:var(--ac)">Campanha própria</span>'
+    : '<span class="tag">Campanha participada</span>';
+}
 function linhaCampanha(c){
-  return `<tr ${c.archived_at?'style="opacity:.6"':''}><td><b>${esc(c.candidato_nome)}</b>${c.archived_at?' <span class="tag" style="border-color:var(--warn);color:var(--warn)">arquivada</span>':''}</td>
+  return `<tr ${c.archived_at?'style="opacity:.6"':''}><td><b>${esc(c.candidato_nome)}</b> ${badgeVinculo(c)}${c.archived_at?' <span class="tag" style="border-color:var(--warn);color:var(--warn)">arquivada</span>':''}</td>
     <td class="mut">${esc(c.cargo||'')} ${esc(c.uf||'')}</td>
     <td>${c.tipo_comercial==='doada'?'<span class="tag">doada</span>':'<span class="tag">'+esc(c.valor_texto||'vendida')+'</span>'}</td>
     <td><span class="pill ${c.situacao==='ativa'?'on':'off'}">${c.situacao}</span></td>
@@ -192,11 +224,14 @@ function linhaCampanha(c){
 function telaGerir(){
   const ativas=campanhas.filter(c=>!c.archived_at);
   const arquivadas=campanhas.filter(c=>c.archived_at);
-  byId('tela-app').innerHTML=`<div class="card"><h3>Minhas campanhas</h3>
-    <p class="mut" style="margin:6px 0 10px">Cada candidato é uma campanha. Você define doada/vendida e o valor; a cobrança é por fora, aqui só libera/corta o acesso.</p>
+  byId('tela-app').innerHTML=`<div class="card"><h3>Campanhas</h3>
+    ${organizacoesProprias.length
+      ?'<p class="mut" style="margin:6px 0 10px">Cada candidato é uma campanha. Você define doada/vendida e o valor; a cobrança é por fora, aqui só libera/corta o acesso.</p>'
+      :'<p class="mut" style="margin:6px 0 10px">Campanhas em que participo. Para criar campanhas próprias, crie antes uma organização.</p>'}
     ${ativas.length?`<table><thead><tr><th>Candidato</th><th>Cargo/UF</th><th>Comercial</th><th>Situação</th><th></th></tr></thead><tbody>
     ${ativas.map(linhaCampanha).join('')}</tbody></table>`:'<p class="mut">Nenhuma campanha ativa.</p>'}
     <div style="margin-top:12px"><button onclick="editar()">+ Nova campanha</button>
+    ${organizacoesProprias.length?'<button class="sec" onclick="telaCriarOrg(false)">Nova organização</button>':'<button class="sec" onclick="telaCriarOrg(false)">Criar organização</button>'}
     ${arquivadas.length?`<button class="sec" onclick="mostrarArquivadas=!mostrarArquivadas;telaGerir()">${mostrarArquivadas?'Ocultar':'Mostrar'} arquivadas (${arquivadas.length})</button>`:''}</div>
     ${mostrarArquivadas&&arquivadas.length?`<div class="sub">Arquivadas</div>
     <table><thead><tr><th>Candidato</th><th>Cargo/UF</th><th>Comercial</th><th>Situação</th><th></th></tr></thead><tbody>
@@ -233,7 +268,21 @@ async function excluirDef(id){
 function abrir(id){campAtual=campanhas.find(c=>c.id===id);byId('camp-sel').value=id;telaCampanha();}
 function editar(id){
   const c=campanhas.find(x=>x.id===id)||{};
+  // Nova campanha exige organização própria; a criação é voluntária, mas necessária aqui.
+  if(!id && !organizacoesProprias.length)return telaCriarOrg(true);
+  // Bloco "Organização responsável" (somente na criação; edição não muda a org)
+  let blocoOrg='';
+  if(!id){
+    if(organizacoesProprias.length===1){
+      blocoOrg=`<div class="mut" style="margin:2px 0 8px">Organização responsável: <b style="color:var(--tx)">${esc(organizacoesProprias[0].nome)}</b></div>`;
+    }else{
+      blocoOrg=`<div style="margin:2px 0 8px"><label>Organização responsável *</label>
+        <select id="c-org"><option value="">Selecione…</option>
+        ${organizacoesProprias.map(o=>`<option value="${o.id}">${esc(o.nome)}</option>`).join('')}</select></div>`;
+    }
+  }
   byId('tela-app').innerHTML=`<div class="card" style="max-width:640px"><h3>${id?'Editar':'Nova'} campanha</h3>
+    ${blocoOrg}
     <div class="grid3">
       <div><label>Candidato *</label><input id="c-nome" value="${esc(c.candidato_nome||'')}"></div>
       <div><label>Nome de urna</label><input id="c-urna" value="${esc(c.nome_urna||'')}"></div>
@@ -255,12 +304,22 @@ function editar(id){
 async function salvarCampanha(id){
   const v=k=>byId('c-'+k).value.trim();
   if(!v('nome')){byId('c-msg').textContent='Informe o candidato.';return;}
-  const reg={org_id:org.id,candidato_nome:v('nome'),nome_urna:v('urna'),cargo:v('cargo'),uf:v('uf').toUpperCase(),
+  const reg={candidato_nome:v('nome'),nome_urna:v('urna'),cargo:v('cargo'),uf:v('uf').toUpperCase(),
     numero:v('num'),partido:v('part'),tipo_comercial:byId('c-tipo').value,valor_texto:v('valor'),situacao:byId('c-sit').value};
   let err;
   if(id){
+    // Edição nunca altera org_id.
     ({error:err}=await sb.from('campaigns').update(reg).eq('id',id));
   }else{
+    // org_id vem de escolha explícita: única org própria ou select obrigatório.
+    let orgId;
+    if(organizacoesProprias.length===1)orgId=organizacoesProprias[0].id;
+    else{
+      orgId=byId('c-org')?byId('c-org').value:'';
+      if(!orgId){byId('c-msg').textContent='Selecione a organização responsável.';return;}
+    }
+    if(!orgsProprietarias.has(orgId)){byId('c-msg').textContent='Organização inválida para criação da campanha.';return;}
+    reg.org_id=orgId;
     reg.criada_por=user.id;
     // ID gerado no cliente + INSERT sem RETURNING (evita SELECT pós-insert)
     const novoCampaignId=crypto.randomUUID();
