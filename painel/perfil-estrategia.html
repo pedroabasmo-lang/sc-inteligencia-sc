@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil e Estratégia da Campanha — Henrichs</title>
+<style>
+  :root{--bg:#0d1117;--card:#161b22;--card2:#1c2330;--border:#2d333b;--tx:#e6edf3;--tx2:#8b949e;--ac:#2f81f7;--ok:#3fb950;--warn:#d29922;--bad:#f85149}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--tx);font:14px/1.5 -apple-system,'Segoe UI',Roboto,sans-serif}
+  header{display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid var(--border);background:var(--card);flex-wrap:wrap}
+  header .logo{width:32px;height:32px;border-radius:8px;background:var(--ok);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff}
+  main{padding:20px;max-width:1100px;margin:0 auto}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+  label{font-size:12px;color:var(--tx2);display:block;margin:8px 0 3px}
+  input,select,textarea{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--tx);padding:9px 11px;border-radius:8px;font-size:14px;outline:none;font-family:inherit}
+  textarea{min-height:70px;resize:vertical}
+  input:focus,select:focus,textarea:focus{border-color:var(--ac)}
+  input:disabled,select:disabled,textarea:disabled{opacity:.7}
+  button{background:var(--ac);border:none;color:#fff;padding:10px 16px;border-radius:8px;cursor:pointer;font-weight:600;font-size:14px}
+  button.sec{background:var(--card2);border:1px solid var(--border);color:var(--tx)}
+  button.mini{padding:4px 10px;font-size:12px}
+  button.del{background:none;border:1px solid var(--bad);color:var(--bad);padding:4px 10px;font-size:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  @media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+  .mut{color:var(--tx2)} .neg{color:var(--bad)} .pos{color:var(--ok)}
+  .tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;background:var(--card2);border:1px solid var(--border)}
+  .pill{padding:2px 10px;border-radius:20px;font-size:11.5px;font-weight:600}
+  .pill.on{background:#12331f;color:var(--ok);border:1px solid var(--ok)}
+  .pill.off{background:#3a1a1a;color:var(--bad);border:1px solid var(--bad)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .tabs button{background:var(--card2);border:1px solid var(--border);color:var(--tx2);font-weight:500}
+  .tabs button.ativa{background:var(--ac);color:#fff;border-color:var(--ac)}
+  .sec-form{display:none} .sec-form.ativa{display:block}
+  .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .item-lista{border:1px solid var(--border);border-radius:8px;padding:10px;margin-bottom:8px;background:var(--card2)}
+  .hint{font-size:11.5px;color:var(--tx2);margin-top:2px}
+  .barra{position:sticky;bottom:0;background:var(--card);border-top:1px solid var(--border);padding:12px 20px;display:flex;gap:10px;align-items:center;justify-content:flex-end;flex-wrap:wrap}
+  #msg{font-size:13px;min-height:18px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">H</div>
+  <div style="flex:1"><b>Perfil e Estratégia</b><small class="mut" id="quem" style="display:block"></small></div>
+  <button class="sec" id="btn-voltar" onclick="voltar()">Voltar para a campanha</button>
+</header>
+
+<main id="tela">
+  <div class="card"><div id="ctx" class="mut">Carregando…</div></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Configuração (mesma instância do restante do sistema; anon key pública por design) ──
+const SUPABASE_URL  = "https://ohtrkaetibjjymvjgdku.supabase.co";
+const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9odHJrYWV0aWJqanltdmpnZGt1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1MjQzOTYsImV4cCI6MjEwMDEwMDM5Nn0.D2-1h0YThQ4ucuXuUl4KwSXQfEyKk47GlYYBhnnOY8U";
+
+const byId=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const RE_UUID=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const STATUS_OPCOES=[['rascunho','Rascunho'],['em_construcao','Em construção'],['validado','Validado'],['suspenso','Suspenso'],['encerrado','Encerrado']];
+const STATUS_LABEL=Object.fromEntries(STATUS_OPCOES);
+
+let sb=null, user=null, campaignId=null;
+let ctx={};                 // {campaign, org, candidacy, member, candidate, cp, sp}
+let podeEditar=false, arquivada=false, estrutural=false;
+let salvamentoPerfilEmAndamento=false;
+let baseSnapshot=null, initGuardPronto=false;
+
+// Esquemas das listas (arrays de objetos). O primeiro campo é usado ao migrar
+// arrays antigos de strings para itens editáveis.
+const PRI=['alta','media','baixa'];
+const SCHEMAS={
+  publicos_prioritarios:[['nome','Nome','text'],['prioridade','Prioridade','pri'],['observacao','Observação','text']],
+  segmentos_prioritarios:[['nome','Segmento','text'],['prioridade','Prioridade','pri'],['observacao','Observação','text']],
+  territorios_prioritarios:[['nome','Território','text'],['prioridade','Prioridade','pri'],['observacao','Observação','text']],
+  municipios_prioritarios:[['municipio','Município','text'],['codigo_ibge','Código IBGE','ibge'],['prioridade','Prioridade (nº)','num'],['objetivo','Objetivo','text']],
+  grupos_de_apoio:[['nome','Grupo','text'],['observacao','Observação','text']],
+  grupos_de_resistencia:[['nome','Grupo','text'],['observacao','Observação','text']],
+  temas_prioritarios:[['tema','Tema','text'],['prioridade','Prioridade','pri'],['posicionamento','Posicionamento','text']],
+  propostas_prioritarias:[['proposta','Proposta','text'],['tema','Tema','text'],['prioridade','Prioridade','pri'],['observacao','Observação','text']],
+  compromissos_publicos:[['descricao','Compromisso','text'],['observacao','Observação','text']],
+  bandeiras_centrais:[['nome','Bandeira','text'],['observacao','Observação','text']],
+  palavras_chave:[['palavra','Palavra-chave','text']],
+  palavras_a_evitar:[['palavra','Palavra a evitar','text']],
+  prioridades_imediatas:[['descricao','Prioridade','text'],['prioridade','Nível','pri'],['observacao','Observação','text']],
+  metas_de_curto_prazo:[['descricao','Meta','text'],['prazo','Prazo','text'],['observacao','Observação','text']],
+  metas_de_medio_prazo:[['descricao','Meta','text'],['prazo','Prazo','text'],['observacao','Observação','text']]
+};
+
+function setMsg(t,ok){const e=byId('msg');if(!e)return;e.textContent=t||'';e.style.color=ok?'#3fb950':'#f85149';}
+
+// ── Boot ──
+if(typeof supabase==='undefined'){
+  byId('ctx').innerHTML='<span class="neg">Biblioteca do Supabase não carregou. Recarregue a página.</span>';
+}else{
+  sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON);
+  iniciar();
+}
+
+async function iniciar(){
+  const q=new URLSearchParams(location.search);
+  campaignId=(q.get('campaign_id')||'').trim();
+  if(!RE_UUID.test(campaignId)){byId('ctx').innerHTML='<span class="neg">Identificador de campanha inválido.</span>';return;}
+  const {data:sess}=await sb.auth.getSession();
+  user=sess.session?.user||null;
+  if(!user){ location.href='campanha.html'; return; }        // sem sessão → tela de login existente
+  byId('quem').textContent=user.email;
+  await carregar();
+}
+
+function voltar(){
+  if(dirtyAgora() && !confirm('Há alterações não salvas. Sair mesmo assim?'))return;
+  location.href='campanha.html';
+}
+
+// ── Carregamento ──
+async function carregar(){
+  try{
+    const {data:camp,error:e1}=await sb.from('campaigns').select('*').eq('id',campaignId).maybeSingle();
+    if(e1)throw e1;
+    if(!camp){byId('ctx').innerHTML='<span class="neg">Campanha não encontrada ou sem acesso.</span>';return;}
+    ctx.campaign=camp; ctx.org=camp.org_id; arquivada=!!camp.archived_at;
+
+    const {data:cy,error:e2}=await sb.from('candidacies').select('*').eq('campaign_id',campaignId).maybeSingle();
+    if(e2||!cy){console.error('candidacy ausente/múltipla',{e2,cy});return bloquearEstrutural();}
+    ctx.candidacy=cy;
+    const {data:cm,error:e3}=await sb.from('candidacy_members').select('*').eq('candidacy_id',cy.id).eq('is_principal',true).maybeSingle();
+    if(e3||!cm){console.error('membro principal ausente/múltiplo',{e3,cm});return bloquearEstrutural();}
+    ctx.member=cm;
+    const {data:cand,error:e4}=await sb.from('candidates').select('*').eq('id',cm.candidate_id).maybeSingle();
+    if(e4||!cand){console.error('candidato ausente',{e4,cand});return bloquearEstrutural();}
+    ctx.candidate=cand;
+
+    const {data:cp}=await sb.from('candidate_profiles').select('*')
+      .eq('candidate_id',cand.id).eq('org_id',ctx.org).is('archived_at',null).maybeSingle();
+    ctx.cp=cp||null;
+    const {data:sp}=await sb.from('campaign_strategy_profiles').select('*')
+      .eq('campaign_id',campaignId).is('archived_at',null).maybeSingle();
+    ctx.sp=sp||null;
+
+    // Autorização de escrita: proprietário da organização OU admin da campanha.
+    const {data:orgRow}=await sb.from('organizations').select('id,dono_id').eq('id',ctx.org).maybeSingle();
+    const isDono=!!(orgRow && orgRow.dono_id===user.id);
+    const {data:mem}=await sb.from('campaign_members').select('papel').eq('campaign_id',campaignId).eq('user_id',user.id).maybeSingle();
+    const isAdmin=!!(mem && mem.papel==='admin');
+    podeEditar = (isDono || isAdmin) && !arquivada;
+
+    render();
+  }catch(err){
+    console.error('Falha ao carregar perfil/estratégia',err);
+    byId('ctx').innerHTML='<span class="neg">Não foi possível carregar os dados. Tente novamente.</span>';
+  }
+}
+
+function bloquearEstrutural(){
+  estrutural=true;
+  byId('tela').innerHTML=`<div class="card"><div class="neg">Esta campanha precisa de correção estrutural antes de receber perfil e estratégia.</div>
+  <div style="margin-top:10px"><button class="sec" onclick="voltar()">Voltar para a campanha</button></div></div>`;
+}
+
+// ── Render ──
+function campoTxt(id,label,val,area){
+  const el=area?`<textarea id="${id}"></textarea>`:`<input id="${id}">`;
+  return `<div><label>${esc(label)}</label>${el}</div>`;
+}
+function render(){
+  const c=ctx.campaign, cand=ctx.candidate, cy=ctx.candidacy;
+  const stAtual=(ctx.sp&&ctx.sp.status)||'rascunho';
+  byId('tela').innerHTML=`
+  <div class="card"><div class="row" style="justify-content:space-between">
+    <div>
+      <b style="font-size:16px">${esc(c.candidato_nome)}</b>
+      <span class="tag">${esc(cy.cargo||c.cargo||'')} ${esc(cy.uf||c.uf||'')}</span>
+      <span class="pill ${c.situacao==='ativa'?'on':'off'}">${esc(c.situacao)}</span>
+      <span class="tag" id="badge-status" style="border-color:var(--ac);color:var(--ac)">Estratégia: ${esc(STATUS_LABEL[stAtual]||stAtual)}</span>
+      <div class="mut" style="font-size:12px;margin-top:4px">
+        Candidato: ${esc(cand.nome_cadastro||'')} · Urna: ${esc(cy.nome_urna||'—')} · Ano: ${esc(cy.ano||'—')} ·
+        Partido: ${esc(cy.sigla_partido_disputa||'—')} · Nº: ${esc(cy.numero||'—')}
+      </div>
+    </div>
+    <button class="sec" onclick="voltar()">Voltar para a campanha</button>
+  </div>
+  ${arquivada?'<div class="neg" style="margin-top:8px">Campanha arquivada: leitura apenas. Restaure a campanha para editar.</div>':''}
+  ${(!podeEditar&&!arquivada)?'<div class="mut" style="margin-top:8px">Você possui acesso de leitura a este perfil.</div>':''}
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <!-- A. Identidade -->
+  <div class="sec-form" data-sec="identidade">
+    <div class="card"><h3>Identidade do candidato</h3>
+      <div class="grid3">
+        ${campoTxt('f_nome_publico','Nome público')}
+        ${campoTxt('f_profissao','Profissão')}
+        ${campoTxt('f_formacao','Formação')}
+        ${campoTxt('f_cidade_base','Cidade base')}
+        <div><label>UF base</label><input id="f_uf_base" maxlength="2" placeholder="SC"></div>
+        ${campoTxt('f_foto_url','Foto (URL)')}
+      </div>
+      ${campoTxt('f_biografia_curta','Biografia curta',null,true)}
+      ${campoTxt('f_biografia_completa','Biografia completa',null,true)}
+      ${campoTxt('f_observacoes_candidato','Observações internas (candidato)',null,true)}
+      <div class="grid2" style="margin-top:12px">
+        <div><b>Redes sociais</b><div class="hint">Plataforma + URL/identificador.</div><div id="ed_redes_sociais"></div><button type="button" class="sec mini" onclick="addObj('ed_redes_sociais','Plataforma','URL')">+ Rede</button></div>
+        <div><b>Canais públicos</b><div class="hint">Tipo (site, e-mail, WhatsApp…) + endereço.</div><div id="ed_canais_publicos"></div><button type="button" class="sec mini" onclick="addObj('ed_canais_publicos','Tipo','Endereço')">+ Canal</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- B. Trajetória -->
+  <div class="sec-form" data-sec="trajetoria">
+    <div class="card"><h3>Trajetória</h3>
+      ${campoTxt('f_trajetoria_politica','Trajetória política',null,true)}
+      ${campoTxt('f_trajetoria_profissional','Trajetória profissional',null,true)}
+      ${campoTxt('f_trajetoria_social','Trajetória social',null,true)}
+      ${campoTxt('f_causas_historicas','Causas históricas',null,true)}
+      ${campoTxt('f_realizacoes','Realizações',null,true)}
+    </div>
+  </div>
+
+  <!-- C. Direcionamento -->
+  <div class="sec-form" data-sec="direcionamento">
+    <div class="card"><h3>Direcionamento político</h3>
+      ${campoTxt('f_objetivo_eleitoral','Objetivo eleitoral',null,true)}
+      ${campoTxt('f_objetivo_politico','Objetivo político',null,true)}
+      ${campoTxt('f_posicionamento','Posicionamento',null,true)}
+      ${campoTxt('f_mensagem_central','Mensagem central',null,true)}
+      ${campoTxt('f_slogan','Slogan')}
+      ${campoTxt('f_narrativa_principal','Narrativa principal',null,true)}
+      ${campoTxt('f_proposta_de_valor','Proposta de valor',null,true)}
+    </div>
+  </div>
+
+  <!-- D. Públicos e territórios -->
+  <div class="sec-form" data-sec="publicos">
+    <div class="card"><h3>Públicos e territórios</h3>
+      ${blocoLista('publicos_prioritarios','Públicos prioritários')}
+      ${blocoLista('segmentos_prioritarios','Segmentos prioritários')}
+      ${blocoLista('territorios_prioritarios','Territórios prioritários')}
+      ${blocoLista('municipios_prioritarios','Municípios prioritários')}
+      ${blocoLista('grupos_de_apoio','Grupos de apoio')}
+      ${blocoLista('grupos_de_resistencia','Grupos de resistência')}
+    </div>
+  </div>
+
+  <!-- E. Agenda -->
+  <div class="sec-form" data-sec="agenda">
+    <div class="card"><h3>Agenda e propostas</h3>
+      ${blocoLista('temas_prioritarios','Temas prioritários')}
+      ${blocoLista('propostas_prioritarias','Propostas prioritárias')}
+      ${blocoLista('compromissos_publicos','Compromissos públicos')}
+      ${blocoLista('bandeiras_centrais','Bandeiras centrais')}
+    </div>
+  </div>
+
+  <!-- F. Diagnóstico -->
+  <div class="sec-form" data-sec="diagnostico">
+    <div class="card"><h3>Diagnóstico estratégico</h3>
+      <div class="grid2">
+        ${campoTxt('f_fortalezas','Fortalezas',null,true)}
+        ${campoTxt('f_vulnerabilidades','Vulnerabilidades',null,true)}
+        ${campoTxt('f_oportunidades','Oportunidades',null,true)}
+        ${campoTxt('f_ameacas','Ameaças',null,true)}
+      </div>
+      ${campoTxt('f_riscos_reputacionais','Riscos reputacionais',null,true)}
+      ${campoTxt('f_pontos_de_atencao','Pontos de atenção',null,true)}
+    </div>
+  </div>
+
+  <!-- G. Comunicação -->
+  <div class="sec-form" data-sec="comunicacao">
+    <div class="card"><h3>Comunicação</h3>
+      ${campoTxt('f_tom_de_voz','Tom de voz',null,true)}
+      ${campoTxt('f_identidade_narrativa','Identidade narrativa',null,true)}
+      ${campoTxt('f_orientacoes_de_imagem','Orientações de imagem',null,true)}
+      <div class="grid2" style="margin-top:8px">
+        ${blocoLista('palavras_chave','Palavras-chave')}
+        ${blocoLista('palavras_a_evitar','Palavras a evitar')}
+      </div>
+    </div>
+  </div>
+
+  <!-- H. Metas -->
+  <div class="sec-form" data-sec="metas">
+    <div class="card"><h3>Metas e prioridades</h3>
+      ${blocoLista('prioridades_imediatas','Prioridades imediatas')}
+      ${blocoLista('metas_de_curto_prazo','Metas de curto prazo')}
+      ${blocoLista('metas_de_medio_prazo','Metas de médio prazo')}
+    </div>
+  </div>
+
+  <!-- I. Controle -->
+  <div class="sec-form" data-sec="controle">
+    <div class="card"><h3>Controle e observações</h3>
+      <div class="grid2">
+        <div><label>Status da estratégia</label><select id="f_status">${STATUS_OPCOES.map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}</select></div>
+      </div>
+      ${campoTxt('f_observacoes_estrategia','Observações internas (estratégia)',null,true)}
+    </div>
+  </div>
+
+  <div class="barra">
+    <span id="dirty" class="mut" style="margin-right:auto"></span>
+    <span id="msg"></span>
+    ${podeEditar?'<button id="btn-salvar" onclick="salvar()">Salvar</button>':''}
+  </div>`;
+
+  montarTabs();
+  preencher();
+  if(!podeEditar)desabilitarTudo();
+  baseSnapshot=snapshot();
+  initGuardPronto=true;
+  // Detecta alterações não salvas.
+  byId('tela').addEventListener('input',marcarDirty,true);
+  byId('tela').addEventListener('change',marcarDirty,true);
+}
+
+function blocoLista(field,titulo){
+  return `<div style="margin:10px 0"><b>${esc(titulo)}</b>
+    <div id="ed_${field}"></div>
+    <button type="button" class="sec mini" onclick="addItem('${field}')">+ Item</button></div>`;
+}
+const SECOES=[['identidade','Identidade'],['trajetoria','Trajetória'],['direcionamento','Direcionamento'],['publicos','Públicos e territórios'],['agenda','Agenda e propostas'],['diagnostico','Diagnóstico'],['comunicacao','Comunicação'],['metas','Metas'],['controle','Controle']];
+function montarTabs(){
+  byId('tabs').innerHTML=SECOES.map((s,i)=>`<button type="button" class="${i===0?'ativa':''}" data-tab="${s[0]}" onclick="abaSec('${s[0]}',this)">${esc(s[1])}</button>`).join('');
+  document.querySelectorAll('.sec-form').forEach((el,i)=>el.classList.toggle('ativa',i===0));
+}
+function abaSec(sec,btn){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('ativa',b===btn));
+  document.querySelectorAll('.sec-form').forEach(el=>el.classList.toggle('ativa',el.dataset.sec===sec));
+}
+
+// ── Editor de OBJETO (chave/valor) ──
+function addObj(containerId,kLabel,vLabel,kVal,vVal){
+  const cont=byId(containerId);
+  const row=document.createElement('div'); row.className='row'; row.style.marginTop='6px';
+  const k=document.createElement('input'); k.placeholder=kLabel; k.className='obj-k'; k.style.flex='1'; if(kVal!=null)k.value=kVal;
+  const v=document.createElement('input'); v.placeholder=vLabel; v.className='obj-v'; v.style.flex='2'; if(vVal!=null)v.value=vVal;
+  const rm=document.createElement('button'); rm.type='button'; rm.className='del'; rm.textContent='×';
+  rm.onclick=()=>{row.remove();marcarDirty();};
+  row.appendChild(k); row.appendChild(v); row.appendChild(rm); cont.appendChild(row);
+}
+function lerObj(containerId){
+  const rows=byId(containerId).querySelectorAll('.row');
+  const obj={}; const vistas=new Set();
+  for(const r of rows){
+    const k=r.querySelector('.obj-k').value.trim();
+    const val=r.querySelector('.obj-v').value.trim();
+    if(!k && !val)continue;                       // par totalmente vazio: ignora
+    if(!k)throw new Error('Há um valor sem chave em '+containerId+'.');
+    const chave=k.toLowerCase().replace(/\s+/g,'_');
+    if(vistas.has(chave))throw new Error('Chave duplicada: "'+k+'".');
+    vistas.add(chave); obj[chave]=val;
+  }
+  return Object.keys(obj).length?obj:null;
+}
+
+// ── Editor de LISTA (array de objetos, por schema) ──
+function addItem(field,dados){
+  const cont=byId('ed_'+field); const schema=SCHEMAS[field];
+  const box=document.createElement('div'); box.className='item-lista';
+  const grid=document.createElement('div'); grid.className=schema.length>2?'grid2':'row';
+  schema.forEach(([campo,label,tipo])=>{
+    const wrap=document.createElement('div');
+    const lab=document.createElement('label'); lab.textContent=label; wrap.appendChild(lab);
+    let inp;
+    if(tipo==='pri'){ inp=document.createElement('select'); ['','alta','media','baixa'].forEach(o=>{const op=document.createElement('option');op.value=o;op.textContent=o||'—';inp.appendChild(op);}); }
+    else{ inp=document.createElement('input'); if(tipo==='num'||tipo==='ibge')inp.setAttribute('inputmode','numeric'); }
+    inp.dataset.campo=campo;
+    if(dados && dados[campo]!=null)inp.value=String(dados[campo]);
+    wrap.appendChild(inp); grid.appendChild(wrap);
+  });
+  const rm=document.createElement('button'); rm.type='button'; rm.className='del'; rm.textContent='Remover'; rm.style.marginTop='6px';
+  rm.onclick=()=>{box.remove();marcarDirty();};
+  box.appendChild(grid); box.appendChild(rm); cont.appendChild(box);
+}
+function lerLista(field){
+  const cont=byId('ed_'+field); const schema=SCHEMAS[field];
+  const itens=[];
+  for(const box of cont.querySelectorAll('.item-lista')){
+    const obj={}; let algum=false;
+    for(const inp of box.querySelectorAll('[data-campo]')){
+      const campo=inp.dataset.campo; let val=inp.value.trim();
+      if(val==='')continue;
+      const tipo=(schema.find(s=>s[0]===campo)||[])[2];
+      if(tipo==='ibge' && !/^[0-9]+$/.test(val))throw new Error('Código IBGE inválido em '+field+': use apenas dígitos.');
+      if(tipo==='num'){ if(!/^[0-9]+$/.test(val))throw new Error('Prioridade numérica inválida em '+field+'.'); obj[campo]=parseInt(val,10); }
+      else obj[campo]=val;                        // strings preservadas (inclui zeros à esquerda do IBGE)
+      algum=true;
+    }
+    if(algum)itens.push(obj);
+  }
+  return itens.length?itens:null;
+}
+
+// ── Preenchimento a partir dos dados carregados ──
+function setV(id,val){const e=byId(id);if(e)e.value=(val==null?'':val);}
+function preencher(){
+  const cp=ctx.cp||{}, sp=ctx.sp||{};
+  setV('f_nome_publico',cp.nome_publico); setV('f_profissao',cp.profissao); setV('f_formacao',cp.formacao);
+  setV('f_cidade_base',cp.cidade_base); setV('f_uf_base',cp.uf_base); setV('f_foto_url',cp.foto_url);
+  setV('f_biografia_curta',cp.biografia_curta); setV('f_biografia_completa',cp.biografia_completa);
+  setV('f_observacoes_candidato',cp.observacoes_internas);
+  setV('f_trajetoria_politica',cp.trajetoria_politica); setV('f_trajetoria_profissional',cp.trajetoria_profissional);
+  setV('f_trajetoria_social',cp.trajetoria_social); setV('f_causas_historicas',cp.causas_historicas); setV('f_realizacoes',cp.realizacoes);
+  // redes/canais (objetos)
+  const redes=cp.redes_sociais&&typeof cp.redes_sociais==='object'?cp.redes_sociais:{};
+  Object.entries(redes).forEach(([k,v])=>addObj('ed_redes_sociais','Plataforma','URL',k,String(v??'')));
+  const canais=cp.canais_publicos&&typeof cp.canais_publicos==='object'?cp.canais_publicos:{};
+  Object.entries(canais).forEach(([k,v])=>addObj('ed_canais_publicos','Tipo','Endereço',k,String(v??'')));
+  // estratégia textos
+  setV('f_objetivo_eleitoral',sp.objetivo_eleitoral); setV('f_objetivo_politico',sp.objetivo_politico);
+  setV('f_posicionamento',sp.posicionamento); setV('f_mensagem_central',sp.mensagem_central); setV('f_slogan',sp.slogan);
+  setV('f_narrativa_principal',sp.narrativa_principal); setV('f_proposta_de_valor',sp.proposta_de_valor);
+  setV('f_fortalezas',sp.fortalezas); setV('f_vulnerabilidades',sp.vulnerabilidades);
+  setV('f_oportunidades',sp.oportunidades); setV('f_ameacas',sp.ameacas);
+  setV('f_riscos_reputacionais',sp.riscos_reputacionais); setV('f_pontos_de_atencao',sp.pontos_de_atencao);
+  setV('f_tom_de_voz',sp.tom_de_voz); setV('f_identidade_narrativa',sp.identidade_narrativa); setV('f_orientacoes_de_imagem',sp.orientacoes_de_imagem);
+  setV('f_observacoes_estrategia',sp.observacoes_internas);
+  setV('f_status',sp.status||'rascunho');
+  // listas
+  Object.keys(SCHEMAS).forEach(field=>{
+    const arr=sp[field];
+    if(Array.isArray(arr))arr.forEach(it=>addItem(field, typeof it==='object'&&it!==null?it:{[SCHEMAS[field][0][0]]:String(it)}));
+  });
+}
+function desabilitarTudo(){
+  document.querySelectorAll('#tela input,#tela select,#tela textarea').forEach(e=>e.disabled=true);
+  document.querySelectorAll('#tela .mini,#tela .del').forEach(b=>b.disabled=true);
+}
+
+// ── Alterações não salvas ──
+function snapshot(){
+  try{ return JSON.stringify(montarPayload(true)); }catch(_){ return null; }
+}
+function dirtyAgora(){ return initGuardPronto && baseSnapshot!==null && snapshot()!==baseSnapshot; }
+function marcarDirty(){ if(!initGuardPronto)return; byId('dirty').textContent=dirtyAgora()?'Alterações não salvas':''; }
+window.addEventListener('beforeunload',e=>{ if(dirtyAgora()){e.preventDefault();e.returnValue='';} });
+
+// ── Montagem do payload (51 parâmetros exatos) ──
+function tv(id){const e=byId(id);if(!e)return null;const s=(e.value||'').trim();return s===''?null:s;}
+function montarPayload(paraSnapshot){
+  let uf=tv('f_uf_base'); if(uf)uf=uf.toUpperCase();
+  if(!paraSnapshot && uf && !/^[A-Z]{2}$/.test(uf))throw new Error('UF base deve ter exatamente duas letras.');
+  const status=(byId('f_status')&&byId('f_status').value)||'rascunho';
+  return {
+    p_campaign_id: campaignId,
+    p_org: ctx.org,
+    p_nome_publico: tv('f_nome_publico'),
+    p_biografia_curta: tv('f_biografia_curta'),
+    p_biografia_completa: tv('f_biografia_completa'),
+    p_profissao: tv('f_profissao'),
+    p_formacao: tv('f_formacao'),
+    p_cidade_base: tv('f_cidade_base'),
+    p_uf_base: uf,
+    p_trajetoria_politica: tv('f_trajetoria_politica'),
+    p_trajetoria_profissional: tv('f_trajetoria_profissional'),
+    p_trajetoria_social: tv('f_trajetoria_social'),
+    p_causas_historicas: tv('f_causas_historicas'),
+    p_realizacoes: tv('f_realizacoes'),
+    p_redes_sociais: lerObj('ed_redes_sociais'),
+    p_canais_publicos: lerObj('ed_canais_publicos'),
+    p_foto_url: tv('f_foto_url'),
+    p_observacoes_candidato: tv('f_observacoes_candidato'),
+    p_objetivo_eleitoral: tv('f_objetivo_eleitoral'),
+    p_objetivo_politico: tv('f_objetivo_politico'),
+    p_posicionamento: tv('f_posicionamento'),
+    p_mensagem_central: tv('f_mensagem_central'),
+    p_slogan: tv('f_slogan'),
+    p_narrativa_principal: tv('f_narrativa_principal'),
+    p_proposta_de_valor: tv('f_proposta_de_valor'),
+    p_publicos_prioritarios: lerLista('publicos_prioritarios'),
+    p_segmentos_prioritarios: lerLista('segmentos_prioritarios'),
+    p_territorios_prioritarios: lerLista('territorios_prioritarios'),
+    p_municipios_prioritarios: lerLista('municipios_prioritarios'),
+    p_grupos_de_apoio: lerLista('grupos_de_apoio'),
+    p_grupos_de_resistencia: lerLista('grupos_de_resistencia'),
+    p_temas_prioritarios: lerLista('temas_prioritarios'),
+    p_propostas_prioritarias: lerLista('propostas_prioritarias'),
+    p_compromissos_publicos: lerLista('compromissos_publicos'),
+    p_bandeiras_centrais: lerLista('bandeiras_centrais'),
+    p_fortalezas: tv('f_fortalezas'),
+    p_vulnerabilidades: tv('f_vulnerabilidades'),
+    p_oportunidades: tv('f_oportunidades'),
+    p_ameacas: tv('f_ameacas'),
+    p_riscos_reputacionais: tv('f_riscos_reputacionais'),
+    p_pontos_de_atencao: tv('f_pontos_de_atencao'),
+    p_tom_de_voz: tv('f_tom_de_voz'),
+    p_palavras_chave: lerLista('palavras_chave'),
+    p_palavras_a_evitar: lerLista('palavras_a_evitar'),
+    p_identidade_narrativa: tv('f_identidade_narrativa'),
+    p_orientacoes_de_imagem: tv('f_orientacoes_de_imagem'),
+    p_prioridades_imediatas: lerLista('prioridades_imediatas'),
+    p_metas_de_curto_prazo: lerLista('metas_de_curto_prazo'),
+    p_metas_de_medio_prazo: lerLista('metas_de_medio_prazo'),
+    p_observacoes_estrategia: tv('f_observacoes_estrategia'),
+    p_status: status
+  };
+}
+
+// ── Validação do retorno da RPC ──
+function validarRetorno(data){
+  let r;
+  if(Array.isArray(data)){ if(data.length!==1)throw new Error(`Resposta inesperada: ${data.length} registros.`); r=data[0]; }
+  else if(data && typeof data==='object'){ r=data; }
+  else throw new Error('Resposta inválida da RPC.');
+  for(const campo of ['campaign_id','candidate_id','candidacy_id','candidate_profile_id','strategy_profile_id']){
+    const v=r[campo];
+    if(typeof v!=='string'||v.trim()===''||!RE_UUID.test(v.trim()))throw new Error(`Resposta sem UUID válido em ${campo}.`);
+  }
+  if(!(typeof r.candidate_profile_criado==='boolean'))throw new Error('candidate_profile_criado inválido.');
+  if(!(typeof r.strategy_profile_criado==='boolean'))throw new Error('strategy_profile_criado inválido.');
+  if(!(typeof r.ja_estava_atualizado==='boolean'))throw new Error('ja_estava_atualizado inválido.');
+  return r;
+}
+function msgErroPerfil(error){
+  const m=(error&&error.message)?String(error.message):'';
+  const conhecidas=['Não autenticado','Organização inexistente','Campanha inexistente','pertence a outra organização',
+    'Campanha arquivada','Apenas o proprietário','requer correção estrutural','está excluído',
+    'organização diferente','UF base inválida','Status inválido','deve ser objeto JSON','deve ser array JSON'];
+  if(m && conhecidas.some(k=>m.includes(k)))return m;
+  return 'Não foi possível salvar o perfil e a estratégia. Tente novamente.';
+}
+
+// ── Salvar ──
+async function salvar(){
+  if(!podeEditar||arquivada||estrutural)return;
+  if(salvamentoPerfilEmAndamento)return;
+  salvamentoPerfilEmAndamento=true;
+  const btn=byId('btn-salvar'); const txt=btn?btn.textContent:'';
+  if(btn){btn.disabled=true;btn.textContent='Salvando…';}
+  try{
+    let payload;
+    try{ payload=montarPayload(false); }
+    catch(e){ setMsg(e.message); return; }
+    const {data,error}=await sb.rpc('save_campaign_candidate_profile',payload);
+    if(error){console.error('save_campaign_candidate_profile',error);setMsg(msgErroPerfil(error));return;}
+    let r;
+    try{ r=validarRetorno(data); }
+    catch(e){ console.error('Validação do retorno falhou:',e,data); setMsg(msgErroPerfil(null)); return; }
+    console.log('Perfil/Estratégia:',{campaign_id:r.campaign_id,candidate_id:r.candidate_id,candidacy_id:r.candidacy_id,
+      candidate_profile_id:r.candidate_profile_id,strategy_profile_id:r.strategy_profile_id,
+      candidate_profile_criado:r.candidate_profile_criado,strategy_profile_criado:r.strategy_profile_criado,
+      ja_estava_atualizado:r.ja_estava_atualizado});
+    let sucesso;
+    if(r.ja_estava_atualizado)sucesso='Os dados já estavam atualizados.';
+    else if(r.candidate_profile_criado&&r.strategy_profile_criado)sucesso='Perfil do candidato e estratégia criados com sucesso.';
+    else if(r.candidate_profile_criado)sucesso='Perfil permanente criado e estratégia atualizada com sucesso.';
+    else if(r.strategy_profile_criado)sucesso='Perfil estratégico criado e perfil permanente atualizado.';
+    else sucesso='Perfil e estratégia atualizados com sucesso.';
+    setMsg(sucesso,true);
+    // Atualiza estado-base (não há mais alterações pendentes) e badge de status.
+    const st=byId('f_status')?byId('f_status').value:'rascunho';
+    if(byId('badge-status'))byId('badge-status').textContent='Estratégia: '+(STATUS_LABEL[st]||st);
+    baseSnapshot=snapshot(); marcarDirty();
+  }finally{
+    salvamentoPerfilEmAndamento=false;
+    if(btn){btn.disabled=false;btn.textContent=txt;}
+  }
+}
+</script>
+</body>
+</html>

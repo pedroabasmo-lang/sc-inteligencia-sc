@@ -356,6 +356,11 @@ function editar(id){
 }
 // Cancelar/voltar: descarta a chave de criação para que um novo cadastro gere outro UUID.
 function cancelarCampanha(){campaignCreationId=null;telaGerir();}
+// Abre a tela de Perfil e estratégia da campanha selecionada (campaign_id real na URL).
+function abrirPerfilEstrategia(){
+  if(!campAtual||!campAtual.id)return;
+  location.href='perfil-estrategia.html?campaign_id='+encodeURIComponent(campAtual.id);
+}
 function msgC(t,ok){const e=byId('c-msg');if(!e)return;e.textContent=t||'';e.style.color=ok?'#3fb950':'#f85149';}
 // Valida rigorosamente o retorno de create_campaign_candidate_model. Lança erro
 // técnico (só para o console) se a resposta não for exatamente uma linha íntegra.
@@ -509,7 +514,8 @@ async function telaCampanha(){
     <div><b style="font-size:16px">${esc(campAtual.candidato_nome)}</b> <span class="tag">${esc(campAtual.cargo||'')} ${esc(campAtual.uf||'')}</span>
     <span class="pill ${campAtual.situacao==='ativa'?'on':'off'}">${campAtual.situacao}</span>
     <span class="tag" style="border-color:var(--ac);color:var(--ac)">Perfil na campanha: ${perfil}</span></div>
-    <div class="row">${podeAdministrarCampanha()?'<button class="sec" onclick="telaEquipe()">Gerenciar equipe</button>':''}
+    <div class="row"><button class="sec" onclick="abrirPerfilEstrategia()">Perfil e estratégia</button>
+    ${podeAdministrarCampanha()?'<button class="sec" onclick="telaEquipe()">Gerenciar equipe</button>':''}
     <button class="sec" onclick="telaGerir()">Gerir campanhas</button></div></div></div>
     ${campAtual.situacao!=='ativa'?'<div class="card neg">Campanha suspensa — reative em "Gerir campanhas".</div>':`
     <div class="card"><div class="row" style="justify-content:space-between;margin-bottom:8px">
