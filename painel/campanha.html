@@ -79,6 +79,7 @@ let organizacoesProprias=[];      // organizações onde organizations.dono_id =
 // Estado da criação de campanha (Modelo C via RPC create_campaign_candidate_model):
 let campaignCreationId=null;              // chave idempotente (UUID do cliente), estável entre tentativas
 let salvamentoCampanhaEmAndamento=false;  // trava contra duplo clique / submissão concorrente
+let edicaoBloqueadaEstrutural=false;      // edição bloqueada quando a candidatura está inconsistente
 // UUID seguro: crypto.randomUUID; fallback por getRandomValues (nunca gerador pseudoaleatório fraco).
 function gerarUUID(){
   if(window.crypto&&crypto.randomUUID)return crypto.randomUUID();
@@ -298,7 +299,7 @@ function editar(id){
   if(!id && !organizacoesProprias.length)return telaCriarOrg(true);
   // Chave idempotente: gerada UMA vez ao abrir nova campanha; preservada entre tentativas.
   if(!id && !campaignCreationId)campaignCreationId=gerarUUID();
-  const dis=id?'disabled':'';               // dados eleitorais são readonly na edição
+  edicaoBloqueadaEstrutural=false;          // liberada até a checagem da candidatura (edição)
   const anoInicial=id?'':new Date().getFullYear();
   // Bloco "Organização responsável" (somente na criação; edição não muda a org)
   let blocoOrg='';
@@ -311,17 +312,17 @@ function editar(id){
         ${organizacoesProprias.map(o=>`<option value="${o.id}">${esc(o.nome)}</option>`).join('')}</select></div>`;
     }
   }
-  const avisoEdicao=id?`<div class="mut" style="font-size:12px;margin:2px 0 8px;color:var(--warn)">Os dados eleitorais desta campanha exigem atualização integrada e estão protegidos contra edição parcial.</div>`:'';
+  const avisoEdicao=id?`<div class="mut" style="font-size:12px;margin:2px 0 8px">Os dados eleitorais serão atualizados de forma integrada na campanha, candidatura e identidade do candidato.</div>`:'';
   byId('tela-app').innerHTML=`<div class="card" style="max-width:640px"><h3>${id?'Editar':'Nova'} campanha</h3>
     ${blocoOrg}${avisoEdicao}
     <div class="grid3">
-      <div><label>Candidato *</label><input id="c-nome" value="${esc(c.candidato_nome||'')}" ${dis}></div>
-      <div><label>Nome de urna</label><input id="c-urna" value="${esc(c.nome_urna||'')}" ${dis}></div>
-      <div><label>Cargo</label><input id="c-cargo" value="${esc(c.cargo||'')}" ${dis}></div>
-      <div><label>UF</label><input id="c-uf" value="${esc(c.uf||'')}" ${dis}></div>
-      <div><label>Número</label><input id="c-num" value="${esc(c.numero||'')}" ${dis}></div>
-      <div><label>Partido</label><input id="c-part" value="${esc(c.partido||'')}" ${dis}></div>
-      <div><label>Ano da eleição *</label><input id="c-ano" type="number" min="1990" max="2100" step="1" value="${anoInicial}" ${dis}></div>
+      <div><label>Candidato *</label><input id="c-nome" value="${esc(c.candidato_nome||'')}"></div>
+      <div><label>Nome de urna</label><input id="c-urna" value="${esc(c.nome_urna||'')}"></div>
+      <div><label>Cargo</label><input id="c-cargo" value="${esc(c.cargo||'')}"></div>
+      <div><label>UF</label><input id="c-uf" value="${esc(c.uf||'')}"></div>
+      <div><label>Número</label><input id="c-num" value="${esc(c.numero||'')}"></div>
+      <div><label>Partido</label><input id="c-part" value="${esc(c.partido||'')}"></div>
+      <div><label>Ano da eleição *</label><input id="c-ano" type="number" min="1990" max="2100" step="1" value="${anoInicial}"></div>
     </div>
     <div class="sub">Comercial</div>
     <div class="grid3">
@@ -332,10 +333,25 @@ function editar(id){
     <div class="row" style="margin-top:10px"><button id="c-salvar" onclick="salvarCampanha('${id||''}')">Salvar</button>
     <button class="sec" onclick="cancelarCampanha()">Voltar</button></div>
     <div id="c-msg" class="neg" style="margin-top:8px;font-size:12.5px"></div></div>`;
-  // Edição: carregar o ano da candidatura vinculada (não existe em campaigns).
+  // Edição: preferir os dados normalizados da candidatura vinculada. Ausência (0) ou
+  // múltiplas candidaturas (erro) = estrutura a corrigir → bloqueia o salvamento.
   if(id){(async()=>{
-    const {data}=await sb.from('candidacies').select('ano').eq('campaign_id',id).maybeSingle();
-    if(data&&data.ano&&byId('c-ano'))byId('c-ano').value=data.ano;
+    const {data,error}=await sb.from('candidacies')
+      .select('nome_urna,ano,cargo,uf,numero,sigla_partido_disputa')
+      .eq('campaign_id',id).maybeSingle();
+    if(error||!data){
+      console.error('Estrutura da candidatura ausente/múltipla ao editar',{error,data});
+      edicaoBloqueadaEstrutural=true;
+      msgC('Esta campanha precisa de correção estrutural antes de ser editada.');
+      if(byId('c-salvar'))byId('c-salvar').disabled=true;
+      return;
+    }
+    if(byId('c-ano') && data.ano)byId('c-ano').value=data.ano;
+    if(byId('c-urna') && data.nome_urna)byId('c-urna').value=data.nome_urna;
+    if(byId('c-cargo') && data.cargo)byId('c-cargo').value=data.cargo;
+    if(byId('c-uf') && data.uf)byId('c-uf').value=data.uf;
+    if(byId('c-num'))byId('c-num').value=data.numero||'';
+    if(byId('c-part'))byId('c-part').value=data.sigla_partido_disputa||'';
   })();}
 }
 // Cancelar/voltar: descarta a chave de criação para que um novo cadastro gere outro UUID.
@@ -343,25 +359,52 @@ function cancelarCampanha(){campaignCreationId=null;telaGerir();}
 function msgC(t,ok){const e=byId('c-msg');if(!e)return;e.textContent=t||'';e.style.color=ok?'#3fb950':'#f85149';}
 // Valida rigorosamente o retorno de create_campaign_candidate_model. Lança erro
 // técnico (só para o console) se a resposta não for exatamente uma linha íntegra.
-function validarResultadoCriacaoCampanha(data){
+// Extrai e valida a linha única das RPCs de campanha (array com length 1 ou objeto)
+// e confere os quatro IDs como UUID string não vazio. Lança erro técnico se inválido.
+function extrairLinhaRpcCampanha(data){
   let resultado;
   if(Array.isArray(data)){
-    if(data.length!==1)throw new Error(`Resposta inesperada da criação de campanha: ${data.length} registros.`);
+    if(data.length!==1)throw new Error(`Resposta inesperada da RPC: ${data.length} registros.`);
     resultado=data[0];
   }else if(data && typeof data==='object'){
     resultado=data;
   }else{
-    throw new Error('Resposta inválida da criação de campanha.');
+    throw new Error('Resposta inválida da RPC de campanha.');
   }
   const reUuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   for(const campo of ['campaign_id','candidate_id','candidacy_id','member_id']){
     const val=resultado[campo];
     if(typeof val!=='string'||val.trim()===''||!reUuid.test(val.trim()))
-      throw new Error(`Resposta da criação sem o campo obrigatório ${campo}.`);
+      throw new Error(`Resposta da RPC sem o campo obrigatório ${campo}.`);
   }
+  return resultado;
+}
+function validarResultadoCriacaoCampanha(data){
+  const resultado=extrairLinhaRpcCampanha(data);
   if(!(typeof resultado.ja_existia === 'boolean'))throw new Error('Resposta da criação sem ja_existia válido.');
   if(!(typeof resultado.candidate_reutilizado === 'boolean'))throw new Error('Resposta da criação sem candidate_reutilizado válido.');
   return resultado;
+}
+function validarResultadoAtualizacaoCampanha(data){
+  const resultado=extrairLinhaRpcCampanha(data);
+  if(!(typeof resultado.candidato_compartilhado === 'boolean'))throw new Error('Resposta da atualização sem candidato_compartilhado válido.');
+  if(!(typeof resultado.ja_estava_atualizada === 'boolean'))throw new Error('Resposta da atualização sem ja_estava_atualizada válido.');
+  return resultado;
+}
+// Erros da RPC de atualização → mensagens amigáveis (as da RPC já vêm em PT).
+function msgErroAtualizacao(error){
+  const m=(error&&error.message)?String(error.message):'';
+  if(m.includes('mais de uma candidatura'))
+    return 'Este candidato está vinculado a mais de uma candidatura. O nome da identidade não pode ser alterado por esta tela.';
+  if(m.includes('correção estrutural'))
+    return 'Esta campanha precisa de correção estrutural antes de ser editada.';
+  const conhecidas=['Não autenticado','Organização não informada','Organização inexistente',
+    'Apenas o proprietário','Campanha inexistente','pertence a outra organização','Campanha arquivada',
+    'Nome do candidato é obrigatório','Ano inválido','Cargo não reconhecido','UF inválida',
+    'UF é obrigatória','Número inválido','Tipo comercial inválido','Situação inválida',
+    'Candidato principal está excluído','candidato de organização diferente'];
+  if(m && conhecidas.some(k=>m.includes(k)))return m;
+  return 'Não foi possível atualizar a campanha. Tente novamente.';
 }
 async function salvarCampanha(id){
   if(salvamentoCampanhaEmAndamento)return;              // trava duplo clique / concorrência
@@ -370,30 +413,55 @@ async function salvarCampanha(id){
   if(btn){btn.disabled=true;btn.textContent='Salvando…';}
   const v=k=>byId('c-'+k).value.trim();
   try{
+    // Validações comuns de criação e edição.
+    if(!v('nome')){msgC('Informe o candidato.');return;}
+    const ano=parseInt(byId('c-ano').value,10);
+    if(!Number.isInteger(ano)||ano<1990||ano>2100){msgC('Informe um ano de eleição entre 1990 e 2100.');return;}
+    const numero=v('num');
+    if(numero && !/^[0-9]+$/.test(numero)){msgC('Número inválido: use apenas dígitos.');return;}
+
     if(id){
-      // EDIÇÃO: só campos operacionais exclusivos de campaigns. Dados eleitorais
-      // (candidato, urna, cargo, uf, numero, partido, ano) NÃO são alterados aqui —
-      // exigem atualização integrada (RPC futura) para não divergir de candidacies.
-      const {error}=await sb.from('campaigns').update({
-        tipo_comercial:byId('c-tipo').value, valor_texto:v('valor'), situacao:byId('c-sit').value
-      }).eq('id',id);
-      if(error){msgC(error.message);return;}
-      msgC('Campanha atualizada com sucesso.',true);
+      // EDIÇÃO: atualização transacional coordenada (campaigns + candidacies +
+      // identidade) via RPC. Sem UPDATE direto em nenhuma tabela do Modelo C.
+      if(edicaoBloqueadaEstrutural){msgC('Esta campanha precisa de correção estrutural antes de ser editada.');return;}
+      const camp=campanhas.find(x=>x.id===id);
+      if(!camp){msgC('Campanha não encontrada.');return;}
+      if(!orgsProprietarias.has(camp.org_id)){msgC('Organização inválida para esta campanha.');return;}
+      const payloadUp={
+        p_campaign_id:id,
+        p_org:camp.org_id,
+        p_candidato_nome:v('nome'),
+        p_ano:ano,
+        p_cargo:v('cargo'),                       // representação recebida; a RPC normaliza
+        p_nome_urna:v('urna')||null,
+        p_uf:v('uf')||null,                       // sem truncar/converter; RPC valida
+        p_numero:numero||null,                    // string; preserva zeros à esquerda
+        p_partido:v('part')||null,
+        p_tipo_comercial:byId('c-tipo').value,
+        p_valor_texto:v('valor')||null,
+        p_situacao:byId('c-sit').value
+      };
+      const {data,error}=await sb.rpc('update_campaign_candidate_model',payloadUp);
+      if(error){console.error('update_campaign_candidate_model',error);msgC(msgErroAtualizacao(error));return;}
+      let up;
+      try{ up=validarResultadoAtualizacaoCampanha(data); }
+      catch(e){ console.error('Validação da resposta da atualização falhou:',e,data); msgC(msgErroAtualizacao(null)); return; }
+      console.log('Atualização (Modelo C):',{campaign_id:up.campaign_id,candidate_id:up.candidate_id,
+        candidacy_id:up.candidacy_id,member_id:up.member_id,
+        candidato_compartilhado:up.candidato_compartilhado,ja_estava_atualizada:up.ja_estava_atualizada});
+      if(up.candidato_compartilhado)console.log('Identidade do candidato compartilhada entre candidaturas.');
+      msgC(up.ja_estava_atualizada?'A campanha já estava atualizada.':'Campanha atualizada com sucesso.',true);
       await carregarCampanhas();telaGerir();
       return;
     }
+
     // NOVA CAMPANHA: criação transacional única via RPC (campaign+candidate+
     // candidacy+candidacy_member+campaign_member+auditoria). Sem INSERT direto.
-    if(!v('nome')){msgC('Informe o candidato.');return;}
     let orgId;
     if(organizacoesProprias.length===1)orgId=organizacoesProprias[0].id;
     else{orgId=byId('c-org')?byId('c-org').value:'';
       if(!orgId){msgC('Selecione a organização responsável.');return;}}
     if(!orgsProprietarias.has(orgId)){msgC('Organização inválida para criação da campanha.');return;}
-    const ano=parseInt(byId('c-ano').value,10);
-    if(!Number.isInteger(ano)||ano<1990||ano>2100){msgC('Informe um ano de eleição entre 1990 e 2100.');return;}
-    const numero=v('num');
-    if(numero && !/^[0-9]+$/.test(numero)){msgC('Número inválido: use apenas dígitos.');return;}
     if(!campaignCreationId)campaignCreationId=gerarUUID();  // segurança extra; normalmente já gerado
     const payload={
       p_campaign_id:campaignCreationId,
